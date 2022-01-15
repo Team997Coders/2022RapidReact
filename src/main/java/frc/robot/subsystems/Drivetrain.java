@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -72,6 +71,7 @@ public class Drivetrain extends SubsystemBase {
 
     leftSide.set(left_throttle);
     rightSide.set(right_throttle);
+    diffDrive.tankDrive(left_throttle, right_throttle);
   }
   @Override
   public void periodic() {
