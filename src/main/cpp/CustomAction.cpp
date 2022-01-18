@@ -3,5 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "CustomAction.h"
+#include <frc2/command/Subsystem.h>
 
-CustomAction::CustomAction() = default;
+CustomAction::CustomAction(std::initializer_list<frc2::Subsystem*> requirements) {
+    dependencies = requirements;
+}
+
+

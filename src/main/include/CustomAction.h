@@ -6,9 +6,12 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc2/command/SubsystemBase.h>
+#include <frc2/command/Subsystem.h>
 
 class CustomAction : public frc2::CommandHelper<frc2::CommandBase, CustomAction> {
   public:
-    CustomAction();
-
+    CustomAction(std::initializer_list<frc2::Subsystem*> requirements);
+  private:
+    std::vector<frc2::Subsystem*> dependencies;
 };

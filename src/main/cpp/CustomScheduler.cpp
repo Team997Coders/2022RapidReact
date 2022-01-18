@@ -4,4 +4,6 @@
 
 #include "CustomScheduler.h"
 
-CustomScheduler::CustomScheduler() = default;
+CustomScheduler::CustomScheduler(int loopFrequencyMS) : loopFrequency(loopFrequencyMS) {
+    
+}

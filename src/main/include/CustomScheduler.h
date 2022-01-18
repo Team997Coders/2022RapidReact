@@ -6,17 +6,22 @@
 
 #include <thread>
 #include "CustomAction.h"
+#include <frc2/command/SubsystemBase.h>
 
+// SpartanRunner 2.0
 class CustomScheduler {
   public:
     CustomScheduler(int loopFrequencyMS);
-    void Run();
+    void Start();
     void Stop();
     void SetLoopFrequencyMS(int loopFrequencyMS);
     void AddAction(CustomAction::CustomAction action, bool shouldAutoDestruct);
 
   private:
+    void Run();
     int loopFrequency;
     long lastCycle;
+    bool halt;
     std::thread thr; 
+
 };
