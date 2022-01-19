@@ -5,6 +5,7 @@
 #pragma once
 
 #include <thread>
+#include <chrono>
 #include "CustomAction.h"
 #include <frc2/command/SubsystemBase.h>
 
@@ -15,12 +16,13 @@ class CustomScheduler {
     void Start();
     void Stop();
     void SetLoopFrequencyMS(int loopFrequencyMS);
-    void AddAction(CustomAction::CustomAction action, bool shouldAutoDestruct);
+    void AddAction(CustomAction action, bool shouldAutoDestruct);
 
   private:
     void Run();
     int loopFrequency;
-    long lastCycle;
+    //long lastCycle;
+    std::chrono::time_point<std::chrono::system_clock> lastCycle;
     bool halt;
     std::thread thr; 
 
