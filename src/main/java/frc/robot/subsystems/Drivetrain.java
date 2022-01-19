@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -12,6 +14,8 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX frontLeft;
   private WPI_TalonFX backRight;
   private WPI_TalonFX backLeft;
+  private AHRS gyro;
+
   
   private MotorControllerGroup leftSide;
   private MotorControllerGroup rightSide;
@@ -24,16 +28,19 @@ public class Drivetrain extends SubsystemBase {
     backRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[3]);
     backLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[1]);
 
-    backRight.follow(frontRight);
-    backLeft.follow(frontLeft);
-
-    frontLeft.setInverted(true);
-    backLeft.setInverted(true);
-
     frontRight.configFactoryDefault();
     frontLeft.configFactoryDefault();
     backRight.configFactoryDefault();
     backLeft.configFactoryDefault();
+
+    backRight.follow(frontRight);
+    backLeft.follow(frontLeft);
+
+    frontLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
+    frontRight.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
+
+    frontLeft.setInverted(true);
+    backLeft.setInverted(true);
 
     leftSide = new MotorControllerGroup(frontLeft, backLeft);
     rightSide = new MotorControllerGroup(frontRight, backRight);
@@ -64,13 +71,13 @@ public class Drivetrain extends SubsystemBase {
   }
   public void betterArcadeDrive(double speed, double rotation) {
     speed = numberLimits(speed, true, 1, true, 0.1);
-    rotation = numberLimits(speed, true, 1, true, 0.1);
+    rotation = numberLimits(rotation, true, 1, true, 0.1);
 
-    double left_throttle = (numberLimits(speed, true, 1, false, 0))+numberLimits(rotation, true, 1, false, 0);
-    double right_throttle = (numberLimits(speed, true, 1, false, 0))-numberLimits(rotation, true, 1, false, 0);
+    double left_throttle = (numberLimits(speed, true, 1, false, 0))-numberLimits(rotation, true, 1, false, 0);
+    double right_throttle = (numberLimits(speed, true, 1, false, 0))+numberLimits(rotation, true, 1, false, 0);
 
-    leftSide.set(left_throttle);
-    rightSide.set(right_throttle);
+    //leftSide.set(left_throttle);
+    //rightSide.set(right_throttle);
     diffDrive.tankDrive(left_throttle, right_throttle);
   }
   @Override

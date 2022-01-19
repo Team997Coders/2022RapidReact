@@ -16,7 +16,7 @@ public final class Constants {
 
     public static class Ports {
         
-        public static final int[] DRIVE_PORTS = {0,1,2,3};
+        public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
         public static final int CONTROLLER_1 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
     }
 }
