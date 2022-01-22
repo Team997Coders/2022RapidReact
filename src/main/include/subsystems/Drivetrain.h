@@ -13,6 +13,8 @@ class Drivetrain : public frc2::SubsystemBase {
     Drivetrain();
     ~Drivetrain();
 
+    void SetMotorOutput(double left, double right);
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -26,4 +28,6 @@ class Drivetrain : public frc2::SubsystemBase {
     ctre::phoenix::motorcontrol::can::TalonFX* backRight;
     ctre::phoenix::motorcontrol::can::TalonFX* frontLeft;
     ctre::phoenix::motorcontrol::can::TalonFX* backLeft;
+
+    AHRS* gyro;
 };

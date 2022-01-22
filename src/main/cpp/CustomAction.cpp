@@ -8,5 +8,3 @@
 CustomAction::CustomAction(std::initializer_list<frc2::Subsystem*> requirements) {
     dependencies = requirements;
 }
-
-

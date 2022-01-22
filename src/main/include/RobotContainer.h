@@ -6,13 +6,15 @@
 
 #include <frc/Joystick.h>
 #include "subsystems/Drivetrain.h"
+#include "commands/ArcadeDrive.h"
 
 class RobotContainer {
  public:
   RobotContainer();
+  ~RobotContainer();
 
   private:
     frc::Joystick* m_joystick;
     Drivetrain* m_drivetrain;
-
+    ArcadeDrive* m_defaultDriveCommand;
 };

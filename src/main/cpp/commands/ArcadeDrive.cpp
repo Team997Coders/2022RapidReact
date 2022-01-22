@@ -3,18 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/ArcadeDrive.h"
+#include "subsystems/Drivetrain.h"
 
-ArcadeDrive::ArcadeDrive(std::initializer_list<frc2::Subsystem*> requirements, std::function<double(void)> x, std::function<double(void)> z)
- : CustomAction(requirements) {
-  // Use addRequirements() here to declare subsystem dependencies.
-
-}
+ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double(void)> x, std::function<double(void)> z)
+ : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {}
 
 // Called when the command is initially scheduled.
 void ArcadeDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ArcadeDrive::Execute() {}
+void ArcadeDrive::Execute() {
+  m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_z() - m_z());
+}
 
 // Called once the command ends or is interrupted.
 void ArcadeDrive::End(bool interrupted) {}

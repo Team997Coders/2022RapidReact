@@ -6,6 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <subsystems/Drivetrain.h>
 #include "CustomAction.h"
 
 /**
@@ -18,14 +19,18 @@
 
 // CustomAction may require modification
 class ArcadeDrive : public CustomAction {
- public:
-  ArcadeDrive(std::initializer_list<frc2::Subsystem*> requirements, std::function<double(void)> x, std::function<double(void)> z);
+  public:
+    ArcadeDrive(Drivetrain* drivetrain, std::function<double(void)> x, std::function<double(void)> z);
 
-  void Initialize() override;
+    void Initialize() override;
 
-  void Execute() override;
+    void Execute() override;
 
-  void End(bool interrupted) override;
+    void End(bool interrupted) override;
 
-  bool IsFinished() override;
+    bool IsFinished() override;
+  private:
+    Drivetrain* m_drivetrain;
+    std::function<double(void)> m_x;
+    std::function<double(void)> m_z;
 };
