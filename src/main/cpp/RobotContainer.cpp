@@ -5,6 +5,7 @@
 #include "RobotContainer.h"
 #include "Constants.h"
 #include <frc/Joystick.h>
+#include <frc2/command/CommandScheduler.h>
 
 RobotContainer::RobotContainer() {
     m_joystick = new frc::Joystick(constants::Ports::CONTROLLER_1);
@@ -16,4 +17,17 @@ RobotContainer::RobotContainer() {
         [m_joystick1 = m_joystick]() -> double { return m_joystick1->GetRawAxis(1); });
 }
 
+RobotContainer::~RobotContainer() {
+    delete m_joystick;
+    delete m_drivetrain;
+    delete m_joystick;
+}
 
+void RobotContainer::Run() {
+    frc2::CommandScheduler::GetInstance().Run();
+    frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_drivetrain, *m_defaultDriveCommand);
+}
+
+void RobotContainer::Stop() {
+    frc2::CommandScheduler::GetInstance().Disable();
+}

@@ -12,6 +12,8 @@ class RobotContainer {
  public:
   RobotContainer();
   ~RobotContainer();
+  void Run();
+  void Stop();
 
   private:
     frc::Joystick* m_joystick;

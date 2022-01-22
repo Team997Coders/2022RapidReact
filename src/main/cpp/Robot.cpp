@@ -11,14 +11,16 @@
 #include <networktables/NetworkTable.h>
 
 void Robot::RobotInit() {
-  
+  m_Container = new RobotContainer();
 }
 
 void Robot::Disabled() {}
 
 void Robot::Autonomous() {}
 
-void Robot::Teleop() {}
+void Robot::Teleop() {
+  m_Container -> Run();
+}
 
 void Robot::Test() {}
 

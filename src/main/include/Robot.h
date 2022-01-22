@@ -7,18 +7,20 @@
 #include <atomic>
 
 #include <frc/RobotBase.h>
+#include "RobotContainer.h"
 
 class Robot : public frc::RobotBase {
- public:
-  void RobotInit();
-  void Disabled();
-  void Autonomous();
-  void Teleop();
-  void Test();
+  public:
+    void RobotInit();
+    void Disabled();
+    void Autonomous();
+    void Teleop();
+    void Test();
 
-  void StartCompetition() override;
-  void EndCompetition() override;
+    void StartCompetition() override;
+    void EndCompetition() override;
 
- private:
-  std::atomic<bool> m_exit{false};
+  private:
+    std::atomic<bool> m_exit{false};
+    RobotContainer* m_Container;
 };
