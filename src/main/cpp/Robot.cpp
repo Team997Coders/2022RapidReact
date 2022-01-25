@@ -4,6 +4,7 @@
 
 #include "Robot.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/DriverStation.h>
 #include <frc/livewindow/LiveWindow.h>
 #include <frc/shuffleboard/Shuffleboard.h>
@@ -12,6 +13,7 @@
 
 void Robot::RobotInit() {
   m_Container = new RobotContainer();
+  frc::SmartDashboard::PutString("This", "inits");
 }
 
 void Robot::Disabled() {}
@@ -19,7 +21,10 @@ void Robot::Disabled() {}
 void Robot::Autonomous() {}
 
 void Robot::Teleop() {
+  frc2::CommandScheduler::GetInstance().Run();
   m_Container -> Run();
+  frc::SmartDashboard::PutString("This1", "teleopss");
+  //while (true) {}
 }
 
 void Robot::Test() {}

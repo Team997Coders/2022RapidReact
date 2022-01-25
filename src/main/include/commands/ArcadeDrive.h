@@ -6,6 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc/Joystick.h>
 #include <subsystems/Drivetrain.h>
 #include "CustomAction.h"
 
@@ -18,9 +19,10 @@
  */
 
 // CustomAction may require modification
-class ArcadeDrive : public CustomAction {
+//class ArcadeDrive : public CustomAction {
+class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
   public:
-    ArcadeDrive(Drivetrain* drivetrain, std::function<double(void)> x, std::function<double(void)> z);
+    ArcadeDrive(Drivetrain* drivetrain, frc::Joystick* js);
 
     void Initialize() override;
 
@@ -31,6 +33,7 @@ class ArcadeDrive : public CustomAction {
     bool IsFinished() override;
   private:
     Drivetrain* m_drivetrain;
-    std::function<double(void)> m_x;
-    std::function<double(void)> m_z;
+    frc::Joystick* m_js;
+    //std::function<double()> m_x;
+    //std::function<double()> m_z;
 };

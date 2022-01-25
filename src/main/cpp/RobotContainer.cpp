@@ -6,15 +6,18 @@
 #include "Constants.h"
 #include <frc/Joystick.h>
 #include <frc2/command/CommandScheduler.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 RobotContainer::RobotContainer() {
     m_joystick = new frc::Joystick(constants::Ports::CONTROLLER_1);
 
     m_drivetrain = new Drivetrain();
-
+    /*
     m_defaultDriveCommand = new ArcadeDrive(m_drivetrain, 
         [this] { return -m_joystick->GetRawAxis(0); }, 
         [this] { return m_joystick->GetRawAxis(1); });
+    */
+   m_defaultDriveCommand = new ArcadeDrive(m_drivetrain, m_joystick);
 }
 
 RobotContainer::~RobotContainer() {
@@ -24,8 +27,9 @@ RobotContainer::~RobotContainer() {
 }
 
 void RobotContainer::Run() {
-    frc2::CommandScheduler::GetInstance().Run();
-    frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_drivetrain, *m_defaultDriveCommand);
+    //frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_drivetrain, *m_defaultDriveCommand);
+    frc2::CommandScheduler::GetInstance().Schedule(m_defaultDriveCommand);
+    frc::SmartDashboard::PutString("This2", "running command");
 }
 
 void RobotContainer::Stop() {
