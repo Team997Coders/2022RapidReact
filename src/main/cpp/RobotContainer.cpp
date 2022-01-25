@@ -13,8 +13,8 @@ RobotContainer::RobotContainer() {
     m_drivetrain = new Drivetrain();
 
     m_defaultDriveCommand = new ArcadeDrive(m_drivetrain, 
-        [m_joystick1 = m_joystick]() -> double { return -m_joystick1->GetRawAxis(0); }, 
-        [m_joystick1 = m_joystick]() -> double { return m_joystick1->GetRawAxis(1); });
+        [this] { return -m_joystick->GetRawAxis(0); }, 
+        [this] { return m_joystick->GetRawAxis(1); });
 }
 
 RobotContainer::~RobotContainer() {
