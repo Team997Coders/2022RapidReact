@@ -22,7 +22,8 @@
 //class ArcadeDrive : public CustomAction {
 class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
   public:
-    ArcadeDrive(Drivetrain* drivetrain, frc::Joystick* js);
+    ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
+    //ArcadeDrive(Drivetrain* drivetrain, frc::Joystick* js);
 
     void Initialize() override;
 
@@ -33,7 +34,7 @@ class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
     bool IsFinished() override;
   private:
     Drivetrain* m_drivetrain;
-    frc::Joystick* m_js;
-    //std::function<double()> m_x;
-    //std::function<double()> m_z;
+    //frc::Joystick* m_js;
+    std::function<double()> m_x;
+    std::function<double()> m_z;
 };

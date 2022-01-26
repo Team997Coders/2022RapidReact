@@ -18,7 +18,6 @@ Drivetrain::Drivetrain() {
 }
 
 void Drivetrain::SetMotorOutput(double left, double right) {
-    frc::SmartDashboard::PutNumber("setting motors", (left + right) / 2);
     frontLeft -> Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left);
     frontRight -> Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
 }
