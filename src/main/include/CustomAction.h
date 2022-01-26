@@ -12,6 +12,9 @@
 class CustomAction : public frc2::CommandHelper<frc2::CommandBase, CustomAction> {
   public:
     CustomAction(std::initializer_list<frc2::Subsystem*> requirements);
+
+  virtual void Initialize() = 0;
+
     std::vector<frc2::Subsystem*> GetDependencies();
   private:
     std::vector<frc2::Subsystem*> dependencies;

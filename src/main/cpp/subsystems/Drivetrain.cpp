@@ -15,6 +15,11 @@ Drivetrain::Drivetrain() {
 
     backLeft -> Follow(*frontLeft, ctre::phoenix::motorcontrol::FollowerType::FollowerType_PercentOutput);
     backRight -> Follow(*frontRight, ctre::phoenix::motorcontrol::FollowerType::FollowerType_PercentOutput);
+
+    frontLeft -> ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor);
+    frontRight -> ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor);
+
+    gyro = new AHRS(frc::SPI::kMXP);
 }
 
 void Drivetrain::SetMotorOutput(double left, double right) {

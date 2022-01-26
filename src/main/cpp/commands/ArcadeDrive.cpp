@@ -7,10 +7,10 @@
 #include "commands/ArcadeDrive.h"
 #include "subsystems/Drivetrain.h"
 
-//ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double(void)> x, std::function<double(void)> z)
-// : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {
-ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z) 
-: m_drivetrain(drivetrain), m_x(x), m_z(z)
+ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z)
+ : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {
+//ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z) 
+//: m_drivetrain(drivetrain), m_x(x), m_z(z)
 {
    AddRequirements(drivetrain);
  }
@@ -27,9 +27,7 @@ void ArcadeDrive::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void ArcadeDrive::End(bool interrupted) {
-  frc::SmartDashboard::PutString("ended", "True");  
-}
+void ArcadeDrive::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool ArcadeDrive::IsFinished() {

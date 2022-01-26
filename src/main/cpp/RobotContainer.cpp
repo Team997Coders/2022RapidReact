@@ -27,8 +27,8 @@ RobotContainer::~RobotContainer() {
 }
 
 void RobotContainer::Run() {
-    //frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_drivetrain, *m_defaultDriveCommand);
-    frc2::CommandScheduler::GetInstance().Schedule(m_defaultDriveCommand);
+    frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_drivetrain, *m_defaultDriveCommand);
+    
 }
 
 void RobotContainer::Stop() {
