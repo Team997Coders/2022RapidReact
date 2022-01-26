@@ -4,23 +4,27 @@
 
 #pragma once
 
-#include <atomic>
+#include <frc/TimedRobot.h>
+#include <frc2/command/Command.h>
 
-#include <frc/RobotBase.h>
 #include "RobotContainer.h"
 
-class Robot : public frc::RobotBase {
-  public:
-    void RobotInit();
-    void Disabled();
-    void Autonomous();
-    void Teleop();
-    void Test();
+class Robot : public frc::TimedRobot {
+ public:
+  void RobotInit() override;
+  void RobotPeriodic() override;
+  void DisabledInit() override;
+  void DisabledPeriodic() override;
+  void AutonomousInit() override;
+  void AutonomousPeriodic() override;
+  void TeleopInit() override;
+  void TeleopPeriodic() override;
+  void TestPeriodic() override;
 
-    void StartCompetition() override;
-    void EndCompetition() override;
+ private:
+  // Have it null by default so that if testing teleop it
+  // doesn't have undefined behavior and potentially crash.
+  frc2::Command* m_autonomousCommand = nullptr;
 
-  private:
-    std::atomic<bool> m_exit{false};
-    RobotContainer* m_Container;
+  RobotContainer* m_container;
 };

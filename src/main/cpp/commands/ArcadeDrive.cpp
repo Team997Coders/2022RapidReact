@@ -17,7 +17,8 @@ ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, frc::Joystick* js)
 
 // Called when the command is initially scheduled.
 void ArcadeDrive::Initialize() {
-  frc::SmartDashboard::PutString("This3", "initialized command");  
+  frc::SmartDashboard::PutString("This3", "initialized command"); 
+  
 }
 
 // Called repeatedly when this Command is scheduled to run

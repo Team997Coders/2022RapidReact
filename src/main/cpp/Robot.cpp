@@ -5,76 +5,60 @@
 #include "Robot.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/DriverStation.h>
-#include <frc/livewindow/LiveWindow.h>
-#include <frc/shuffleboard/Shuffleboard.h>
-#include <hal/DriverStation.h>
-#include <networktables/NetworkTable.h>
+#include <frc2/command/CommandScheduler.h>
+#include "RobotContainer.h"
 
 void Robot::RobotInit() {
-  m_Container = new RobotContainer();
-  frc::SmartDashboard::PutString("This", "inits");
+    m_container = new RobotContainer();
 }
 
-void Robot::Disabled() {}
-
-void Robot::Autonomous() {}
-
-void Robot::Teleop() {
+/**
+ * This function is called every robot packet, no matter the mode. Use
+ * this for items like diagnostics that you want to run during disabled,
+ * autonomous, teleoperated and test.
+ *
+ * <p> This runs after the mode specific periodic functions, but before
+ * LiveWindow and SmartDashboard integrated updating.
+ */
+void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-  m_Container -> Run();
-  frc::SmartDashboard::PutString("This1", "teleopss");
-  //while (true) {}
 }
 
-void Robot::Test() {}
+/**
+ * This function is called once each time the robot enters Disabled mode. You
+ * can use it to reset any subsystem information you want to clear when the
+ * robot is disabled.
+ */
+void Robot::DisabledInit() {}
 
-void Robot::StartCompetition() {
-  RobotInit();
+void Robot::DisabledPeriodic() {}
 
-  // Tell the DS that the robot is ready to be enabled
-  HAL_ObserveUserProgramStarting();
-
-  while (!m_exit) {
-    if (IsDisabled()) {
-      frc::DriverStation::InDisabled(true);
-      Disabled();
-      frc::DriverStation::InDisabled(false);
-      while (IsDisabled()) {
-        frc::DriverStation::WaitForData();
-      }
-    } else if (IsAutonomous()) {
-      frc::DriverStation::InAutonomous(true);
-      Autonomous();
-      frc::DriverStation::InAutonomous(false);
-      while (IsAutonomousEnabled()) {
-        frc::DriverStation::WaitForData();
-      }
-    } else if (IsTest()) {
-      frc::LiveWindow::SetEnabled(true);
-      frc::Shuffleboard::EnableActuatorWidgets();
-      frc::DriverStation::InTest(true);
-      Test();
-      frc::DriverStation::InTest(false);
-      while (IsTest() && IsEnabled()) {
-        frc::DriverStation::WaitForData();
-      }
-      frc::LiveWindow::SetEnabled(false);
-      frc::Shuffleboard::DisableActuatorWidgets();
-    } else {
-      frc::DriverStation::InTeleop(true);
-      Teleop();
-      frc::DriverStation::InTeleop(false);
-      while (IsTeleopEnabled()) {
-        frc::DriverStation::WaitForData();
-      }
-    }
-  }
+/**
+ * This autonomous runs the autonomous command selected by your {@link
+ * RobotContainer} class.
+ */
+void Robot::AutonomousInit() {
 }
 
-void Robot::EndCompetition() {
-  m_exit = true;
+void Robot::AutonomousPeriodic() {}
+
+void Robot::TeleopInit() {
+  // This makes sure that the autonomous stops running when
+  // teleop starts running. If you want the autonomous to
+  // continue until interrupted by another command, remove
+  // this line or comment it out.
+  m_container -> Run();
 }
+
+/**
+ * This function is called periodically during operator control.
+ */
+void Robot::TeleopPeriodic() {}
+
+/**
+ * This function is called periodically during test mode.
+ */
+void Robot::TestPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main() {
