@@ -19,4 +19,10 @@ public final class Constants {
         public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
         public static final int CONTROLLER_1 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
     }
+    
+    public static class MovementConstants {
+
+        public static final double TURN_SPEED = 0.5;
+        public static final double LINEAR_SPEED = 1;
+    }
 }

@@ -9,9 +9,12 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.ArcadeDrive;
+
 public class Drivetrain extends SubsystemBase {
-    private WPI_TalonFX frontRight;
-  private WPI_TalonFX frontLeft;
+  private static WPI_TalonFX frontRight;
+  private static WPI_TalonFX frontLeft;
   private WPI_TalonFX backRight;
   private WPI_TalonFX backLeft;
   private AHRS gyro;
@@ -28,6 +31,8 @@ public class Drivetrain extends SubsystemBase {
     backRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[3]);
     backLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[1]);
 
+    gyro = new AHRS();
+
     frontRight.configFactoryDefault();
     frontLeft.configFactoryDefault();
     backRight.configFactoryDefault();
@@ -39,6 +44,8 @@ public class Drivetrain extends SubsystemBase {
     frontLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     frontRight.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
 
+    ResetEncoders();
+
     frontLeft.setInverted(true);
     backLeft.setInverted(true);
 
@@ -47,6 +54,11 @@ public class Drivetrain extends SubsystemBase {
 
     diffDrive = new DifferentialDrive(leftSide, rightSide);
     
+  }
+
+  public static void ResetEncoders(){
+    frontLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
   }
 
   // public void arcadeDrive(double speed, double rotation){
@@ -76,6 +88,11 @@ public class Drivetrain extends SubsystemBase {
     double left_throttle = (numberLimits(speed, true, 1, false, 0))-numberLimits(rotation, true, 1, false, 0);
     double right_throttle = (numberLimits(speed, true, 1, false, 0))+numberLimits(rotation, true, 1, false, 0);
 
+    SmartDashboard.putNumber("lThrottle", left_throttle);
+    SmartDashboard.putNumber("rThrottle", right_throttle);
+    SmartDashboard.putNumber("lJoystick", ArcadeDrive.js1.getRawAxis(Constants.Ports.JOYSTICK_1));
+    SmartDashboard.putNumber("rJoystick", ArcadeDrive.js1.getRawAxis(Constants.Ports.JOYSTICK_2));
+
     //leftSide.set(left_throttle);
     //rightSide.set(right_throttle);
     diffDrive.tankDrive(left_throttle, right_throttle);
@@ -83,5 +100,11 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("L Encoder V", frontLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("R Encoder V", frontRight.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("NavX Heading", gyro.getAngle());
+
+    SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition());
   }
 }
