@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.utilties.ResetEncoders;
 
 public class Drivetrain extends SubsystemBase {
-  private static WPI_TalonFX frontRight;
-  private static WPI_TalonFX frontLeft;
+  public static WPI_TalonFX frontRight;
+  public static WPI_TalonFX frontLeft;
   private WPI_TalonFX backRight;
   private WPI_TalonFX backLeft;
   private AHRS gyro;
@@ -44,7 +44,7 @@ public class Drivetrain extends SubsystemBase {
     frontLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     frontRight.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
 
-    ResetEncoders();
+    ResetEncoders.resetEncoders();
 
     frontLeft.setInverted(true);
     backLeft.setInverted(true);
@@ -55,7 +55,7 @@ public class Drivetrain extends SubsystemBase {
     diffDrive = new DifferentialDrive(leftSide, rightSide);
     
   }
-
+  
   public static void ResetEncoders(){
     frontLeft.setSelectedSensorPosition(0);
     frontRight.setSelectedSensorPosition(0);
@@ -65,33 +65,12 @@ public class Drivetrain extends SubsystemBase {
   //  diffDrive.arcadeDrive(speed, rotation);
   // }
 
-  public double numberLimits(double f, boolean ceiling, double highestAbs, boolean deadMan, double deadManTolerance) {  // aww yeah simple function with 5 arguments
-    if (deadMan == true) {
-      if (Math.abs(f) < deadManTolerance) {
-        f = 0;
-      }
-    }
-    if (ceiling == true) {
-      if (f > highestAbs) {
-        f = highestAbs;
-      }
-      else if (f < -1*highestAbs) {
-        f = -1*highestAbs;
-      }
-    }
-    return f;
-  }
-  public void betterArcadeDrive(double speed, double rotation) {
-    speed = numberLimits(speed, true, 1, true, 0.1);
-    rotation = numberLimits(rotation, true, 1, true, 0.1);
-
-    double left_throttle = (numberLimits(speed, true, 1, false, 0))-numberLimits(rotation, true, 1, false, 0);
-    double right_throttle = (numberLimits(speed, true, 1, false, 0))+numberLimits(rotation, true, 1, false, 0);
-
+  public void newArcadeDrive(double speed, double rotation) {
+    double left_throttle = (speed-rotation);
+    double right_throttle = (speed+rotation);
     SmartDashboard.putNumber("lThrottle", left_throttle);
     SmartDashboard.putNumber("rThrottle", right_throttle);
-    SmartDashboard.putNumber("lJoystick", ArcadeDrive.js1.getRawAxis(Constants.Ports.JOYSTICK_1));
-    SmartDashboard.putNumber("rJoystick", ArcadeDrive.js1.getRawAxis(Constants.Ports.JOYSTICK_2));
+
 
     //leftSide.set(left_throttle);
     //rightSide.set(right_throttle);
