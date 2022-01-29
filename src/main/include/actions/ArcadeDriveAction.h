@@ -18,11 +18,9 @@
  * Command will *not* work!
  */
 
-// CustomAction may require modification
-//class ArcadeDrive : public CustomAction {
-class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
+class ArcadeDriveAction : public CustomAction {
   public:
-    ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
+    ArcadeDriveAction(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
 
     void Initialize() override;
 

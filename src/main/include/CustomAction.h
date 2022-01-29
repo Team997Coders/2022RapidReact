@@ -9,11 +9,13 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/Subsystem.h>
 
-class CustomAction : public frc2::CommandHelper<frc2::CommandBase, CustomAction> {
+class CustomAction {
   public:
     CustomAction(std::initializer_list<frc2::Subsystem*> requirements);
-
-  virtual void Initialize() = 0;
+    virtual void Initialize();
+    virtual void Execute();
+    virtual void End();
+    virtual bool IsFinished();
 
     std::vector<frc2::Subsystem*> GetDependencies();
   private:

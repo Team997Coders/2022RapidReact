@@ -4,22 +4,20 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/Joystick.h>
-#include "commands/ArcadeDrive.h"
+#include "actions/ArcadeDriveAction.h"
 #include "subsystems/Drivetrain.h"
 
-//ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z)
-// : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {
-ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z) 
-: m_drivetrain(drivetrain), m_x(x), m_z(z)
+ArcadeDriveAction::ArcadeDriveAction(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z)
+ : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {
 {
    AddRequirements(drivetrain);
  }
 
 // Called when the command is initially scheduled.
-void ArcadeDrive::Initialize() {}
+void ArcadeDriveAction::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ArcadeDrive::Execute() {
+void ArcadeDriveAction::Execute() {
 
   m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
   //m_drivetrain -> SetMotorOutput(m_js -> GetRawAxis(1) + m_js -> GetRawAxis(4), m_js -> GetRawAxis(1) - m_js -> GetRawAxis(4));
@@ -27,9 +25,9 @@ void ArcadeDrive::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void ArcadeDrive::End(bool interrupted) {}
+void ArcadeDriveAction::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool ArcadeDrive::IsFinished() {
+bool ArcadeDriveAction::IsFinished() {
   return false;
 }
