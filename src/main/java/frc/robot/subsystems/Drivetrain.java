@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -27,6 +28,8 @@ public class Drivetrain extends SubsystemBase {
     frontLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[0]);
     backRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[3]);
     backLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[1]);
+
+    gyro = new AHRS(SPI.Port.kMXP);
 
     frontRight.configFactoryDefault();
     frontLeft.configFactoryDefault();
@@ -80,6 +83,11 @@ public class Drivetrain extends SubsystemBase {
     //rightSide.set(right_throttle);
     diffDrive.tankDrive(left_throttle, right_throttle);
   }
+
+  public double getGyroAngle(){
+    return gyro.getAngle();
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

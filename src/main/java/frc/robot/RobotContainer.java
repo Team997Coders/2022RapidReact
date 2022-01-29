@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +23,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain m_drive = new Drivetrain();
   private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
+  private TurnToAngle m_exampleTurnToAngle = new TurnToAngle(m_drive, 180);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
