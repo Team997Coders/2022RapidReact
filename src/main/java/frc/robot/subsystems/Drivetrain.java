@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -15,8 +16,8 @@ import frc.robot.commands.utilties.ResetEncoders;
 public class Drivetrain extends SubsystemBase {
   public static WPI_TalonFX frontRight;
   public static WPI_TalonFX frontLeft;
-  private WPI_TalonFX backRight;
-  private WPI_TalonFX backLeft;
+  private static WPI_TalonFX backRight;
+  private static WPI_TalonFX backLeft;
   private AHRS gyro;
 
   
@@ -85,5 +86,17 @@ public class Drivetrain extends SubsystemBase {
 
     SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition());
     SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition());
+  }
+  public static void setMotorModeCoast() {
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
+  }
+  public static void setMotorModeBrake() {
+    frontLeft.setNeutralMode(NeutralMode.Coast);
+    frontRight.setNeutralMode(NeutralMode.Coast);
+    backLeft.setNeutralMode(NeutralMode.Coast);
+    backRight.setNeutralMode(NeutralMode.Coast);
   }
 }

@@ -23,9 +23,10 @@ public final class Constants {
     
     public static class MovementConstants {
 
-        public static final double TURN_SPEED = 0.5;
+        public static final double TURN_SPEED = 0.85;
         public static final double LINEAR_SPEED = 1;
         public static final double DEADBAND_TOLERANCE = 0.1;
+        public static final double ACCEL_DAMPING_SLOPE = 0.04;
     }
     public static class Other {
         public static final boolean deadManMode = false;  // Inside joke ig
