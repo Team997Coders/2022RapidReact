@@ -8,20 +8,17 @@
 #include "subsystems/Drivetrain.h"
 
 ArcadeDriveAction::ArcadeDriveAction(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z)
- : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {
-{
-   AddRequirements(drivetrain);
- }
+ : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {}
 
 // Called when the command is initially scheduled.
-void ArcadeDriveAction::Initialize() {}
+void ArcadeDriveAction::Initialize() {
+
+}
 
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDriveAction::Execute() {
 
   m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
-  //m_drivetrain -> SetMotorOutput(m_js -> GetRawAxis(1) + m_js -> GetRawAxis(4), m_js -> GetRawAxis(1) - m_js -> GetRawAxis(4));
-
 }
 
 // Called once the command ends or is interrupted.

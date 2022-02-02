@@ -21,13 +21,9 @@
 class ArcadeDriveAction : public CustomAction {
   public:
     ArcadeDriveAction(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
-
     void Initialize() override;
-
     void Execute() override;
-
     void End(bool interrupted) override;
-
     bool IsFinished() override;
   private:
     Drivetrain* m_drivetrain;

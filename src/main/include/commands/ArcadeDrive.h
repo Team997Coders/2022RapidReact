@@ -19,17 +19,12 @@
  */
 
 // CustomAction may require modification
-//class ArcadeDrive : public CustomAction {
 class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
   public:
     ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
-
     void Initialize() override;
-
     void Execute() override;
-
     void End(bool interrupted) override;
-
     bool IsFinished() override;
   private:
     Drivetrain* m_drivetrain;

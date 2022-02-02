@@ -8,3 +8,19 @@
 CustomAction::CustomAction(std::initializer_list<frc2::Subsystem*> requirements) {
     dependencies = requirements;
 }
+
+void CustomAction::Initialize() {
+
+}
+
+void CustomAction::Execute() {
+
+}
+
+void CustomAction::End(bool interrupted) {
+
+}
+
+bool CustomAction::IsFinished() {
+    return true;
+}

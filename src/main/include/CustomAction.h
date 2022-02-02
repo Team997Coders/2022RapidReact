@@ -14,7 +14,7 @@ class CustomAction {
     CustomAction(std::initializer_list<frc2::Subsystem*> requirements);
     virtual void Initialize();
     virtual void Execute();
-    virtual void End();
+    virtual void End(bool interrupted);
     virtual bool IsFinished();
 
     std::vector<frc2::Subsystem*> GetDependencies();

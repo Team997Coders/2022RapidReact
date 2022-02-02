@@ -6,6 +6,7 @@
 
 #include <thread>
 #include <chrono>
+#include <list>
 #include "CustomAction.h"
 #include <frc2/command/SubsystemBase.h>
 
@@ -20,10 +21,13 @@ class CustomScheduler {
 
   private:
     void Run();
-    int loopFrequency;
-    //long lastCycle;
-    std::chrono::time_point<std::chrono::system_clock> lastCycle;
+    void Schedule();
+    int runningLoopFrequency;
+    int schedulingLoopFrequency;
     bool halt;
-    std::thread thr; 
+    std::thread schedulerThread; 
+    std::thread runnerThread;
+    std::list<CustomAction*> scheduledActions;
+    std::list<CustomAction*> runningActions;
 
 };
