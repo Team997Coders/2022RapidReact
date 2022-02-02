@@ -8,16 +8,17 @@
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/Subsystem.h>
+#include <CustomScheduler.h>
 
 class CustomAction {
   public:
-    CustomAction(std::initializer_list<frc2::Subsystem*> requirements);
+    CustomAction(std::initializer_list<frc2::Subsystem*> requirements, CustomScheduler* scheduler);
     virtual void Initialize();
     virtual void Execute();
     virtual void End(bool interrupted);
     virtual bool IsFinished();
-
     std::vector<frc2::Subsystem*> GetDependencies();
   private:
     std::vector<frc2::Subsystem*> dependencies;
+    CustomScheduler* scheduler;
 };

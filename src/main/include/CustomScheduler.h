@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <thread>
+#include <mutex>
 #include <chrono>
 #include <list>
 #include "CustomAction.h"
@@ -17,17 +17,16 @@ class CustomScheduler {
     void Start();
     void Stop();
     void SetLoopFrequencyMS(int loopFrequencyMS);
-    void AddAction(CustomAction action, bool shouldAutoDestruct);
-
+    void RunAction(CustomAction* action, bool shouldDestruct);
   private:
     void Run();
     void Schedule();
     int runningLoopFrequency;
     int schedulingLoopFrequency;
     bool halt;
-    std::thread schedulerThread; 
-    std::thread runnerThread;
     std::list<CustomAction*> scheduledActions;
     std::list<CustomAction*> runningActions;
+    std::mutex scheduledActionsLock;
+    std::mutex runningActionsLock;
 
 };
