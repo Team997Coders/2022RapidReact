@@ -7,14 +7,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.subsystems.Drivetrain;
+// import frc.robot.commands.ArcadeDrive;
+// import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.utilties.ResetEncoders;
+// import frc.robot.commands.utilties.ResetEncoders;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,8 +24,8 @@ import frc.robot.commands.utilties.ResetEncoders;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain m_drive = new Drivetrain();
-  private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
+  // private final Drivetrain m_drive = new Drivetrain();
+  // private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
   public static Joystick js1 = new Joystick(Constants.Ports.JOYSTICK_1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -34,7 +34,7 @@ public class RobotContainer {
     configureButtonBindings();
   }
   public void setDefaultCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
+    //CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -48,7 +48,7 @@ public class RobotContainer {
     Button xButton = new JoystickButton(js1, Constants.Ports.CONTROLLER_X);
     Button yButton = new JoystickButton(js1, Constants.Ports.CONTROLLER_Y);
 
-    bButton.whenPressed(new ResetEncoders());
+//    bButton.whenPressed(new ResetEncoders());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
