@@ -56,7 +56,7 @@ public class Drivetrain extends SubsystemBase {
   //  diffDrive.arcadeDrive(speed, rotation);
   // }
 
-  public double numberLimits(double f, boolean ceiling, double highestAbs, boolean deadMan, double deadManTolerance) {  // aww yeah simple function with 5 arguments
+  public double numberLimits(double f, boolean ceiling, double highestAbs, boolean deadMan, double deadManTolerance) { 
     if (deadMan == true) {
       if (Math.abs(f) < deadManTolerance) {
         f = 0;
