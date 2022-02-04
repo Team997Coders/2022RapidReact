@@ -12,13 +12,14 @@
 
 class CustomAction {
   public:
-    CustomAction(std::initializer_list<frc2::Subsystem*> requirements, CustomScheduler* scheduler);
+    CustomAction(std::initializer_list<frc2::Subsystem*> requirements);
     virtual void Initialize();
     virtual void Execute();
     virtual void End(bool interrupted);
     virtual bool IsFinished();
     std::vector<frc2::Subsystem*> GetDependencies();
+    bool hasInit = false;
+    bool shouldEnd = false;
   private:
     std::vector<frc2::Subsystem*> dependencies;
-    CustomScheduler* scheduler;
 };

@@ -5,8 +5,8 @@
 #include "CustomAction.h"
 #include <frc2/command/Subsystem.h>
 
-CustomAction::CustomAction(std::initializer_list<frc2::Subsystem*> requirements, CustomScheduler* scheduler)
-: dependencies(requirements), scheduler(scheduler) {}
+CustomAction::CustomAction(std::initializer_list<frc2::Subsystem*> requirements)
+: dependencies(requirements) {}
 
 void CustomAction::Initialize() {
 

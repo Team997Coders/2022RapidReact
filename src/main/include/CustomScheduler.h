@@ -7,10 +7,11 @@
 #include <mutex>
 #include <chrono>
 #include <list>
+#include <map>
 #include "CustomAction.h"
 #include <frc2/command/SubsystemBase.h>
+#include <frc2/command/Subsystem.h>
 
-// SpartanRunner 2.0
 class CustomScheduler {
   public:
     CustomScheduler(int loopFrequencyMS);
@@ -28,5 +29,5 @@ class CustomScheduler {
     std::list<CustomAction*> runningActions;
     std::mutex scheduledActionsLock;
     std::mutex runningActionsLock;
-
+    std::map<frc2::Subsystem*, bool> accessibleResources; //maybe use unordered_map for faster access
 };
