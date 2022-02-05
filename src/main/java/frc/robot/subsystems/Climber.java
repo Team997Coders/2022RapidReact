@@ -21,8 +21,8 @@ public class Climber extends SubsystemBase {
     m_motorCanSparkMax.setIdleMode(IdleMode.kBrake);
   }
 
-  public void Move() {
-    m_motorCanSparkMax.set(0.4);
+  public void Move(double speed) {
+    m_motorCanSparkMax.set(speed);
   }
 
 
