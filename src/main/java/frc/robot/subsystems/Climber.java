@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -23,6 +24,8 @@ public class Climber extends SubsystemBase {
   public void Move() {
     m_motorCanSparkMax.set(0.4);
   }
+
+
 
   @Override
   public void periodic() {
