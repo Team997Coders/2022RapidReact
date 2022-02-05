@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.JoystickClimber;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,17 +27,21 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain m_drive = new Drivetrain();
-  private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
   private final Climber m_climber = new Climber();
+  private JoystickClimber m_joystickClimber = new JoystickClimber(m_climber);
+  private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
   public static Joystick js1;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
   }
   public void setDefaultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
+    CommandScheduler.getInstance().setDefaultCommand(m_climber, m_joystickClimber);
+
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -60,6 +66,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand();
-  }
+    return new InstantCommand(() -> m_climber.climberMove(0.4));
+    }
 }
