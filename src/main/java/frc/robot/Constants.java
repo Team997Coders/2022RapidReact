@@ -20,5 +20,7 @@ public final class Constants {
         public static final int CONTROLLER_0 = 0, CONTROLLER_1 = 1, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
         public static final int CLIMBER_MOTOR_PORT = 9;
         public static double SPEED = 0.1;
+        public static int MAXIMUM_EXTENSION = 100;
+        public static int MINIMUM_EXTENSION = 0;
     }
 }

@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,18 +19,25 @@ public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
   private CANSparkMax m_motorCanSparkMax;
   private RelativeEncoder m_encoder;
-  
+  private Climber climber;
+  private DigitalInput m_zero;
+
   public Climber() { //constructer
     m_motorCanSparkMax = new CANSparkMax(Constants.Ports.CLIMBER_MOTOR_PORT, MotorType.kBrushless);
     m_motorCanSparkMax.restoreFactoryDefaults();
     m_motorCanSparkMax.setIdleMode(IdleMode.kBrake);
     m_encoder = m_motorCanSparkMax.getEncoder();
     m_encoder.setPosition(0);
+    m_zero = new DigitalInput(0);
 
   }
 
   public void resetEncoder() {
     m_encoder.setPosition(0);
+  }
+  
+  public boolean ZeroSwitch() {
+    return !m_zero.get();
   }
 
   public double getEncoder() {
@@ -36,7 +45,20 @@ public class Climber extends SubsystemBase {
   }
 
   public void Move(double speed) {
-    m_motorCanSparkMax.set(speed);
+    double EncoderPosition = getEncoder();
+    if (EncoderPosition > Constants.Ports.MAXIMUM_EXTENSION && speed > 0) {
+      m_motorCanSparkMax.set(0);
+    }
+    else if (EncoderPosition < Constants.Ports.MINIMUM_EXTENSION && speed < 0) {
+      m_motorCanSparkMax.set(0);
+    }
+    else {
+      m_motorCanSparkMax.set(speed);
+    }
+    if (ZeroSwitch() == true) {
+      m_motorCanSparkMax.set(0);
+      m_encoder.setPosition(0);
+    }
   }
 
 
