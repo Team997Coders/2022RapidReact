@@ -4,15 +4,18 @@
 
 package frc.robot.commands;
 
+//import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import frc.robot.Constants;
 
 public class JoystickClimber extends CommandBase {
   /** Creates a new JoystickClimber. */
-  private Joystick js2;
+  private Joystick js1;
   private Climber climber;
+
   public JoystickClimber(Climber climb) {
     addRequirements(climb);
     climber = climb;
@@ -22,13 +25,25 @@ public class JoystickClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    js2 = new Joystick(Constants.Ports.CONTROLLER_1);
+    js1 = new Joystick(Constants.Ports.CONTROLLER_1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.Move(js2.getRawAxis(Constants.Ports.JOYSTICK_1));
+    SmartDashboard.putNumber("POV", js1.getPOV(0));
+    int POV = js1.getPOV();
+    if(POV == 0) {
+      climber.Move(Constants.Ports.SPEED);
+    }
+    else if (POV == 180) {
+      climber.Move(-1 * Constants.Ports.SPEED);
+    }
+    else {
+      climber.Move(0);
+    }
+    //climber.Move(js1.getRawAxis(Constants.Ports.JOYSTICK_1));
+    //climber.Move(js1.getPOV(Constants.Ports.JOYSTICK_1));
   }
   
   // Called once the command ends or is interrupted.

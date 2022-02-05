@@ -12,7 +12,7 @@ import frc.robot.subsystems.Drivetrain;
 public class ArcadeDrive extends CommandBase {
   /** Creates a new ArcadeDrive. */
   private Drivetrain drivetrain;
-  private Joystick js1;
+  private Joystick js0;
   public ArcadeDrive(Drivetrain drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
@@ -22,13 +22,13 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    js1 = new Joystick(Constants.Ports.CONTROLLER_0);
+    js0 = new Joystick(Constants.Ports.CONTROLLER_0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.betterArcadeDrive(js1.getRawAxis(Constants.Ports.JOYSTICK_1), js1.getRawAxis(Constants.Ports.JOYSTICK_2));
+    drivetrain.betterArcadeDrive(js0.getRawAxis(Constants.Ports.JOYSTICK_1), js0.getRawAxis(Constants.Ports.JOYSTICK_2));
   }
 
   // Called once the command ends or is interrupted.
