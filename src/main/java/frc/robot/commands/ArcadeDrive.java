@@ -4,15 +4,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
 public class ArcadeDrive extends CommandBase {
   /** Creates a new ArcadeDrive. */
   private Drivetrain drivetrain;
-  private Joystick js1;
   public ArcadeDrive(Drivetrain drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
@@ -22,13 +21,12 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    js1 = new Joystick(Constants.Ports.JOYSTICK_1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.betterArcadeDrive(js1.getRawAxis(Constants.Ports.JOYSTICK_1), js1.getRawAxis(Constants.Ports.JOYSTICK_2));
+    drivetrain.betterArcadeDrive(RobotContainer.js1.getRawAxis(Constants.Controller.JOYSTICK_1), RobotContainer.js1.getRawAxis(Constants.Controller.JOYSTICK_2));
   }
 
   // Called once the command ends or is interrupted.
