@@ -4,23 +4,33 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
+import frc.robot.Constants;
 
 public class JoystickClimber extends CommandBase {
   /** Creates a new JoystickClimber. */
-  public JoystickClimber() {
+  private Joystick js2;
+  private Climber climber;
+  public JoystickClimber(Climber climb) {
+    addRequirements(climb);
+    climber = climb;
     // Use addRequirements() here to declare subsystem dependencies. 
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    js2 = new Joystick(Constants.Ports.CONTROLLER_1);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
-
+  public void execute() {
+    climber.Move(js2.getRawAxis(Constants.Ports.JOYSTICK_1));
+  }
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

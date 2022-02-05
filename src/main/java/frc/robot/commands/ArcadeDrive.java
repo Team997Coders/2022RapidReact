@@ -22,7 +22,7 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    js1 = new Joystick(Constants.Ports.JOYSTICK_1);
+    js1 = new Joystick(Constants.Ports.CONTROLLER_0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
