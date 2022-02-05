@@ -7,16 +7,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.commands.ArcadeDrive;
+//import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.JoystickClimber;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Climber;
+//import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,10 +23,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain m_drive = new Drivetrain();
+  //private final Drivetrain m_drive = new Drivetrain();
   private final Climber m_climber = new Climber();
   private JoystickClimber m_joystickClimber = new JoystickClimber(m_climber);
-  private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
+  //private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
   public static Joystick js1;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -39,7 +36,7 @@ public class RobotContainer {
 
   }
   public void setDefaultCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
+    //CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
     CommandScheduler.getInstance().setDefaultCommand(m_climber, m_joystickClimber);
 
   }
@@ -51,12 +48,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     js1 = new Joystick(Constants.Controller.JOYSTICK_1);
-    new JoystickButton(js1, Button.kA.value)
-      .whenPressed(() -> m_climber.climberMove(Constants.MovementConstants.CLIMBER_MOTOR_SPEED))
-      .whenReleased(() -> m_climber.climberMove(0));
-    new JoystickButton(js1, Button.kB.value)
-      .whenPressed(() -> m_climber.climberMove(-1*Constants.MovementConstants.CLIMBER_MOTOR_SPEED))
-      .whenReleased(() -> m_climber.climberMove(0));
   }
 
   /**
