@@ -18,5 +18,6 @@ public final class Constants {
         
         public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
         public static final int CONTROLLER_1 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
+        public static final int CLIMBER_MOTOR_PORT = 9;
     }
 }
