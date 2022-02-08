@@ -7,8 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ClimberPIDTest;
 //import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.JoystickClimber;
+// import frc.robot.commands.JoystickClimber;
 import frc.robot.subsystems.Climber;
 //import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,7 +26,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final Drivetrain m_drive = new Drivetrain();
   private final Climber m_climber = new Climber();
-  private JoystickClimber m_joystickClimber = new JoystickClimber(m_climber);
+  // private JoystickClimber m_joystickClimber = new JoystickClimber(m_climber);
+  private ClimberPIDTest m_climberPID = new ClimberPIDTest(m_climber);
   //private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
   public static Joystick js1;
 
@@ -37,8 +39,8 @@ public class RobotContainer {
   }
   public void setDefaultCommands() {
     //CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
-    CommandScheduler.getInstance().setDefaultCommand(m_climber, m_joystickClimber);
-
+    // CommandScheduler.getInstance().setDefaultCommand(m_climber, m_joystickClimber);
+    CommandScheduler.getInstance().setDefaultCommand(m_climber, m_climberPID);
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by

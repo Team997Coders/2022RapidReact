@@ -28,5 +28,7 @@ public final class Constants {
         public static final double CLIMBER_MOTOR_SPEED = 0.5;
         public static final int CLIMBER_MAX_HEIGHT = 100; // temporary until physical measurements can be made
         public static final int CLIMBER_MIN_HEIGHT = 0; // likewise
+        public static final double NEO_ENCODER_RADIUS = 2; // likewise
+        public static final double SPARK_ENCODER_RADIUS = 2; // likewise
     }
 }
