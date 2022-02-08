@@ -20,7 +20,7 @@
 
 class ArcadeDriveAction : public CustomAction {
   public:
-    ArcadeDriveAction(CustomScheduler* scheduler, Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
+    ArcadeDriveAction(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
     void Initialize() override;
     void Execute() override;
     void End(bool interrupted) override;

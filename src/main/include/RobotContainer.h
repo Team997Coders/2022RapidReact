@@ -7,16 +7,20 @@
 #include <frc/Joystick.h>
 #include "subsystems/Drivetrain.h"
 #include "commands/ArcadeDrive.h"
+#include <frc2/command/Command.h>
+#include "CustomAction.h"
+#include "actions/ArcadeDriveAction.h"
 
 class RobotContainer {
  public:
   RobotContainer();
   ~RobotContainer();
-  void Run();
-  void Stop();
+  frc2::Command* GetDefaultDriveCommand();
+  CustomAction* GetDefaultDriveAction();
 
   private:
     frc::Joystick* m_joystick;
     Drivetrain* m_drivetrain;
     ArcadeDrive* m_defaultDriveCommand;
+    ArcadeDriveAction* m_defaultDriveAction;
 };

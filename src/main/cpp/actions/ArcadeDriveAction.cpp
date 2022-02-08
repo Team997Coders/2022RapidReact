@@ -7,8 +7,8 @@
 #include "actions/ArcadeDriveAction.h"
 #include "subsystems/Drivetrain.h"
 
-ArcadeDriveAction::ArcadeDriveAction(CustomScheduler* scheduler, Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z)
- : CustomAction({drivetrain}, scheduler), m_drivetrain(drivetrain), m_x(x), m_z(z) {}
+ArcadeDriveAction::ArcadeDriveAction(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z)
+ : CustomAction({drivetrain}), m_drivetrain(drivetrain), m_x(x), m_z(z) {}
 
 // Called when the command is initially scheduled.
 void ArcadeDriveAction::Initialize() {

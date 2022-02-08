@@ -10,6 +10,7 @@
 
 void Robot::RobotInit() {
     m_container = new RobotContainer();
+    m_scheduler = new CustomScheduler(20);
 }
 
 /**
@@ -21,7 +22,8 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  frc2::CommandScheduler::GetInstance().Run();
+  //frc2::CommandScheduler::GetInstance().Run();
+  m_scheduler->Start();
 }
 
 /**
@@ -47,7 +49,7 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
-  m_container -> Run();
+  m_scheduler -> RunAction(m_container -> GetDefaultDriveAction(), true);
 }
 
 /**

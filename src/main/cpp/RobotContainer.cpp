@@ -16,6 +16,11 @@ RobotContainer::RobotContainer() {
     m_defaultDriveCommand = new ArcadeDrive(m_drivetrain, 
         [this] { return -m_joystick->GetRawAxis(0); }, 
         [this] { return m_joystick->GetRawAxis(1); });
+
+    m_defaultDriveAction = new ArcadeDriveAction(m_drivetrain, 
+        [this] { return -m_joystick->GetRawAxis(0); }, 
+        [this] { return m_joystick->GetRawAxis(1); });
+
     
 }
 
@@ -25,11 +30,4 @@ RobotContainer::~RobotContainer() {
     delete m_joystick;
 }
 
-void RobotContainer::Run() {
-    frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_drivetrain, *m_defaultDriveCommand);
-    
-}
-
-void RobotContainer::Stop() {
-    frc2::CommandScheduler::GetInstance().Disable();
-}
+CustomAction* RobotContainer::GetDefaultDriveAction() { return m_defaultDriveAction; }

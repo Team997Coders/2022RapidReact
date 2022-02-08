@@ -6,7 +6,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
-
+#include "CustomScheduler.h"
 #include "RobotContainer.h"
 
 class Robot : public frc::TimedRobot {
@@ -26,4 +26,5 @@ class Robot : public frc::TimedRobot {
   // doesn't have undefined behavior and potentially crash.
 
   RobotContainer* m_container;
+  CustomScheduler* m_scheduler;
 };
