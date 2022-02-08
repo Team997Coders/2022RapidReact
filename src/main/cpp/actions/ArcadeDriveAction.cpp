@@ -17,7 +17,6 @@ void ArcadeDriveAction::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDriveAction::Execute() {
-
   m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
 }
 

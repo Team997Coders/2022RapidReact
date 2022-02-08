@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "CustomAction.h"
 #include "CustomScheduler.h"
 #include <chrono>
@@ -15,6 +16,7 @@ CustomScheduler::CustomScheduler(int loopFrequencyMS)
 }
 
 void CustomScheduler::Run() {
+    frc::SmartDashboard::PutString("Run Task Status", "Started");
     long lastCycle = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
     while (!halt) {
         if (lastCycle + runningLoopFrequency < std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()).time_since_epoch().count()) {
@@ -37,9 +39,11 @@ void CustomScheduler::Run() {
             runningActionsLock.unlock();
         }
     }
+    frc::SmartDashboard::PutString("Run Task Status", "Ended");
 }
 
 void CustomScheduler::Schedule() {
+    frc::SmartDashboard::PutString("Schedule Task Status", "Started");
     long lastCycle = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
     while (!halt) {
         if (lastCycle + runningLoopFrequency < std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()).time_since_epoch().count()) {
@@ -63,18 +67,20 @@ void CustomScheduler::Schedule() {
         }
         
     }
+    frc::SmartDashboard::PutString("Schedule Task Status", "Ended");
 }
 
 void CustomScheduler::RunAction(CustomAction* action, bool shouldDestruct) {
     scheduledActionsLock.lock();
     scheduledActions.push_back(action);
+    scheduledActionsLock.unlock();
     // for each key in if resource key does not exist in accessible resources, add one and set to true
     for (auto it = action -> GetDependencies().begin(); it != action -> GetDependencies().end(); ++it) {
         if (accessibleResources.find(*it) != accessibleResources.end()) {
             accessibleResources[*it] = true;
         }
     }
-    scheduledActionsLock.unlock();
+    
 }
 
 void CustomScheduler::Start() {
