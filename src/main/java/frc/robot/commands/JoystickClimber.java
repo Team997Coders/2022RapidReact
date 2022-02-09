@@ -5,16 +5,17 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class JoystickClimber extends CommandBase {
   /** Creates a new JoystickClimber. */
   private Climber climber;
-  public JoystickClimber(Climber climb) {
+  private Joystick joy;
+  public JoystickClimber(Climber climb, Joystick joystick) {
     addRequirements(climb);
     climber = climb;
     // Use addRequirements() here to declare subsystem dependencies. 
@@ -28,15 +29,15 @@ public class JoystickClimber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    final double joystickPosition = -1*RobotContainer.js1.getRawAxis(Constants.Controller.JOYSTICK_1);
+    final double joystickPosition = -1*joy.getRawAxis(Constants.Controller.JOYSTICK_1);
     SmartDashboard.putNumber("joystickPosition", joystickPosition);
     if (joystickPosition < 0) {
-      if (Climber.climberEncoder.getPosition() >= Constants.MovementConstants.CLIMBER_MIN_HEIGHT) {
+      if (climber.climberEncoder.getPosition() >= Constants.MovementConstants.CLIMBER_MIN_HEIGHT) {
         climber.climberMove(Constants.MovementConstants.CLIMBER_MOTOR_SPEED*joystickPosition);
       }
     }
     else if (joystickPosition > 0) {
-      if (Climber.climberEncoder.getPosition() < Constants.MovementConstants.CLIMBER_MAX_HEIGHT) {
+      if (climber.climberEncoder.getPosition() < Constants.MovementConstants.CLIMBER_MAX_HEIGHT) {
         climber.climberMove(Constants.MovementConstants.CLIMBER_MOTOR_SPEED*joystickPosition);
       }
     }

@@ -15,6 +15,7 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,19 +25,22 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //private final Drivetrain m_drive = new Drivetrain();
-  private final Climber m_climber = new Climber();
-  // private JoystickClimber m_joystickClimber = new JoystickClimber(m_climber);
-  private ClimberPIDTest m_climberPID = new ClimberPIDTest(m_climber);
-  //private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive);
-  public static Joystick js1;
+  public Joystick js1;
+  public JoystickButton resetPidGainsButton;
+  private Climber m_climber;
+  private ClimberPIDTest m_climberPID;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    js1 = new Joystick(Constants.Controller.JOYSTICK_1);
+    m_climber = new Climber();
+    // private JoystickClimber m_joystickClimber = new JoystickClimber(m_climber, js1);
+    m_climberPID = new ClimberPIDTest(m_climber, js1);
+    // private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive, js1);
     // Configure the button bindings
     configureButtonBindings();
-
   }
+
   public void setDefaultCommands() {
     //CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
     // CommandScheduler.getInstance().setDefaultCommand(m_climber, m_joystickClimber);
@@ -49,7 +53,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    js1 = new Joystick(Constants.Controller.JOYSTICK_1);
+    resetPidGainsButton = new JoystickButton(js1, Constants.Controller.A_BUTTON);
+
+    resetPidGainsButton.whenPressed(m_climberPID::reDisplayPidGains);
   }
 
   /**

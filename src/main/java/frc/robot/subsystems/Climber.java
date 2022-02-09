@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
-    public static CANSparkMax climberMotor;
-    public static RelativeEncoder climberEncoder;
-    private static DigitalInput climberZeroSwitch;
+    public CANSparkMax climberMotor;
+    public RelativeEncoder climberEncoder;
+    private DigitalInput climberZeroSwitch;
     public Climber() {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
         climberMotor.setIdleMode(IdleMode.kBrake);
         climberEncoder = climberMotor.getEncoder();
-        climberEncoder.setPosition(0);
+        //climberEncoder.setPosition(0);
         climberZeroSwitch = new DigitalInput(Constants.Ports.CLIMBER_ZERO_SWITCH_PORT);
     }
     public boolean zeroSwitchPressed() {
@@ -33,16 +33,18 @@ public class Climber extends SubsystemBase {
         if (movement < -1) {
             movement = -1;
         }
+        if (zeroSwitchPressed()) {
+            //climberEncoder.setPosition(0);
+            movement = 0;
+        }
+        SmartDashboard.putNumber("final velocity", movement);
         climberMotor.set(movement);
     }
+    
 
 
     @Override
     public void periodic() {
-        if (zeroSwitchPressed()) {
-            climberEncoder.setPosition(0);
-            climberMotor.set(0);
-        }
         SmartDashboard.putNumber("Climber Motor Encoder", climberEncoder.getPosition());
         SmartDashboard.putBoolean("Zero Switch", zeroSwitchPressed());
     }

@@ -23,6 +23,7 @@ public final class Constants {
     public static class Controller {
         public static final int CONTROLLER_1 = 1;
         public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4;
+        public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
     }
     public static class MovementConstants {
         public static final double CLIMBER_MOTOR_SPEED = 0.5;
