@@ -36,13 +36,19 @@ public class ArcadeDrive extends CommandBase {
         if (leftRawInput < 1-Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
             leftFinalInput += Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
         }
-        else{
+        else {
             leftFinalInput = 1;
         }
     }
-    if (leftRawInput < Constants.Controller.DEAD_ZONE_SENSITIVITY*-1 && leftRawInput > -1) {
-
+    if (rightRawInput < Constants.Controller.DEAD_ZONE_SENSITIVITY*-1 && rightRawInput > -1) {
+        if (rightRawInput < 1-Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
+            rightFinalInput += Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
+        }
+        else {
+            rightFinalInput = 1;
+        }
     }
+    m_drivetrain.tankDriveMove(leftFinalInput, rightFinalInput);
   }
 
   // Called once the command ends or is interrupted.
