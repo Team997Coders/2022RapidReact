@@ -29,21 +29,18 @@ public class Climber extends SubsystemBase {
     }
 
     public void climberMove(double movement) {
-        if (movement > 1) {
-            movement = 1;
+        if (zeroSwitchPressed()){
+            climberEncoder.setPosition(0);
+            if (movement < 0) {
+                movement = 0;
+            }
         }
-        if (movement < -1) {
-            movement = -1;
-        }
-        if (zeroSwitchPressed()) {
-            //climberEncoder.setPosition(0);
+        if (climberEncoder.getPosition() > Constants.MovementConstants.CLIMBER_MAX_HEIGHT && movement > 0) {
             movement = 0;
         }
         SmartDashboard.putNumber("final velocity", movement);
         climberMotor.set(movement);
     }
-    
-
 
     @Override
     public void periodic() {

@@ -7,9 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ClimberPIDTest;
+import frc.robot.commands.ClimberPID;
+import frc.robot.commands.SimpleClimb;
 //import frc.robot.commands.ArcadeDrive;
-// import frc.robot.commands.JoystickClimber;
 import frc.robot.subsystems.Climber;
 //import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,14 +28,15 @@ public class RobotContainer {
   public Joystick js1;
   public JoystickButton resetPidGainsButton;
   private Climber m_climber;
-  private ClimberPIDTest m_climberPID;
+  private ClimberPID m_climberPID;
+  private SimpleClimb m_simpleClimb;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     js1 = new Joystick(Constants.Controller.JOYSTICK_1);
     m_climber = new Climber();
-    // private JoystickClimber m_joystickClimber = new JoystickClimber(m_climber, js1);
-    m_climberPID = new ClimberPIDTest(m_climber, js1);
+    m_climberPID = new ClimberPID(m_climber, js1);
+    m_simpleClimb = new SimpleClimb(m_climber, js1);
     // private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive, js1);
     // Configure the button bindings
     configureButtonBindings();
@@ -43,7 +44,7 @@ public class RobotContainer {
 
   public void setDefaultCommands() {
     //CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadedrive);
-    // CommandScheduler.getInstance().setDefaultCommand(m_climber, m_joystickClimber);
+    //CommandScheduler.getInstance().setDefaultCommand(m_climber, m_simpleClimb);
     CommandScheduler.getInstance().setDefaultCommand(m_climber, m_climberPID);
   }
   /**
