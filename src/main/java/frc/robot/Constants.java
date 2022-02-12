@@ -17,17 +17,18 @@ public final class Constants {
     public static class Ports {
         
         public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
-        public static final int CONTROLLER_1 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
-        public static final int CONTROLLER_A = 0, CONTROLLER_X = 2, CONTROLLER_B = 3, CONTROLLER_Y = 3;
     }
     
-    public static class MovementConstants {
-
-        public static final double TURN_SPEED = 0.85;
-        public static final double LINEAR_SPEED = 1;
-        public static final double DEADBAND_TOLERANCE = 0.1;
-        public static final double ACCEL_DAMPING_SLOPE = 0.04;
+    public static class Controller {
+        public static final int CONTROLLER_1 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
+        public static final int CONTROLLER_A = 0, CONTROLLER_X = 2, CONTROLLER_B = 3, CONTROLLER_Y = 3;
+        public static final double DEAD_ZONE_SENSITIVITY = 0.2;
     }
+
+    public static class MovementConstants {
+        public static final double INPUT_SMOOTH_SLOPE = 0.1;
+    }
+
     public static class Other {
         public static final boolean deadManMode = false;  // Inside joke ig
     }
