@@ -29,6 +29,8 @@ public class Drivetrain extends SubsystemBase {
     backRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[3]);
     backLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[1]);
 
+    gyro = new AHRS();
+
     frontRight.configFactoryDefault();
     frontLeft.configFactoryDefault();
     backRight.configFactoryDefault();
@@ -54,7 +56,7 @@ public class Drivetrain extends SubsystemBase {
   //  diffDrive.arcadeDrive(speed, rotation);
   // }
 
-  public double numberLimits(double f, boolean ceiling, double highestAbs, boolean deadMan, double deadManTolerance) {  // aww yeah simple function with 5 arguments
+  public double numberLimits(double f, boolean ceiling, double highestAbs, boolean deadMan, double deadManTolerance) { 
     if (deadMan == true) {
       if (Math.abs(f) < deadManTolerance) {
         f = 0;
@@ -81,6 +83,11 @@ public class Drivetrain extends SubsystemBase {
     //rightSide.set(right_throttle);
     diffDrive.tankDrive(left_throttle, right_throttle);
   }
+
+  public double getGyroAngle(){
+    return gyro.getAngle();
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

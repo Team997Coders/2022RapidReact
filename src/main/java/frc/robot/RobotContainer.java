@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+
   public Joystick js1;
   public JoystickButton resetPidGainsButton;
   private Climber m_climber;
@@ -44,6 +45,7 @@ public class RobotContainer {
     // private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive, js1);
     // Configure the button bindings
     configureButtonBindings();
+
     SmartDashboard.putBoolean("magnetSwitchTest",magnetSwitchTest.get()); // temp
   }
 
@@ -71,6 +73,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand(() -> m_climber.climberMove(0.4));
+    return new InstantCommand(() -> m_climber.climberMove(0.4)); //test
     }
 }
