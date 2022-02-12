@@ -21,6 +21,8 @@ public class Climber extends SubsystemBase {
         climberEncoder = climberMotor.getEncoder();
         //climberEncoder.setPosition(0);
         climberZeroSwitch = new DigitalInput(Constants.Ports.CLIMBER_ZERO_SWITCH_PORT);
+        climberMotor.restoreFactoryDefaults();
+        SmartDashboard.putBoolean("Zero Switch", zeroSwitchPressed());
     }
     public boolean zeroSwitchPressed() {
         return !climberZeroSwitch.get();
@@ -45,7 +47,5 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Climber Motor Encoder", climberEncoder.getPosition());
-        SmartDashboard.putBoolean("Zero Switch", zeroSwitchPressed());
     }
 }

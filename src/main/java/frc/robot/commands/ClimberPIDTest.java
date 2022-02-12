@@ -38,7 +38,7 @@ public class ClimberPIDTest extends CommandBase {
     @Override
     public void execute() {
 
-        kP = SmartDashboard.getNumber("kP", 0);
+        kP = SmartDashboard.getNumber("kP", 0.01);
         kI = SmartDashboard.getNumber("kI", 0);
         kD = SmartDashboard.getNumber("kD", 0);
 
@@ -50,14 +50,13 @@ public class ClimberPIDTest extends CommandBase {
         else if (-1*joy.getRawAxis(Constants.Controller.JOYSTICK_1) < -0.1) {
             targetHeight -= 0.1;
         }
-        // climberMotorDistance = climber.climberEncoder.getPosition()*2*Math.PI*Constants.MovementConstants.NEO_ENCODER_RADIUS;
         m_controller.setGoal(targetHeight);
         climberMotorDistance = climber.climberEncoder.getPosition();
         PIDOutput = m_controller.calculate(climberMotorDistance);
         climber.climberMove(PIDOutput);
         
     
-
+        SmartDashboard.putNumber("error", m_controller.getSetpoint().position-climberMotorDistance);
         SmartDashboard.putNumber("targetHeight", targetHeight);
         SmartDashboard.putNumber("climberMotorDistance", climberMotorDistance);
         SmartDashboard.putNumber("PIDOutput", PIDOutput);
