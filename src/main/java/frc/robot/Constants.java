@@ -19,6 +19,7 @@ public final class Constants {
         public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
         public static final int CLIMBER_PORT = 9;
         public static final int CLIMBER_ZERO_SWITCH_PORT = 0;
+        public static final int MAGNET_SWITCH_TEST_PORT = 5; // idk
     }
     public static class Controller {
         public static final int CONTROLLER_1 = 1;

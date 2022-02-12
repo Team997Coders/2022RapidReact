@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ClimberPID;
 import frc.robot.commands.SimpleClimb;
 //import frc.robot.commands.ArcadeDrive;
@@ -30,6 +32,7 @@ public class RobotContainer {
   private Climber m_climber;
   private ClimberPID m_climberPID;
   private SimpleClimb m_simpleClimb;
+  private DigitalInput magnetSwitchTest; // temp
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -37,9 +40,11 @@ public class RobotContainer {
     m_climber = new Climber();
     m_climberPID = new ClimberPID(m_climber, js1);
     m_simpleClimb = new SimpleClimb(m_climber, js1);
+    magnetSwitchTest = new DigitalInput(5); // temp
     // private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive, js1);
     // Configure the button bindings
     configureButtonBindings();
+    SmartDashboard.putBoolean("magnetSwitchTest",magnetSwitchTest.get()); // temp
   }
 
   public void setDefaultCommands() {
