@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoDistance;
+import frc.robot.commands.AutoRotate;
 import frc.robot.commands.ClimberPID;
 import frc.robot.commands.SimpleClimb;
 import frc.robot.subsystems.Climber;
@@ -30,23 +32,25 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   public Joystick js1;
-  public JoystickButton resetPidGainsButton;
   private Climber m_climber;
   private Drivetrain m_drivetrain;
   private ClimberPID m_climberPID;
   private SimpleClimb m_simpleClimb;
   private DigitalInput magnetSwitchTest; // temp
   private ArcadeDrive m_arcadeDrive;
+  private AutoDistance m_autoDistance;
+  private AutoRotate m_autoRotate;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    js1 = new Joystick(Constants.Controller.JOYSTICK_1);
+    js1 = new Joystick(Constants.Controller.CONTROLLER_1);
     m_climber = new Climber();
     m_drivetrain = new Drivetrain();
     m_climberPID = new ClimberPID(m_climber, js1);
     m_simpleClimb = new SimpleClimb(m_climber, js1);
     magnetSwitchTest = new DigitalInput(5); // temp
     m_arcadeDrive = new ArcadeDrive(m_drivetrain, js1);
+
     // Configure the button bindings
     configureButtonBindings();
 

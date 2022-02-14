@@ -21,7 +21,7 @@ public class ClimberPID extends CommandBase {
         joy = joystick;
         reDisplayClimberPidGains();
     }
-    private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(1.75, 0.75);
+    private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(Constants.MovementConstants.ClimberConstants.CLIMB_CONSTRAINT_V, Constants.MovementConstants.ClimberConstants.CLIMB_CONSTRAINT_ACCEL);
     private final ProfiledPIDController m_controller = new ProfiledPIDController(kP, kD, kI, m_constraints);
     private double targetHeight = 0;
     private double climberMotorDistance;
@@ -59,7 +59,7 @@ public class ClimberPID extends CommandBase {
     
         SmartDashboard.putNumber("climber error", m_controller.getSetpoint().position-climberMotorDistance);
         SmartDashboard.putNumber("climber targetHeight", targetHeight);
-        SmartDashboard.putNumber("climberMotorDistance", climberMotorDistance);
+        SmartDashboard.putNumber("climber MotorDistance", climberMotorDistance);
         SmartDashboard.putNumber("climber PIDOutput", PIDOutput);
         SmartDashboard.putNumber("climber setPoint", m_controller.getSetpoint().position);
         SmartDashboard.putNumber("climber setPoint velocity", m_controller.getSetpoint().velocity);

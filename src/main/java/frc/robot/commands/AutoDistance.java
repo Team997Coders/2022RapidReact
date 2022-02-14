@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoDistance extends CommandBase {
@@ -23,11 +24,12 @@ public class AutoDistance extends CommandBase {
   /** Creates a new AutoDistance. */
   public AutoDistance(Drivetrain m_drivetrain, double distance) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_drivetrain);
     drive = m_drivetrain;
     targetDistance = distance;
   }
 
-  private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(1.75,0.75);
+  private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(Constants.MovementConstants.DrivetrainConstants.DRIVE_LIN_CONSTRAINT_V,Constants.MovementConstants.DrivetrainConstants.DRIVE_LIN_CONSTRAINT_ACCEL);
   private final ProfiledPIDController m_controller = new ProfiledPIDController(kP,kI,kD,m_constraints);
   
   public void reDisplayDriveLinPidGains () {
@@ -45,13 +47,24 @@ public class AutoDistance extends CommandBase {
 
     m_controller.setPID(kP,kI,kD);
     m_controller.setGoal(targetDistance);
+
+    drive.resetEncoders();
+    linDistance = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    PIDOutput = m_controller.calculate(linDistance);
+    linDistance = ((Drivetrain.frontLeft.getSelectedSensorPosition()+Drivetrain.frontLeft.getSelectedSensorPosition())/2)*Constants.MovementConstants.DrivetrainConstants.ENCODER_TO_DISTANCE_FACTOR;
     
+    PIDOutput = m_controller.calculate(linDistance);
+    drive.tankDriveMove(PIDOutput,0);
+
+    SmartDashboard.putNumber("drive lin error", m_controller.getSetpoint().position-linDistance);
+    SmartDashboard.putNumber("drive lin target", targetDistance);
+    SmartDashboard.putNumber("drive lin pidOutput", PIDOutput);
+    SmartDashboard.putNumber("drive lin setPoint", m_controller.getSetpoint().position);
+    SmartDashboard.putNumber("drive lin setPoint v", m_controller.getSetpoint().velocity);
   }
 
   // Called once the command ends or is interrupted.

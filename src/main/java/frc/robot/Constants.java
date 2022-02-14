@@ -22,7 +22,7 @@ public final class Constants {
         public static final int MAGNET_SWITCH_TEST_PORT = 5; // idk
     }
     public static class Controller {
-        public static final int CONTROLLER_1 = 1;
+        public static final int CONTROLLER_1 = 0;
         public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4;
         public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
         public static final double DEAD_ZONE_SENSITIVITY = 0.1;
@@ -32,10 +32,14 @@ public final class Constants {
         public static class ClimberConstants {
             public static final int CLIMBER_MAX_HEIGHT = 100; // temporary until physical measurements can be made
             public static final double CLIMBER_KP = 0, CLIMBER_KI = 0, CLIMBER_KD = 0; // temporary until tuning is done
+            public static final double CLIMB_CONSTRAINT_ACCEL = 1, CLIMB_CONSTRAINT_V = 1; // tune
         }
         public static class DrivetrainConstants {
             public static final double DRIVE_LIN_KP = 0, DRIVE_LIN_KI = 0, DRIVE_LIN_KD = 0; // similarly temporary
-            public static final double DRIVE_ROT_KP = 0, DRIVE_ROT_KI = 0, DRIVE_ROT_KD = 0; // same
+            public static final double DRIVE_LIN_CONSTRAINT_ACCEL = 1, DRIVE_LIN_CONSTRAINT_V = 1; // tune 
+            public static final double DRIVE_ROT_KP = 0, DRIVE_ROT_KI = 0, DRIVE_ROT_KD = 0; // similarly temporary
+            public static final double DRIVE_ROT_CONSTRAINT_ACCEL = 1, DRIVE_ROT_CONSTRAINT_V = 1; // tune
+            public static final double ENCODER_TO_DISTANCE_FACTOR = 1; // to replace for obvious reasons
         }
     }
 }
