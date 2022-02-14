@@ -38,7 +38,7 @@ public class Climber extends SubsystemBase {
                 movement = 0;
             }
         }
-        if (climberEncoder.getPosition() > Constants.MovementConstants.CLIMBER_MAX_HEIGHT && movement > 0) {
+        if (climberEncoder.getPosition() > Constants.MovementConstants.ClimberConstants.CLIMBER_MAX_HEIGHT && movement > 0) {
             movement = 0;
         }
         SmartDashboard.putNumber("final velocity", movement);

@@ -27,6 +27,13 @@ public final class Constants {
         public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
     }
     public static class MovementConstants {
-        public static final int CLIMBER_MAX_HEIGHT = 100; // temporary until physical measurements can be made
+        public static class ClimberConstants {
+            public static final int CLIMBER_MAX_HEIGHT = 100; // temporary until physical measurements can be made
+            public static final double CLIMBER_KP = 0, CLIMBER_KI = 0, CLIMBER_KD = 0; // temporary until tuning is done
+        }
+        public static class DrivetrainConstants {
+            public static final double DRIVE_LIN_KP = 0, DRIVE_LIN_KI = 0, DRIVE_LIN_KD = 0; // similarly temporary
+            public static final double DRIVE_ROT_KP = 0, DRIVE_ROT_KI = 0, DRIVE_ROT_KD = 0; // same
+        }
     }
 }

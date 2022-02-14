@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ClimberPID extends CommandBase {
     private Climber climber;
     private Joystick joy;
-    private double kP = 0.0;
+    private double kP = 0.01; // replace with calls to constants once tuning complete
     private double kD = 0.0;
     private double kI = 0.0;
 
@@ -19,24 +19,25 @@ public class ClimberPID extends CommandBase {
         addRequirements(m_climber);
         climber = m_climber;
         joy = joystick;
+        reDisplayClimberPidGains();
     }
     private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(1.75, 0.75);
-    private final ProfiledPIDController m_controller = new ProfiledPIDController(0.01, 0.0, 0.0, m_constraints);
-    private static double targetHeight = 0;
+    private final ProfiledPIDController m_controller = new ProfiledPIDController(kP, kD, kI, m_constraints);
+    private double targetHeight = 0;
     private double climberMotorDistance;
     private double PIDOutput;
 
-    public void reDisplayPidGains() {
-        SmartDashboard.putNumber("kP", 0);
-        SmartDashboard.putNumber("kI", 0);
-        SmartDashboard.putNumber("kD", 0);
+    public void reDisplayClimberPidGains() {
+        SmartDashboard.putNumber("climber kP", kP);
+        SmartDashboard.putNumber("climber kI", kD);
+        SmartDashboard.putNumber("climber kD", kI);
     }
 
     @Override
     public void initialize() {
-        kP = SmartDashboard.getNumber("kP", 0.01);
-        kI = SmartDashboard.getNumber("kI", 0);
-        kD = SmartDashboard.getNumber("kD", 0);
+        kP = SmartDashboard.getNumber("climber kP", 0); // intentionally like this: if network tables not returning anything, don't move
+        kI = SmartDashboard.getNumber("climber kI", 0);
+        kD = SmartDashboard.getNumber("climber kD", 0);
 
         m_controller.setPID(kP, kI, kD);
     }
@@ -56,12 +57,12 @@ public class ClimberPID extends CommandBase {
         climber.climberMove(PIDOutput);
         
     
-        SmartDashboard.putNumber("error", m_controller.getSetpoint().position-climberMotorDistance);
-        SmartDashboard.putNumber("targetHeight", targetHeight);
+        SmartDashboard.putNumber("climber error", m_controller.getSetpoint().position-climberMotorDistance);
+        SmartDashboard.putNumber("climber targetHeight", targetHeight);
         SmartDashboard.putNumber("climberMotorDistance", climberMotorDistance);
-        SmartDashboard.putNumber("PIDOutput", PIDOutput);
-        SmartDashboard.putNumber("setPoint", m_controller.getSetpoint().position);
-        SmartDashboard.putNumber("setPoint velocity", m_controller.getSetpoint().velocity);
+        SmartDashboard.putNumber("climber PIDOutput", PIDOutput);
+        SmartDashboard.putNumber("climber setPoint", m_controller.getSetpoint().position);
+        SmartDashboard.putNumber("climber setPoint velocity", m_controller.getSetpoint().velocity);
     }
 
     @Override
