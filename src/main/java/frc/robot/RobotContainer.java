@@ -9,15 +9,16 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ClimberPID;
-import frc.robot.commands.SimpleClimb;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.ClimberPID;
+import frc.robot.commands.SimpleClimb;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -64,11 +65,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    resetPidGainsButton = new JoystickButton(js1, Constants.Controller.A_BUTTON);
 
-    resetPidGainsButton.whenPressed(m_climberPID::reDisplayClimberPidGains);
+    Button aButton = new JoystickButton(js1, Constants.Controller.A_BUTTON);
+    Button bButton = new JoystickButton(js1, Constants.Controller.B_BUTTON);
+    //Button xButton = new JoystickButton(js1, Constants.Controller.X_BUTTON);
+    //Button yButton = new JoystickButton(js1, Constants.Controller.Y_BUTTON);
+    
+    bButton.whenPressed(m_drivetrain::resetEncoders);
+    aButton.whenPressed(m_climberPID::reDisplayClimberPidGains);
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

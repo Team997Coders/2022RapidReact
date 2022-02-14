@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-    private WPI_TalonFX frontRight;
-  private WPI_TalonFX frontLeft;
-  private WPI_TalonFX backRight;
-  private WPI_TalonFX backLeft;
+  public static WPI_TalonFX frontRight;
+  public static WPI_TalonFX frontLeft;
+  private static WPI_TalonFX backRight;
+  private static WPI_TalonFX backLeft;
   private AHRS gyro;
 
   
@@ -42,6 +43,8 @@ public class Drivetrain extends SubsystemBase {
     frontLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     frontRight.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
 
+    resetEncoders();
+
     frontLeft.setInverted(true);
     backLeft.setInverted(true);
 
@@ -51,36 +54,19 @@ public class Drivetrain extends SubsystemBase {
     diffDrive = new DifferentialDrive(leftSide, rightSide);
     
   }
-
-  // public void arcadeDrive(double speed, double rotation){
-  //  diffDrive.arcadeDrive(speed, rotation);
-  // }
-
-  public double numberLimits(double f, boolean ceiling, double highestAbs, boolean deadMan, double deadManTolerance) { 
-    if (deadMan == true) {
-      if (Math.abs(f) < deadManTolerance) {
-        f = 0;
-      }
-    }
-    if (ceiling == true) {
-      if (f > highestAbs) {
-        f = highestAbs;
-      }
-      else if (f < -1*highestAbs) {
-        f = -1*highestAbs;
-      }
-    }
-    return f;
+  
+  public void resetEncoders(){
+    frontLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
   }
-  public void betterArcadeDrive(double speed, double rotation) {
-    speed = numberLimits(speed, true, 1, true, 0.1);
-    rotation = numberLimits(rotation, true, 1, true, 0.1);
 
-    double left_throttle = (numberLimits(speed, true, 1, false, 0))-numberLimits(rotation, true, 1, false, 0);
-    double right_throttle = (numberLimits(speed, true, 1, false, 0))+numberLimits(rotation, true, 1, false, 0);
+  public void tankDriveMove(double speed, double rotation) {
+    double left_throttle = (speed-rotation);
+    double right_throttle = (speed+rotation);
+    SmartDashboard.putNumber("lThrottle", left_throttle);
+    SmartDashboard.putNumber("rThrottle", right_throttle);
 
-    //leftSide.set(left_throttle);
-    //rightSide.set(right_throttle);
+
     diffDrive.tankDrive(left_throttle, right_throttle);
   }
 
@@ -91,6 +77,23 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("NavX Heading", gyro.getYaw());
+    SmartDashboard.putNumber("L Encoder V", frontLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("R Encoder V", frontRight.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("NavX Heading", gyro.getAngle());
+
+    SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition());
+  }
+  public static void setMotorModeCoast() {
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
+  }
+  public static void setMotorModeBrake() {
+    frontLeft.setNeutralMode(NeutralMode.Coast);
+    frontRight.setNeutralMode(NeutralMode.Coast);
+    backLeft.setNeutralMode(NeutralMode.Coast);
+    backRight.setNeutralMode(NeutralMode.Coast);
   }
 }
