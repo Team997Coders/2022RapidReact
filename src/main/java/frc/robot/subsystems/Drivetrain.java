@@ -15,7 +15,7 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX frontLeft;
   private WPI_TalonFX backRight;
   private WPI_TalonFX backLeft;
-  private AHRS gyro;
+  public AHRS gyro;
 
   
   private MotorControllerGroup leftSide;
@@ -92,5 +92,6 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("NavX Heading", gyro.getYaw());
+    SmartDashboard.putNumber("NavX Pitch", gyro.getPitch());
   }
 }
