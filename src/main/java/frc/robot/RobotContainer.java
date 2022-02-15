@@ -59,6 +59,8 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return new InstantCommand();
   }
-}
 
-// ignore this: just a comment to test Aaron's PR stuff
+  public void disabledInit() {
+    m_drive.setMotorModeBrake();
+  }
+}
