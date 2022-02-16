@@ -20,7 +20,7 @@ public final class Constants {
     }
     
     public static class Controller {
-        public static final int CONTROLLER_1 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
+        public static final int CONTROLLER_0 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
         public static final int CONTROLLER_A = 0, CONTROLLER_X = 1, CONTROLLER_B = 2, CONTROLLER_Y = 3;
         public static final double DEAD_ZONE_SENSITIVITY = 0.2;
     }
