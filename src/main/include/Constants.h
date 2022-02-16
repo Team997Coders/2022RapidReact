@@ -11,7 +11,10 @@ namespace constants {
   struct Ports {
     static const int
       FRONT_LEFT = 13, BACK_LEFT = 14, FRONT_RIGHT = 15, BACK_RIGHT = 16,
-      CONTROLLER_1 = 0;
+      CLIMBER = 9,
+      CONTROLLER_1 = 0,
+      DRIVE = 1, TURN = 4,
+      CLIMBER_UP = 2, CLIMBER_DOWN = 3;
   };
   struct Values {
     static constexpr double 

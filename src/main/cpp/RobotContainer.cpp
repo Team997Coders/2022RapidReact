@@ -14,12 +14,14 @@ RobotContainer::RobotContainer() {
     m_drivetrain = new Drivetrain();
     
     m_defaultDriveCommand = new ArcadeDrive(m_drivetrain, 
-        [this] { return -m_joystick->GetRawAxis(0); }, 
-        [this] { return m_joystick->GetRawAxis(1); });
+        [this] { return -m_joystick->GetRawAxis(constants::Ports::DRIVE); }, 
+        [this] { return m_joystick->GetRawAxis(constants::Ports::TURN); });
 
     m_defaultDriveAction = new ArcadeDriveAction(m_drivetrain, 
-        [this] { return -m_joystick->GetRawAxis(0); }, 
-        [this] { return m_joystick->GetRawAxis(1); });
+        [this] { return -m_joystick->GetRawAxis(constants::Ports::DRIVE); }, 
+        [this] { return m_joystick->GetRawAxis(constants::Ports::TURN); });
+
+    
 
     
 }
@@ -31,3 +33,4 @@ RobotContainer::~RobotContainer() {
 }
 
 CustomAction* RobotContainer::GetDefaultDriveAction() { return m_defaultDriveAction; }
+frc2::Command* RobotContainer::GetDefaultDriveCommand() { return m_defaultDriveCommand; }

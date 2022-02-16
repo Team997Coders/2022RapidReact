@@ -23,7 +23,6 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   //frc2::CommandScheduler::GetInstance().Run();
-  m_scheduler->Start();
 }
 
 /**
@@ -49,7 +48,9 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
+  m_scheduler -> Start();
   m_scheduler -> RunAction(m_container -> GetDefaultDriveAction(), true);
+  //frc2::CommandScheduler::GetInstance().Schedule(m_container -> GetDefaultDriveCommand());
 }
 
 /**

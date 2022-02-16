@@ -10,6 +10,7 @@
 #include <frc2/command/Command.h>
 #include "CustomAction.h"
 #include "actions/ArcadeDriveAction.h"
+#include "actions/ClimberMove.h"
 
 class RobotContainer {
  public:
@@ -23,4 +24,5 @@ class RobotContainer {
     Drivetrain* m_drivetrain;
     ArcadeDrive* m_defaultDriveCommand;
     ArcadeDriveAction* m_defaultDriveAction;
+    ClimberMove* m_defaultClimerAction;
 };

@@ -8,6 +8,7 @@
 #include <chrono>
 #include <mutex>
 #include <future>
+#include <thread>
 #include <frc2/command/Subsystem.h>
 
 CustomScheduler::CustomScheduler(int loopFrequencyMS)
@@ -84,9 +85,13 @@ void CustomScheduler::RunAction(CustomAction* action, bool shouldDestruct) {
 }
 
 void CustomScheduler::Start() {
+    frc::SmartDashboard::PutString("started", "false");
     halt = false;
-    std::async(std::launch::async, [this]{ Run(); });
-    std::async(std::launch::async, [this]{ Schedule(); });
+    thr1 = std::thread(&CustomScheduler::Run, this);
+    thr2 = std::thread(&CustomScheduler::Schedule, this);
+    //std::async(std::launch::async, [this]{ Run(); });
+    //std::async(std::launch::async, [this]{ Schedule(); });
+    frc::SmartDashboard::PutString("started", "true");
 }
 
 void CustomScheduler::Stop() {

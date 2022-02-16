@@ -8,6 +8,7 @@
 #include <chrono>
 #include <list>
 #include <map>
+#include <thread>
 #include "CustomAction.h"
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/Subsystem.h>
@@ -30,4 +31,6 @@ class CustomScheduler {
     std::mutex scheduledActionsLock;
     std::mutex runningActionsLock;
     std::map<frc2::Subsystem*, bool> accessibleResources; //maybe use unordered_map for faster access
+    std::thread thr1;
+    std::thread thr2;
 };
