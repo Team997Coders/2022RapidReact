@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
@@ -12,6 +13,8 @@ public class ArcadeDrive extends CommandBase {
   /** Creates a new ArcadeDrive. */
   private Drivetrain m_drivetrain;
   private Joystick m_joystick;
+  private double leftFinalInput = 0;
+  private double rightFinalInput = 0;
   public ArcadeDrive(Drivetrain drive, Joystick joy) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
@@ -28,9 +31,11 @@ public class ArcadeDrive extends CommandBase {
 
     double leftRawInput = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1);
     double rightRawInput = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2);
-    
-    double leftFinalInput = 0;
-    double rightFinalInput = 0;
+
+    SmartDashboard.putNumber("leftRawInput", leftRawInput);
+    SmartDashboard.putNumber("rightRawInput", rightRawInput);
+    SmartDashboard.putNumber("leftFinalInput", leftFinalInput);
+    SmartDashboard.putNumber("rightFinalInput", rightFinalInput);
 
     if (leftRawInput > Constants.Controller.DEAD_ZONE_SENSITIVITY && leftRawInput < 1) {
         if (leftRawInput < 1-Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {

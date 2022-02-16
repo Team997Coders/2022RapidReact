@@ -60,7 +60,7 @@ public class RobotContainer {
     return new InstantCommand();
   }
 
-  public void disabledInit() {
+  /*public void disabledInit() {
     m_drive.setMotorModeBrake();
-  }
+  }*/
 }
