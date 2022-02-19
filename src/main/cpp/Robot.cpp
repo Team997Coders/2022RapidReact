@@ -10,7 +10,6 @@
 
 void Robot::RobotInit() {
     m_container = new RobotContainer();
-    m_scheduler = new CustomScheduler(20);
 }
 
 /**
@@ -48,15 +47,15 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
-  m_scheduler -> Start();
-  m_scheduler -> RunAction(m_container -> GetDefaultDriveAction(), true);
-  //frc2::CommandScheduler::GetInstance().Schedule(m_container -> GetDefaultDriveCommand());
+  frc2::CommandScheduler::GetInstance().Schedule(m_container -> GetDefaultDriveCommand());
 }
 
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  frc2::CommandScheduler::GetInstance().Run();
+}
 
 /**
  * This function is called periodically during test mode.

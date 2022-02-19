@@ -22,8 +22,6 @@ void ArcadeDrive::Initialize() {}
 void ArcadeDrive::Execute() {
 
   m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
-  //m_drivetrain -> SetMotorOutput(m_js -> GetRawAxis(1) + m_js -> GetRawAxis(4), m_js -> GetRawAxis(1) - m_js -> GetRawAxis(4));
-
 }
 
 // Called once the command ends or is interrupted.

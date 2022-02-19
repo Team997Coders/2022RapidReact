@@ -6,9 +6,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Joystick.h>
-#include <subsystems/Drivetrain.h>
 
+#include "subsystems/Drivetrain.h"
+#include "frc2/command/ProfiledPIDSubsystem.h"
 /**
  * An example command.
  *
@@ -16,17 +16,18 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-
-// CustomAction may require modification
-class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
+class AutoTurnAngle
+    : public frc2::CommandHelper<frc2::CommandBase, AutoTurnAngle> {
   public:
-    ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
+    AutoTurnAngle(Drivetrain* drivetrain, double degrees);
+
     void Initialize() override;
     void Execute() override;
     void End(bool interrupted) override;
     bool IsFinished() override;
+
   private:
-    Drivetrain* m_drivetrain;
-    std::function<double()> m_x;
-    std::function<double()> m_z;
+    double initialAngle;
+    double targetAngle;
+    frc2::PIDController* pid;
 };

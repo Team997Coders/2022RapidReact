@@ -8,21 +8,15 @@
 #include "subsystems/Drivetrain.h"
 #include "commands/ArcadeDrive.h"
 #include <frc2/command/Command.h>
-#include "CustomAction.h"
-#include "actions/ArcadeDriveAction.h"
-#include "actions/ClimberMove.h"
 
 class RobotContainer {
  public:
   RobotContainer();
   ~RobotContainer();
   frc2::Command* GetDefaultDriveCommand();
-  CustomAction* GetDefaultDriveAction();
 
   private:
     frc::Joystick* m_joystick;
     Drivetrain* m_drivetrain;
     ArcadeDrive* m_defaultDriveCommand;
-    ArcadeDriveAction* m_defaultDriveAction;
-    ClimberMove* m_defaultClimerAction;
 };

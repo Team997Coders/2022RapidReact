@@ -6,9 +6,6 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Joystick.h>
-#include <subsystems/Drivetrain.h>
-#include "CustomAction.h"
 
 /**
  * An example command.
@@ -17,16 +14,16 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
+class ClimberMove
+    : public frc2::CommandHelper<frc2::CommandBase, ClimberMove> {
+ public:
+  ClimberMove();
 
-class ArcadeDriveAction : public CustomAction {
-  public:
-    ArcadeDriveAction(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
-    void Initialize() override;
-    void Execute() override;
-    void End(bool interrupted) override;
-    bool IsFinished() override;
-  private:
-    Drivetrain* m_drivetrain;
-    std::function<double()> m_x;
-    std::function<double()> m_z;
+  void Initialize() override;
+
+  void Execute() override;
+
+  void End(bool interrupted) override;
+
+  bool IsFinished() override;
 };
