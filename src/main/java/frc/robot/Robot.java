@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //import frc.robot.subsystems.Drivetrain;
@@ -23,6 +24,8 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private PowerDistribution m_pdp;
 
+  public Timer m_timer;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -34,6 +37,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_pdp = new PowerDistribution();
     m_pdp.clearStickyFaults();
+    m_timer = new Timer();
   }
 
   /**
@@ -71,6 +75,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    m_timer.reset();
+    m_timer.start();
   }
 
   /** This function is called periodically during autonomous. */
@@ -89,6 +95,7 @@ public class Robot extends TimedRobot {
 //    Drivetrain.setMotorModeCoast();
     m_robotContainer.setDefaultCommands();
 //    ResetEncoders.resetEncoders();
+    m_timer.reset();
   }
 
   /** This function is called periodically during operator control. */

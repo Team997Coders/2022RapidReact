@@ -40,6 +40,7 @@ public class RobotContainer {
   private ArcadeDrive m_arcadeDrive;
   private AutoDistance m_autoDistance;
   private AutoRotate m_autoRotate;
+  private SendableChooser autoMode;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,11 +51,14 @@ public class RobotContainer {
     m_simpleClimb = new SimpleClimb(m_climber, js1);
     magnetSwitchTest = new DigitalInput(5); // temp
     m_arcadeDrive = new ArcadeDrive(m_drivetrain, js1);
+    autoMode = new SendableChooser();
 
     // Configure the button bindings
     configureButtonBindings();
 
     SmartDashboard.putBoolean("magnetSwitchTest",magnetSwitchTest.get()); // temp
+
+
   }
 
   public void setDefaultCommands() {
