@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ClimberPID extends CommandBase {
     private Climber climber;
     private Joystick joy;
-    private double kP = 0.0;
+    private double kP = 0.05;
     private double kD = 0.0;
     private double kI = 0.0;
 
@@ -27,14 +27,14 @@ public class ClimberPID extends CommandBase {
     private double PIDOutput;
 
     public void reDisplayPidGains() {
-        SmartDashboard.putNumber("kP", 0);
+        SmartDashboard.putNumber("kP", 0.05);
         SmartDashboard.putNumber("kI", 0);
         SmartDashboard.putNumber("kD", 0);
     }
 
     @Override
     public void initialize() {
-        kP = SmartDashboard.getNumber("kP", 0.01);
+        kP = SmartDashboard.getNumber("kP", 0.05);
         kI = SmartDashboard.getNumber("kI", 0);
         kD = SmartDashboard.getNumber("kD", 0);
 
