@@ -39,6 +39,8 @@ public class ClimberPID extends CommandBase {
         kD = SmartDashboard.getNumber("kD", 0);
 
         m_controller.setPID(kP, kI, kD);
+        
+        targetHeight = climberMotorDistance;
     }
 
     @Override
