@@ -4,11 +4,10 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -18,6 +17,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoDistance;
 import frc.robot.commands.AutoRotate;
 import frc.robot.commands.ClimberPID;
+import frc.robot.commands.Pathweaver;
 import frc.robot.commands.SimpleClimb;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -36,11 +36,11 @@ public class RobotContainer {
   private Drivetrain m_drivetrain;
   private ClimberPID m_climberPID;
   private SimpleClimb m_simpleClimb;
-  private DigitalInput magnetSwitchTest; // temp
   private ArcadeDrive m_arcadeDrive;
   private AutoDistance m_autoDistance;
   private AutoRotate m_autoRotate;
-  private SendableChooser autoMode;
+  private SendableChooser<Command> autoMode;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,14 +49,11 @@ public class RobotContainer {
     m_drivetrain = new Drivetrain();
     m_climberPID = new ClimberPID(m_climber, js1);
     m_simpleClimb = new SimpleClimb(m_climber, js1);
-    magnetSwitchTest = new DigitalInput(5); // temp
     m_arcadeDrive = new ArcadeDrive(m_drivetrain, js1);
-    autoMode = new SendableChooser();
+    autoMode = new SendableChooser<Command>();
 
     // Configure the button bindings
     configureButtonBindings();
-
-    SmartDashboard.putBoolean("magnetSwitchTest",magnetSwitchTest.get()); // temp
 
 
   }
@@ -82,6 +79,18 @@ public class RobotContainer {
     bButton.whenPressed(m_drivetrain::resetEncoders);
     aButton.whenPressed(m_climberPID::reDisplayClimberPidGains);
   }
+  private final Command auto10 = new Pathweaver(m_drivetrain, "auto10.json");
+  private final Command auto11 = new Pathweaver(m_drivetrain, "auto11.json");
+  private final Command auto12 = new Pathweaver(m_drivetrain, "auto12.json");
+  private final Command auto20 = new Pathweaver(m_drivetrain, "auto20.json");
+  private final Command auto21 = new Pathweaver(m_drivetrain, "auto21.json");
+  private final Command auto22 = new Pathweaver(m_drivetrain, "auto22.json");
+  private final Command auto30 = new Pathweaver(m_drivetrain, "auto30.json");
+  private final Command auto31 = new Pathweaver(m_drivetrain, "auto31.json");
+  private final Command auto32 = new Pathweaver(m_drivetrain, "auto32.json");
+  private final Command auto40 = new Pathweaver(m_drivetrain, "auto40.json");
+  private final Command auto41 = new Pathweaver(m_drivetrain, "auto41.json");
+  private final Command auto42 = new Pathweaver(m_drivetrain, "auto42.json");
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

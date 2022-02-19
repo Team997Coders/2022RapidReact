@@ -6,13 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Pathweaver extends CommandBase {
   /** Creates a new Pathweaver. */
   public Drivetrain m_drive;
-  public Pathweaver(Drivetrain drive) {
+  public Pathweaver(Drivetrain drive, String filepath) {
     addRequirements(drive);
     m_drive = drive;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -21,7 +19,6 @@ public class Pathweaver extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    JsonNode pathweaverOutput = ObjectMapper.readTree(json);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
