@@ -19,12 +19,20 @@ Drivetrain::Drivetrain() {
     frontLeft -> ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor);
     frontRight -> ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor);
 
+    frontLeft -> SetInverted(true);
+    backLeft -> SetInverted(true);
+
     gyro = new AHRS(frc::SPI::kMXP);
 }
 
 void Drivetrain::SetMotorOutput(double left, double right) {
     frontLeft -> Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left);
     frontRight -> Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
+}
+
+void Drivetrain::SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode) {
+    frontLeft -> SetNeutralMode(mode);
+    backLeft -> SetNeutralMode(mode);
 }
 
 Drivetrain::~Drivetrain() {

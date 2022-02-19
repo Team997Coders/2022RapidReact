@@ -14,13 +14,9 @@ class Drivetrain : public frc2::SubsystemBase {
     ~Drivetrain();
 
     void SetMotorOutput(double left, double right);
-
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
     void Periodic() override;
     void SetMotors(double x, double z);
-
+    void SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode);
   private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
