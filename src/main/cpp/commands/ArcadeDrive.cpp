@@ -10,8 +10,8 @@
 #include "commands/ArcadeDrive.h"
 #include "subsystems/Drivetrain.h"
 
-ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z) 
-: m_drivetrain(drivetrain), m_x(x), m_z(z)
+ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z, std::function<bool()> turbo) 
+: m_drivetrain(drivetrain), m_x(x), m_z(z), m_turbo(turbo)
 {
    AddRequirements(drivetrain);
  }
@@ -25,11 +25,14 @@ void ArcadeDrive::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDrive::Execute() {
-  frc::SmartDashboard::PutNumber("x", m_x());
-  frc::SmartDashboard::PutNumber("z", m_z());
   double left = ((m_x() * constants::Values::DRIVE_INPUT_MODIFIER) + m_z() * constants::Values::TURN_INPUT_MODIFIER);
   double right = ((m_x() * constants::Values::DRIVE_INPUT_MODIFIER) - m_z() * constants::Values::TURN_INPUT_MODIFIER);
   
+  if (m_turbo()) {
+    left *= constants::Values::TURBO_MODIFIER;
+    right *= constants::Values::TURBO_MODIFIER;
+  }
+
   if (left - lastLeft >= constants::Values::RAMPING_MODIFIER) {
     left = lastLeft + constants::Values::RAMPING_MODIFIER;
   } else if (left - lastLeft <= -constants::Values::RAMPING_MODIFIER) {
@@ -41,15 +44,10 @@ void ArcadeDrive::Execute() {
   } else if (right - lastRight <= -constants::Values::RAMPING_MODIFIER) {
     right = lastRight - constants::Values::RAMPING_MODIFIER;
   }
-  
-  frc::SmartDashboard::PutNumber("left", left);
-  frc::SmartDashboard::PutNumber("right", right);
-
   m_drivetrain -> SetMotorOutput(left, right);
   //m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
   lastLeft = left;
   lastRight = right;
-  
 }
 
 // Called once the command ends or is interrupted.

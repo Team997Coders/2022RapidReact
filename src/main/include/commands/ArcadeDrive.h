@@ -20,7 +20,7 @@
 // CustomAction may require modification
 class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
   public:
-    ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z);
+    ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z, std::function<bool()> turbo);
     void Initialize() override;
     void Execute() override;
     void End(bool interrupted) override;
@@ -29,6 +29,7 @@ class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
     Drivetrain* m_drivetrain;
     std::function<double()> m_x;
     std::function<double()> m_z;
+    std::function<bool()> m_turbo;
     double lastRight;
     double lastLeft;
 };

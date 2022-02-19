@@ -14,12 +14,14 @@ namespace constants {
       CLIMBER = 9,
       CONTROLLER_1 = 0,
       DRIVE = 1, TURN = 4,
+      DRIVE_TURBO = 5,
       CLIMBER_UP = 2, CLIMBER_DOWN = 3;
   };
   struct Values {
     static constexpr double 
       DRIVE_INPUT_MODIFIER = 0.25,
       TURN_INPUT_MODIFIER = 0.20,
-      RAMPING_MODIFIER = 0.01;
+      RAMPING_MODIFIER = 0.01,
+      TURBO_MODIFIER = 2;
   };
 }
