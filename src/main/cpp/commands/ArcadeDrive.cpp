@@ -2,6 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include "Constants.h"
+
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/Joystick.h>
 #include "commands/ArcadeDrive.h"
@@ -16,12 +18,22 @@ ArcadeDrive::ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std:
  }
 
 // Called when the command is initially scheduled.
-void ArcadeDrive::Initialize() {}
+void ArcadeDrive::Initialize() {
+  lastLeft = 0;
+  lastRight = 0;
+}
 
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDrive::Execute() {
+  double left = (m_x() + m_z()) * constants::Values::DRIVE_INPUT_MODIFIER;
+  double right = (m_x() - m_z()) * constants::Values::DRIVE_INPUT_MODIFIER;
+  
+  //if (math.abs())
+  //lastRight = 0;
+  m_drivetrain -> SetMotorOutput(left, right);
+  //m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
 
-  m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
+  
 }
 
 // Called once the command ends or is interrupted.

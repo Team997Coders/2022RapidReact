@@ -29,4 +29,6 @@ class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
     Drivetrain* m_drivetrain;
     std::function<double()> m_x;
     std::function<double()> m_z;
+    double lastRight;
+    double lastLeft;
 };
