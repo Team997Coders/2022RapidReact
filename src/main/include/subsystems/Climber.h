@@ -5,6 +5,7 @@
 #pragma once
 
 #include <rev/CANSparkMax.h>
+#include <rev/RelativeEncoder.h>
 #include <frc2/command/SubsystemBase.h>
 
 class Climber : public frc2::SubsystemBase {
@@ -17,5 +18,8 @@ class Climber : public frc2::SubsystemBase {
     void Periodic() override;
 
   private:
-    rev::CANSparkMax* climberMotor; 
+    rev::CANSparkMax* m_climberMotor; 
+    rev::RelativeEncoder* m_relativeEncoder;
+    double minimumPosition;
+    double maximumPosition;
 };
