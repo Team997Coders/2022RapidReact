@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
@@ -13,8 +12,8 @@ public class ArcadeDrive extends CommandBase {
   /** Creates a new ArcadeDrive. */
   private Drivetrain m_drivetrain;
   private Joystick m_joystick;
-  private double leftFinalInput = 0;
-  private double rightFinalInput = 0;
+  private double lastLeft;
+  private double lastRight;
   public ArcadeDrive(Drivetrain drive, Joystick joy) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
@@ -24,36 +23,31 @@ public class ArcadeDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    lastRight = 0;
+    lastLeft = 0;
+  }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    double leftRawInput = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1);
-    double rightRawInput = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2);
+    double left = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1)*Constants.MovementConstants.DRIVE_MODIFIER + m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2)*Constants.MovementConstants.TURN_MODIFIER;
+    double right = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1)*Constants.MovementConstants.DRIVE_MODIFIER - m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2)*Constants.MovementConstants.TURN_MODIFIER;
 
-    SmartDashboard.putNumber("leftRawInput", leftRawInput);
-    SmartDashboard.putNumber("rightRawInput", rightRawInput);
-    SmartDashboard.putNumber("leftFinalInput", leftFinalInput);
-    SmartDashboard.putNumber("rightFinalInput", rightFinalInput);
-
-    if (leftRawInput > Constants.Controller.DEAD_ZONE_SENSITIVITY && leftRawInput < 1) {
-        if (leftRawInput < 1-Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
-            leftFinalInput += Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
-        }
-        else {
-            leftFinalInput = 1;
-        }
+    if (left-lastLeft >= Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
+      left = lastLeft + Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
     }
-    if (rightRawInput < Constants.Controller.DEAD_ZONE_SENSITIVITY*-1 && rightRawInput > -1) {
-        if (rightRawInput < 1-Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
-            rightFinalInput += Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
-        }
-        else {
-            rightFinalInput = 1;
-        }
+    else if (left-lastLeft<=-Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
+      left = lastLeft - Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
     }
-    m_drivetrain.tankDriveMove(leftFinalInput, rightFinalInput);
+    
+    if (right-lastRight >=Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
+      right = lastRight + Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
+    }
+    else if (right-lastRight<=-Constants.MovementConstants.INPUT_SMOOTH_SLOPE) {
+      right = lastRight - Constants.MovementConstants.INPUT_SMOOTH_SLOPE;
+    }
+    m_drivetrain.basicMove(right, left);
   }
 
   // Called once the command ends or is interrupted.

@@ -26,6 +26,8 @@ public final class Constants {
     }
 
     public static class MovementConstants {
-        public static final double INPUT_SMOOTH_SLOPE = 0.1;
+        public static final double INPUT_SMOOTH_SLOPE = 0.01;
+        public static final double DRIVE_MODIFIER = 0.5;
+        public static final double TURN_MODIFIER = 0.5;
     }
 }

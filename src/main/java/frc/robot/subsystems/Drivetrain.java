@@ -70,6 +70,10 @@ public class Drivetrain extends SubsystemBase {
 
     diffDrive.tankDrive(left_throttle, right_throttle);
   }
+
+  public void basicMove(double right, double left) {
+    diffDrive.tankDrive(left, right);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
