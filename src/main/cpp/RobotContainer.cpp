@@ -9,20 +9,35 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 RobotContainer::RobotContainer() {
-    m_joystick = new frc::Joystick(constants::Ports::CONTROLLER_1);
+    m_joystick1 = new frc::Joystick(constants::Ports::CONTROLLER_1);
 
     m_drivetrain = new Drivetrain();
+    m_climber = new Climber();
     
-    m_defaultDriveCommand = new ArcadeDrive(m_drivetrain, 
-        [this] { return -m_joystick->GetRawAxis(constants::Ports::DRIVE); }, 
-        [this] { return -m_joystick->GetRawAxis(constants::Ports::TURN); },
-        [this] { return m_joystick->GetRawButton(constants::Ports::DRIVE_TURBO); });
+    m_defaultDriveCommand = new ArcadeDrive(
+        m_drivetrain, 
+        [this] { return -m_joystick1 -> GetRawAxis(constants::Ports::DRIVE); }, 
+        [this] { return -m_joystick1 -> GetRawAxis(constants::Ports::TURN); },
+        [this] { return m_joystick1 -> GetRawButton(constants::Ports::DRIVE_TURBO); }
+    );
+
+    m_defaultClimberCommand = new ClimberMove(
+        m_climber,
+        [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_UP); },
+        [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_DOWN); }
+    );
 }
 
 RobotContainer::~RobotContainer() {
-    delete m_joystick;
+    delete m_joystick1;
     delete m_drivetrain;
-    delete m_joystick;
+    delete m_climber;
+    delete m_defaultDriveCommand;
+    delete m_defaultClimberCommand;
 }
 
 frc2::Command* RobotContainer::GetDefaultDriveCommand() { return m_defaultDriveCommand; }
+frc2::Command* RobotContainer::GetDefaultClimberCommand() { return m_defaultClimberCommand; }
+
+Drivetrain* RobotContainer::GetDrivetrain() { return m_drivetrain; }
+Climber* RobotContainer::GetClimber() { return m_climber; }

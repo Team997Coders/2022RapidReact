@@ -3,8 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Constants.h"
-
-#include <cmath>
+#include <algorithm>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/Joystick.h>
 #include "commands/ArcadeDrive.h"
@@ -33,6 +32,7 @@ void ArcadeDrive::Execute() {
     right *= constants::Values::TURBO_MODIFIER;
   }
 
+  /*
   if (left - lastLeft >= constants::Values::RAMPING_MODIFIER) {
     left = lastLeft + constants::Values::RAMPING_MODIFIER;
   } else if (left - lastLeft <= -constants::Values::RAMPING_MODIFIER) {
@@ -44,10 +44,11 @@ void ArcadeDrive::Execute() {
   } else if (right - lastRight <= -constants::Values::RAMPING_MODIFIER) {
     right = lastRight - constants::Values::RAMPING_MODIFIER;
   }
-  m_drivetrain -> SetMotorOutput(left, right);
-  //m_drivetrain -> SetMotorOutput(m_x() + m_z(), m_x() - m_z());
-  lastLeft = left;
-  lastRight = right;
+*/
+  lastLeft = std::clamp(left, lastLeft - constants::Values::RAMPING_MODIFIER, lastLeft + constants::Values::RAMPING_MODIFIER);
+  lastRight = std::clamp(right, lastRight - constants::Values::RAMPING_MODIFIER, lastRight + constants::Values::RAMPING_MODIFIER);
+
+  m_drivetrain -> SetMotorOutput(lastLeft, lastRight);
 }
 
 // Called once the command ends or is interrupted.

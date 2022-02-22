@@ -47,7 +47,11 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
+  //frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_container -> GetDrivetrain(), *m_container -> GetDefaultDriveCommand());
+  //frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_container -> GetClimber(), *m_container -> GetDefaultClimberCommand());
+  // Need to figure out why default commands arent working
   frc2::CommandScheduler::GetInstance().Schedule(m_container -> GetDefaultDriveCommand());
+  frc2::CommandScheduler::GetInstance().Schedule(m_container -> GetDefaultClimberCommand());
 }
 
 /**

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <rev/CANSparkMax.h>
-#include <rev/RelativeEncoder.h>
+#include <rev/SparkMaxRelativeEncoder.h>
 #include <frc2/command/SubsystemBase.h>
 
 class Climber : public frc2::SubsystemBase {
@@ -19,7 +19,7 @@ class Climber : public frc2::SubsystemBase {
 
   private:
     rev::CANSparkMax* m_climberMotor; 
-    rev::RelativeEncoder* m_relativeEncoder;
+    rev::SparkMaxRelativeEncoder* m_encoder;
     double minimumPosition;
     double maximumPosition;
 };

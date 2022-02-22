@@ -3,27 +3,24 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include <rev/CANSparkMax.h>
-
+#include <algorithm>
 #include "subsystems/Climber.h"
 #include "Constants.h"
 
 Climber::Climber() {
     m_climberMotor = new rev::CANSparkMax(constants::Ports::CLIMBER, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
-    m_relativeEncoder = &(m_climberMotor -> GetEncoder());
-    
     m_climberMotor -> SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-    minimumPosition = m_relativeEncoder -> GetPosition();
+    //m_encoder = new rev::SparkMaxRelativeEncoder()
+    m_encoder = new rev::SparkMaxRelativeEncoder(m_climberMotor -> GetEncoder());  //m_climberMotor -> GetEncoder();
+    minimumPosition = m_encoder -> GetPosition();
     maximumPosition = minimumPosition + maximumPosition;
 }
 
 void Climber::Set(double input) {
-    if (input >= constants::Values::CLIMBER_MAX_SPEED) {
-        input = constants::Values::CLIMBER_MAX_SPEED;
-    } else if (input <= -constants::Values::CLIMBER_MAX_SPEED) {
-        input = -constants::Values::CLIMBER_MAX_SPEED;
-    }
-    if (m_relativeEncoder -> GetPosition() - maximumPosition <= constants::Values::CLIMBER_ERROR_RANGE/* || switch*/) {
-        input = 0;
+    input = std::clamp(input, -constants::Values::CLIMBER_MAX_SPEED, constants::Values::CLIMBER_MAX_SPEED);
+    if (m_encoder -> GetPosition() - maximumPosition <= constants::Values::CLIMBER_ERROR_RANGE 
+        || abs(input) >= constants::Values::CLIMBER_INPUT_DEADZONE /* || switch*/) {
+        //input = 0;
     } 
     m_climberMotor -> Set(input);
 }

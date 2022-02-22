@@ -7,6 +7,8 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
+#include <subsystems/Climber.h>
+
 /**
  * An example command.
  *
@@ -16,14 +18,14 @@
  */
 class ClimberMove
     : public frc2::CommandHelper<frc2::CommandBase, ClimberMove> {
- public:
-  ClimberMove();
-
-  void Initialize() override;
-
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
+  public:
+    ClimberMove(Climber* climber, std::function<double()> up, std::function<double()> down);
+    void Initialize() override;
+    void Execute() override;
+    void End(bool interrupted) override;
+    bool IsFinished() override;
+  private:
+    Climber* m_climber;
+    std::function<double()> m_up;
+    std::function<double()> m_down;
 };

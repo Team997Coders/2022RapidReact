@@ -12,7 +12,7 @@ namespace constants {
     static const int
       // motor controllers
       FRONT_LEFT = 13, BACK_LEFT = 14, FRONT_RIGHT = 15, BACK_RIGHT = 16,
-      CLIMBER = 9,
+      CLIMBER = 8,
       // joystick
       CONTROLLER_1 = 0,
       DRIVE = 1, TURN = 4,
@@ -28,8 +28,9 @@ namespace constants {
       TURBO_MODIFIER = 2,
 
       // climber
+      CLIMBER_INPUT_DEADZONE = 0.05,
       CLIMBER_ERROR_RANGE = 10.0,
-      CLIMBER_MAX_SPEED = 0.2,
+      CLIMBER_MAX_SPEED = 0.3,
       CLIMBER_INPUT_MODIFIER = 0.2,
       CLIMBER_UPPER_LIMIT = 100;
   };

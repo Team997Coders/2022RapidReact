@@ -6,7 +6,6 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Joystick.h>
 #include <subsystems/Drivetrain.h>
 
 /**
