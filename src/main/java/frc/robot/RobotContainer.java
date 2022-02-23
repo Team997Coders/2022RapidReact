@@ -55,7 +55,19 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-
+    autoMode.setDefaultOption("default", new InstantCommand());
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto10.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto11.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto12.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto20.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto21.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto22.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto30.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto31.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto32.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto40.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto41.json"));
+    autoMode.addOption("auto10", new Pathweaver(m_drivetrain, "auto42.json"));
   }
 
   public void setDefaultCommands() {
@@ -79,18 +91,6 @@ public class RobotContainer {
     bButton.whenPressed(m_drivetrain::resetEncoders);
     aButton.whenPressed(m_climberPID::reDisplayClimberPidGains);
   }
-  private final Command auto10 = new Pathweaver(m_drivetrain, "auto10.json");
-  private final Command auto11 = new Pathweaver(m_drivetrain, "auto11.json");
-  private final Command auto12 = new Pathweaver(m_drivetrain, "auto12.json");
-  private final Command auto20 = new Pathweaver(m_drivetrain, "auto20.json");
-  private final Command auto21 = new Pathweaver(m_drivetrain, "auto21.json");
-  private final Command auto22 = new Pathweaver(m_drivetrain, "auto22.json");
-  private final Command auto30 = new Pathweaver(m_drivetrain, "auto30.json");
-  private final Command auto31 = new Pathweaver(m_drivetrain, "auto31.json");
-  private final Command auto32 = new Pathweaver(m_drivetrain, "auto32.json");
-  private final Command auto40 = new Pathweaver(m_drivetrain, "auto40.json");
-  private final Command auto41 = new Pathweaver(m_drivetrain, "auto41.json");
-  private final Command auto42 = new Pathweaver(m_drivetrain, "auto42.json");
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -98,6 +98,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand(() -> m_climber.climberMove(0.4)); //test
+    return new InstantCommand(() -> autoMode.getSelected());
     }
 }
