@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.AutoDistance;
-import frc.robot.commands.AutoRotate;
+//import frc.robot.commands.ArcadeDrive;
+//import frc.robot.commands.AutoDistance;
+//import frc.robot.commands.AutoRotate;
 import frc.robot.commands.ClimberPID;
 import frc.robot.commands.Pathweaver;
-import frc.robot.commands.SimpleClimb;
+//import frc.robot.commands.SimpleClimb;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 
@@ -35,10 +35,10 @@ public class RobotContainer {
   private Climber m_climber;
   private Drivetrain m_drivetrain;
   private ClimberPID m_climberPID;
-  private SimpleClimb m_simpleClimb;
-  private ArcadeDrive m_arcadeDrive;
-  private AutoDistance m_autoDistance;
-  private AutoRotate m_autoRotate;
+  //private SimpleClimb m_simpleClimb;
+  //private ArcadeDrive m_arcadeDrive;
+  //private AutoDistance m_autoDistance;
+  //private AutoRotate m_autoRotate;
   private SendableChooser<Command> autoMode;
 
 
@@ -48,8 +48,8 @@ public class RobotContainer {
     m_climber = new Climber();
     m_drivetrain = new Drivetrain();
     m_climberPID = new ClimberPID(m_climber, js1);
-    m_simpleClimb = new SimpleClimb(m_climber, js1);
-    m_arcadeDrive = new ArcadeDrive(m_drivetrain, js1);
+    //m_simpleClimb = new SimpleClimb(m_climber, js1);
+    //m_arcadeDrive = new ArcadeDrive(m_drivetrain, js1);
     autoMode = new SendableChooser<Command>();
 
     // Configure the button bindings

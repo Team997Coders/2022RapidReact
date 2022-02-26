@@ -39,6 +39,14 @@ public final class Constants {
             public static final double DRIVE_ROT_KP = 0, DRIVE_ROT_KI = 0, DRIVE_ROT_KD = 0; // similarly temporary
             public static final double DRIVE_ROT_CONSTRAINT_ACCEL = 1, DRIVE_ROT_CONSTRAINT_V = 1; // tune
             public static final double ENCODER_TO_DISTANCE_FACTOR = 1; // to replace for obvious reasons
+            public static final class PathweaverConstants {
+                public static final double RAMSETE_B = 2;
+                public static final double RAMSETE_ZETA = 0.7;
+                public static final double PATHWEAVER_V_PID_KP = 0.01;
+                public static final double PATHWEAVER_V_PID_KI = 0;
+                public static final double PATHWEAVER_V_PID_KD = 0;
+            }
+            public static final double DRIVE_WIDTH_METERS = 0.5842;
         }
         public static final double DRIVE_MODIFIER = 0.5;
         public static final double TURN_MODIFIER = 0.5;
