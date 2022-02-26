@@ -25,13 +25,13 @@ import frc.robot.subsystems.Drivetrain;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
-  public Joystick js1;
   private Drivetrain m_drivetrain;
-  private ArcadeDrive m_arcadeDrive;
   private SendableChooser<Command> autoMode;
 
 
+  public Joystick js1 = new Joystick(Constants.Controller.CONTROLLER_0);
+  private Drivetrain m_drive = new Drivetrain();
+  private ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drive, js1);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     js1 = new Joystick(Constants.Controller.CONTROLLER_0);

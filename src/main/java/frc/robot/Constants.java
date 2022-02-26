@@ -20,11 +20,15 @@ public final class Constants {
     }
     public static class Controller {
         public static final int CONTROLLER_0 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
-        public static final int CONTROLLER_A = 0, CONTROLLER_X = 1, CONTROLLER_B = 2, CONTROLLER_Y = 3;
+        public static final int CONTROLLER_A = 0; // nothing
+        public static final int CONTROLLER_X = 1; // turbo
+        public static final int CONTROLLER_B = 2; // reset drive encoders
+        public static final int CONTROLLER_Y = 3; // nothing
         public static final double DEAD_ZONE_SENSITIVITY = 0.2;
     }
     public static class MovementConstants {
-        public static final double INPUT_SMOOTH_SLOPE = 0.1;
+        public static final double INPUT_SMOOTH_SLOPE_NORMAL = 0.01;
+        public static final double INPUT_SMOOTH_SLOPE_TURBO = 0.025;
         public static class DrivetrainConstants {
             public static final class PathweaverConstants {
                 public static final double RAMSETE_B = 2;
