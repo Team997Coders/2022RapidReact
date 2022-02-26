@@ -42,9 +42,6 @@ public final class Constants {
             public static final class PathweaverConstants {
                 public static final double RAMSETE_B = 2;
                 public static final double RAMSETE_ZETA = 0.7;
-                public static final double PATHWEAVER_V_PID_KP = 0.01;
-                public static final double PATHWEAVER_V_PID_KI = 0;
-                public static final double PATHWEAVER_V_PID_KD = 0;
             }
             public static final double DRIVE_WIDTH_METERS = 0.5842;
         }

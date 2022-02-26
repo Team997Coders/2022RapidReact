@@ -41,7 +41,6 @@ public class Pathweaver extends CommandBase {
     ramCont = new RamseteController(
       Constants.MovementConstants.DrivetrainConstants.PathweaverConstants.RAMSETE_B, 
       Constants.MovementConstants.DrivetrainConstants.PathweaverConstants.RAMSETE_ZETA);
-    odometry = new DifferentialDriveOdometry(new Rotation2d(drive.getGyroAngle()), autoTrajectory.getInitialPose());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -52,6 +51,7 @@ public class Pathweaver extends CommandBase {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + filename, ex.getStackTrace());
     }
+    odometry = new DifferentialDriveOdometry(new Rotation2d(m_drive.getGyroAngle()), autoTrajectory.getInitialPose());
   }
 
   // Called when the command is initially scheduled.
