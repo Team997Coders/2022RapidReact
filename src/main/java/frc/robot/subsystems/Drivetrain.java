@@ -77,12 +77,12 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("L Encoder V", frontLeft.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("R Encoder V", frontRight.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("L Encoder V", frontLeft.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
+    SmartDashboard.putNumber("R Encoder V", frontRight.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
     SmartDashboard.putNumber("NavX Heading", gyro.getAngle());
 
-    SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition());
-    SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition());
+    SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
+    SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
   }
   public void setMotorModeCoast() {
     frontLeft.setNeutralMode(NeutralMode.Brake);

@@ -34,4 +34,8 @@ public final class Constants {
         public static final double DRIVE_MODIFIER = -0.5;
         public static final double TURN_MODIFIER = -0.5;
     }
+    public static final double DRIVE_ENCODER_CPR = 2048;
+    public static final double DRIVE_WHEEL_DIA_IN = 6;
+    public static final double DRIVE_GEARBOX_RATIO = 7.31;
+    public static final double DRIVE_IN_PER_COUNT = (DRIVE_WHEEL_DIA_IN*Math.PI) / (DRIVE_ENCODER_CPR*DRIVE_GEARBOX_RATIO);
 }
