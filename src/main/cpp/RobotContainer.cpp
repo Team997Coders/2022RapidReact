@@ -26,6 +26,9 @@ RobotContainer::RobotContainer() {
         [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_UP); },
         [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_DOWN); }
     );
+    
+    m_climber -> SetDefaultCommand(*m_defaultClimberCommand);
+    m_drivetrain -> SetDefaultCommand(*m_defaultDriveCommand);
 }
 
 RobotContainer::~RobotContainer() {

@@ -4,6 +4,7 @@
 
 #include "subsystems/Climber.h"
 #include "commands/AutoClimb.h"
+#include <frc/controller/ProfiledPIDController.h>
 
 AutoClimb::AutoClimb(Climber* climber) {
   // Use addRequirements() here to declare subsystem dependencies.
