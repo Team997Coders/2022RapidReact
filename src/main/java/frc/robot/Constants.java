@@ -22,10 +22,9 @@ public final class Constants {
         public static final int MAGNET_SWITCH_TEST_PORT = 5; // idk
     }
     public static class Controller {
-        public static final int CONTROLLER_1 = 0;
-        public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4;
-        public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
-        public static final double DEAD_ZONE_SENSITIVITY = 0.1;
+        public static final int CONTROLLER_0 = 0, JOYSTICK_1 = 1, JOYSTICK_2 = 4;
+        public static final int CONTROLLER_A = 0, CONTROLLER_X = 1, CONTROLLER_B = 2, CONTROLLER_Y = 3;
+        public static final double DEAD_ZONE_SENSITIVITY = 0.2;
     }
     public static class MovementConstants {
         public static final double INPUT_SMOOTH_SLOPE = 0.1;
@@ -41,5 +40,7 @@ public final class Constants {
             public static final double DRIVE_ROT_CONSTRAINT_ACCEL = 1, DRIVE_ROT_CONSTRAINT_V = 1; // tune
             public static final double ENCODER_TO_DISTANCE_FACTOR = 1; // to replace for obvious reasons
         }
+        public static final double DRIVE_MODIFIER = 0.5;
+        public static final double TURN_MODIFIER = 0.5;
     }
 }

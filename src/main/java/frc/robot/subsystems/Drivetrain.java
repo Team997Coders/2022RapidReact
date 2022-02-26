@@ -74,6 +74,9 @@ public class Drivetrain extends SubsystemBase {
     return gyro.getAngle();
   }
   
+  public void basicMove(double right, double left) {
+    diffDrive.tankDrive(left, right);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -84,13 +87,13 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition());
     SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition());
   }
-  public static void setMotorModeCoast() {
+  public void setMotorModeCoast() {
     frontLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
     backLeft.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);
   }
-  public static void setMotorModeBrake() {
+  public void setMotorModeBrake() {
     frontLeft.setNeutralMode(NeutralMode.Coast);
     frontRight.setNeutralMode(NeutralMode.Coast);
     backLeft.setNeutralMode(NeutralMode.Coast);

@@ -44,7 +44,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    js1 = new Joystick(Constants.Controller.CONTROLLER_1);
+    js1 = new Joystick(Constants.Controller.CONTROLLER_0);
     m_climber = new Climber();
     m_drivetrain = new Drivetrain();
     m_climberPID = new ClimberPID(m_climber, js1);
@@ -83,8 +83,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    Button aButton = new JoystickButton(js1, Constants.Controller.A_BUTTON);
-    Button bButton = new JoystickButton(js1, Constants.Controller.B_BUTTON);
+    Button aButton = new JoystickButton(js1, Constants.Controller.CONTROLLER_A);
+    Button bButton = new JoystickButton(js1, Constants.Controller.CONTROLLER_B);
     //Button xButton = new JoystickButton(js1, Constants.Controller.X_BUTTON);
     //Button yButton = new JoystickButton(js1, Constants.Controller.Y_BUTTON);
     
