@@ -26,7 +26,6 @@ public class RobotContainer {
   public Joystick js1 = new Joystick(Constants.Controller.CONTROLLER_0);
   private Drivetrain m_drive = new Drivetrain();
   private ArcadeDrive m_arcadedrive = new ArcadeDrive(m_drive, js1);
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
