@@ -77,10 +77,6 @@ public class Drivetrain extends SubsystemBase {
   public void basicMove(double right, double left) {
     diffDrive.tankDrive(left, right);
   }
-
-  public void pidMove(double rightVTarget, double leftVTarget) {
-    // TODO: set up velocity PID: the falcon fx allegedly has a built-in PID
-  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

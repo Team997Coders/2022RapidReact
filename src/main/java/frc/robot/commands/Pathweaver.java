@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.MovementConstants.DrivetrainConstants.PathweaverConstants;
 
 public class Pathweaver extends CommandBase {
   /** Creates a new Pathweaver. */
@@ -32,16 +34,17 @@ public class Pathweaver extends CommandBase {
   private Trajectory autoTrajectory;
   private String filename;
   private DifferentialDriveKinematics kinematics;
+  private PIDController rightSidePid;
+  private PIDController leftSidePid;
 
   public Pathweaver(Drivetrain drive, String filepath) {
     addRequirements(drive);
     m_drive = drive;
     filename = filepath;
     kinematics = new DifferentialDriveKinematics(Constants.MovementConstants.DrivetrainConstants.DRIVE_WIDTH_METERS);
-    ramCont = new RamseteController(
-      Constants.MovementConstants.DrivetrainConstants.PathweaverConstants.RAMSETE_B, 
-      Constants.MovementConstants.DrivetrainConstants.PathweaverConstants.RAMSETE_ZETA);
-    // Use addRequirements() here to declare subsystem dependencies.
+    ramCont = new RamseteController(PathweaverConstants.RAMSETE_B, PathweaverConstants.RAMSETE_ZETA);
+    rightSidePid = new PIDController(PathweaverConstants.PW_PID_V_KP, PathweaverConstants.PW_PID_V_KI, PathweaverConstants.PW_PID_V_KD);
+    leftSidePid = new PIDController(PathweaverConstants.PW_PID_V_KP, PathweaverConstants.PW_PID_V_KI, PathweaverConstants.PW_PID_V_KD);
   }
 
   public void robotInit() {
@@ -66,8 +69,13 @@ public class Pathweaver extends CommandBase {
     ChassisSpeeds adjustedSpeeds = ramCont.calculate(pose, autoTrajectory.sample(Robot.m_timer.get()));
 
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(adjustedSpeeds);
+    rightSidePid.setSetpoint(wheelSpeeds.rightMetersPerSecond);
+    leftSidePid.setSetpoint(wheelSpeeds.leftMetersPerSecond);
 
-    m_drive.pidMove(wheelSpeeds.rightMetersPerSecond, wheelSpeeds.leftMetersPerSecond);
+    m_drive.basicMove(
+      rightSidePid.calculate(Drivetrain.frontRight.getSelectedSensorVelocity()),
+      leftSidePid.calculate(Drivetrain.frontLeft.getSelectedSensorVelocity())
+    );
   }
 
   // Called once the command ends or is interrupted.
