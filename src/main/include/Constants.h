@@ -17,7 +17,9 @@ namespace constants {
       CONTROLLER_1 = 0,
       DRIVE = 1, TURN = 4,
       DRIVE_TURBO = 5,
-      CLIMBER_UP = 2, CLIMBER_DOWN = 3;
+      CLIMBER_UP = 2, CLIMBER_DOWN = 3,
+      // digital input
+      CLIMBER_SENSOR = 0;
   };
   struct Values {
     static constexpr double 
@@ -31,7 +33,7 @@ namespace constants {
       CLIMBER_INPUT_DEADZONE = 0.05,
       CLIMBER_MAX_SPEED = 0.3,
       CLIMBER_INPUT_MODIFIER = 0.2,
-      CLIMBER_UPPER_LIMIT = 139,
+      CLIMBER_UPPER_LIMIT = 143,
 
       // PID
       DRIVE_P = 0.0,

@@ -11,6 +11,7 @@
 Climber::Climber() {
     m_climberMotor = new rev::CANSparkMax(constants::Ports::CLIMBER, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
     m_climberMotor -> SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    m_sensor = new frc::DigitalInput(constants::Ports::CLIMBER_SENSOR);
     //m_encoder = new rev::SparkMaxRelativeEncoder()
     m_encoder = new rev::SparkMaxRelativeEncoder(m_climberMotor -> GetEncoder());  //m_climberMotor -> GetEncoder();
     minimumPosition = m_encoder -> GetPosition();

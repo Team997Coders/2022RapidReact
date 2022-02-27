@@ -7,6 +7,7 @@
 #include <rev/CANSparkMax.h>
 #include <rev/SparkMaxRelativeEncoder.h>
 #include <frc2/command/SubsystemBase.h>
+#include <frc/DigitalInput.h>
 
 class Climber : public frc2::SubsystemBase {
   public:
@@ -21,6 +22,7 @@ class Climber : public frc2::SubsystemBase {
   private:
     rev::CANSparkMax* m_climberMotor; 
     rev::SparkMaxRelativeEncoder* m_encoder;
+    frc::DigitalInput* m_sensor;
     double minimumPosition;
     double maximumPosition;
 };
