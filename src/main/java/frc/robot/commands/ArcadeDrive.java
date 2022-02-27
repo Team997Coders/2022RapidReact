@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -21,7 +22,6 @@ public class ArcadeDrive extends CommandBase {
     addRequirements(drive);
     m_drivetrain = drive;
     m_joystick = joy;
-    turbo = !m_joystick.getRawButtonPressed(Constants.Controller.CONTROLLER_X);
   }
 
   // Called when the command is initially scheduled.
@@ -33,6 +33,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    turbo = !m_joystick.getRawButtonPressed(Constants.Controller.CONTROLLER_X);
     if (turbo) {
       slope = Constants.MovementConstants.INPUT_SMOOTH_SLOPE_NORMAL;
     }
@@ -41,20 +42,8 @@ public class ArcadeDrive extends CommandBase {
     }
     double left = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1)*Constants.MovementConstants.DRIVE_MODIFIER + m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2)*Constants.MovementConstants.TURN_MODIFIER;
     double right = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1)*Constants.MovementConstants.DRIVE_MODIFIER - m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2)*Constants.MovementConstants.TURN_MODIFIER;
-
-    if (left-lastLeft >= slope) {
-      lastLeft = lastLeft + slope;
-    }
-    else if (left-lastLeft<= -slope) {
-      lastLeft = lastLeft - slope;
-    }
-    
-    if (right-lastRight >= slope) {
-      lastRight = lastRight + slope;
-    }
-    else if (right-lastRight<= -slope) {
-      lastRight = lastRight - slope;
-    }
+    lastLeft = MathUtil.clamp(left, lastLeft-slope, lastLeft+slope);
+    lastRight = MathUtil.clamp(right, lastRight-slope, lastRight+slope);
     m_drivetrain.basicMove(lastRight, lastLeft);
   }
 
