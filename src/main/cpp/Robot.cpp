@@ -38,9 +38,16 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+  m_autonomousCommand = m_container -> GetAutoCommand();
+  if (m_autonomousCommand != NULL) {
+    frc::SmartDashboard::PutBoolean("AUTO INIT", true);
+    m_autonomousCommand -> Schedule();
+  }
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+  frc2::CommandScheduler::GetInstance().Run();
+}
 
 void Robot::TeleopInit() {
   // This makes sure that the autonomous stops running when

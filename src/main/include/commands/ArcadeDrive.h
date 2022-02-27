@@ -20,6 +20,7 @@
 class ArcadeDrive : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
   public:
     ArcadeDrive(Drivetrain* drivetrain, std::function<double()> x, std::function<double()> z, std::function<bool()> turbo);
+    //~ArcadeDrive();
     void Initialize() override;
     void Execute() override;
     void End(bool interrupted) override;

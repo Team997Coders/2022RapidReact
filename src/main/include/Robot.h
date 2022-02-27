@@ -7,6 +7,7 @@
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
 #include "RobotContainer.h"
+#include <frc2/command/Command.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -25,4 +26,5 @@ class Robot : public frc::TimedRobot {
   // doesn't have undefined behavior and potentially crash.
 
   RobotContainer* m_container;
+  frc2::Command* m_autonomousCommand;
 };

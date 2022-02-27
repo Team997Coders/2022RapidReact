@@ -17,14 +17,13 @@
  */
 class AutoDriveForward
     : public frc2::CommandHelper<frc2::CommandBase, AutoDriveForward> {
- public:
-  AutoDriveForward(Drivetrain* drivetrain, double distance);
-
-  void Initialize() override;
-
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
+  public:
+    AutoDriveForward(Drivetrain* drivetrain, double distance);
+    //~AutoDriveForward();
+    void Initialize() override;
+    void Execute() override;
+    void End(bool interrupted) override;
+    bool IsFinished() override;
+  private:
+    double m_distance;
 };

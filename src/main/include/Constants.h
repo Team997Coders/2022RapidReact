@@ -31,6 +31,23 @@ namespace constants {
       CLIMBER_INPUT_DEADZONE = 0.05,
       CLIMBER_MAX_SPEED = 0.3,
       CLIMBER_INPUT_MODIFIER = 0.2,
-      CLIMBER_UPPER_LIMIT = 139;
+      CLIMBER_UPPER_LIMIT = 139,
+
+      // PID
+      DRIVE_P = 0.0,
+      DRIVE_I = 0.0,
+      DRIVE_D = 0.0,
+
+      TURN_P = 0.01,
+      TURN_I = 0.0,
+      TURN_D = 0.0,
+
+      CLIMB_UP_P = 0.0,
+      CLIMB_UP_I = 0.0,
+      CLIMB_UP_D = 0.0,
+
+      CLIMB_DOWN_P = 0.0,
+      CLIMB_DOWN_I = 0.0,
+      CLIMB_DOWN_D = 0.0;
   };
 }

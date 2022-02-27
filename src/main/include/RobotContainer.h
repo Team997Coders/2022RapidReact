@@ -6,11 +6,13 @@
 
 #include <frc/Joystick.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/Command.h>
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Climber.h"
 #include "commands/ArcadeDrive.h"
 #include "commands/ClimberMove.h"
-#include <frc2/command/Command.h>
+#include "commands/AutoTurnAngle.h"
+
 
 class RobotContainer {
  public:
@@ -18,6 +20,7 @@ class RobotContainer {
   ~RobotContainer();
   frc2::Command* GetDefaultDriveCommand();
   frc2::Command* GetDefaultClimberCommand();
+  frc2::Command* GetAutoCommand();
   Drivetrain* GetDrivetrain();
   Climber* GetClimber();
   private:
@@ -27,4 +30,6 @@ class RobotContainer {
     Climber* m_climber;
     ArcadeDrive* m_defaultDriveCommand;
     ClimberMove* m_defaultClimberCommand;
+
+    AutoTurnAngle* m_autoTurnCommand;
 };

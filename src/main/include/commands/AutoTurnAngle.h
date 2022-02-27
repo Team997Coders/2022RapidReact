@@ -6,9 +6,12 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc/controller/ProfiledPIDController.h>
+#include <frc/trajectory/TrapezoidProfile.h>
 
 #include "subsystems/Drivetrain.h"
-#include "frc2/command/ProfiledPIDSubsystem.h"
+
+
 /**
  * An example command.
  *
@@ -20,7 +23,7 @@ class AutoTurnAngle
     : public frc2::CommandHelper<frc2::CommandBase, AutoTurnAngle> {
   public:
     AutoTurnAngle(Drivetrain* drivetrain, double degrees);
-
+    ~AutoTurnAngle();
     void Initialize() override;
     void Execute() override;
     void End(bool interrupted) override;
@@ -29,5 +32,7 @@ class AutoTurnAngle
   private:
     double initialAngle;
     double targetAngle;
-    frc2::PIDController* pid;
+    double m_degrees;
+    Drivetrain* m_drivetrain;
+    frc::ProfiledPIDController<units::degrees>* pidController;
 };

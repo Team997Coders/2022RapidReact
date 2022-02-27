@@ -19,14 +19,11 @@
  */
 class AutoClimb
     : public frc2::CommandHelper<frc2::CommandBase, AutoClimb> {
- public:
-  AutoClimb(Climber* climber);
-
-  void Initialize() override;
-
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
+  public:
+    AutoClimb(Climber* climber);
+    //~AutoClimb();
+    void Initialize() override;
+    void Execute() override;
+    void End(bool interrupted) override;
+    bool IsFinished() override;
 };

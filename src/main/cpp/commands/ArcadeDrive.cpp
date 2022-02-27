@@ -32,19 +32,6 @@ void ArcadeDrive::Execute() {
     right *= constants::Values::TURBO_MODIFIER;
   }
 
-  /*
-  if (left - lastLeft >= constants::Values::RAMPING_MODIFIER) {
-    left = lastLeft + constants::Values::RAMPING_MODIFIER;
-  } else if (left - lastLeft <= -constants::Values::RAMPING_MODIFIER) {
-    left = lastLeft - constants::Values::RAMPING_MODIFIER;
-  }
-
-  if (right - lastRight >= constants::Values::RAMPING_MODIFIER) {
-    right = lastRight + constants::Values::RAMPING_MODIFIER;
-  } else if (right - lastRight <= -constants::Values::RAMPING_MODIFIER) {
-    right = lastRight - constants::Values::RAMPING_MODIFIER;
-  }
-*/
   lastLeft = std::clamp(left, lastLeft - constants::Values::RAMPING_MODIFIER, lastLeft + constants::Values::RAMPING_MODIFIER);
   lastRight = std::clamp(right, lastRight - constants::Values::RAMPING_MODIFIER, lastRight + constants::Values::RAMPING_MODIFIER);
 

@@ -20,6 +20,7 @@ class ClimberMove
     : public frc2::CommandHelper<frc2::CommandBase, ClimberMove> {
   public:
     ClimberMove(Climber* climber, std::function<double()> up, std::function<double()> down);
+    //~ClimberMove();
     void Initialize() override;
     void Execute() override;
     void End(bool interrupted) override;

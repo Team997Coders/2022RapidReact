@@ -9,6 +9,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 RobotContainer::RobotContainer() {
+    frc::SmartDashboard::PutBoolean("STUFF EXISTS", true);
     m_joystick1 = new frc::Joystick(constants::Ports::CONTROLLER_1);
 
     m_drivetrain = new Drivetrain();
@@ -26,6 +27,8 @@ RobotContainer::RobotContainer() {
         [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_UP); },
         [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_DOWN); }
     );
+
+    m_autoTurnCommand = new AutoTurnAngle(m_drivetrain, 120);
     
     m_climber -> SetDefaultCommand(*m_defaultClimberCommand);
     m_drivetrain -> SetDefaultCommand(*m_defaultDriveCommand);
@@ -37,10 +40,12 @@ RobotContainer::~RobotContainer() {
     delete m_climber;
     delete m_defaultDriveCommand;
     delete m_defaultClimberCommand;
+    delete m_autoTurnCommand;
 }
 
 frc2::Command* RobotContainer::GetDefaultDriveCommand() { return m_defaultDriveCommand; }
 frc2::Command* RobotContainer::GetDefaultClimberCommand() { return m_defaultClimberCommand; }
+frc2::Command* RobotContainer::GetAutoCommand() { return m_autoTurnCommand; }
 
 Drivetrain* RobotContainer::GetDrivetrain() { return m_drivetrain; }
 Climber* RobotContainer::GetClimber() { return m_climber; }

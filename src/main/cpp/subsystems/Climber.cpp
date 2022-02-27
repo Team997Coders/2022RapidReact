@@ -30,5 +30,10 @@ void Climber::Set(double input) {
     m_climberMotor -> Set(input);
 }
 
+Climber::~Climber() {
+    delete m_climberMotor;
+    delete m_encoder;
+}
+
 // This method will be called once per scheduler run
 void Climber::Periodic() {}
