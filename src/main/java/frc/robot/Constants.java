@@ -17,16 +17,15 @@ public final class Constants {
     public static class Ports {
         
         public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
-        public static final int CLIMBER_PORT = 9;
-        public static final int CLIMBER_ZERO_SWITCH_PORT = 0;
-        public static final int MAGNET_SWITCH_TEST_PORT = 5; // idk
+        public static final int CLIMBER_PORT = 8;
+        public static final int ZERO_SWITCH_PORT = 0;
     }
     public static class Controller {
-        public static final int CONTROLLER_1 = 1;
-        public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4;
+        public static final int CONTROLLER_0 = 0;
+        public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4, TRIGGER_CLIMB_UP = 2, TRIGGER_CLIMB_DN = 3;
         public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
     }
     public static class MovementConstants {
-        public static final int CLIMBER_MAX_HEIGHT = 100; // temporary until physical measurements can be made
+        public static final int CLIMBER_MAX_HEIGHT = 2000; // temporary until physical measurements can be made
     }
 }

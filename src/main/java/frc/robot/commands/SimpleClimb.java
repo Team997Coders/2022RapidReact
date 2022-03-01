@@ -13,6 +13,7 @@ public class SimpleClimb extends CommandBase {
   /** Creates a new SimpleClimb. */
   private Climber m_climber;
   private Joystick m_joystick;
+  private double movement;
 
   public SimpleClimb(Climber climb, Joystick joy) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,7 +29,9 @@ public class SimpleClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.climberMove(m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1));
+    movement = -m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN) + m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP);
+    if (Math.abs(movement) < 0.1) {movement = 0;}
+    m_climber.climberMove(movement);
   }
 
   // Called once the command ends or is interrupted.

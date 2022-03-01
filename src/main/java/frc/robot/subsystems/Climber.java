@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -22,17 +21,13 @@ public class Climber extends SubsystemBase {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
         climberMotor.setIdleMode(IdleMode.kBrake);
         climberEncoder = climberMotor.getEncoder();
-        //climberEncoder.setPosition(0);
-        climberZeroSwitch = new DigitalInput(Constants.Ports.CLIMBER_ZERO_SWITCH_PORT);
+        climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
-        SmartDashboard.putBoolean("Zero Switch", zeroSwitchPressed());
-    }
-    public boolean zeroSwitchPressed() {
-        return !climberZeroSwitch.get();
+        SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
     }
 
     public void climberMove(double movement) {
-        if (zeroSwitchPressed()){
+        if (climberZeroSwitch.get()){
             climberEncoder.setPosition(0);
             if (movement < 0) {
                 movement = 0;
