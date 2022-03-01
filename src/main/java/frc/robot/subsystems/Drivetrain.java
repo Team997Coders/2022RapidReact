@@ -17,7 +17,8 @@ public class Drivetrain extends SubsystemBase {
   private static WPI_TalonFX backRight;
   private static WPI_TalonFX backLeft;
   public AHRS gyro;
-
+  private double lastLeftDistance;
+  private double lastRightDistance;
   
   private MotorControllerGroup leftSide;
   private MotorControllerGroup rightSide;
@@ -52,12 +53,23 @@ public class Drivetrain extends SubsystemBase {
     rightSide = new MotorControllerGroup(frontRight, backRight);
 
     diffDrive = new DifferentialDrive(leftSide, rightSide);
-    
+
   }
   
   public void resetEncoders(){
     frontLeft.setSelectedSensorPosition(0);
     frontRight.setSelectedSensorPosition(0);
+    lastLeftDistance = 0;
+    lastRightDistance = 0;
+  }
+
+  public double getRightDeltaDistanceM() {
+    lastRightDistance += frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT/Constants.INCHES_PER_METER;
+    return lastRightDistance;
+  }
+  public double getLeftDeltaDistanceM() {
+    lastLeftDistance += frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT/Constants.INCHES_PER_METER;
+    return lastLeftDistance;
   }
 
   public void tankDriveMove(double speed, double rotation) {

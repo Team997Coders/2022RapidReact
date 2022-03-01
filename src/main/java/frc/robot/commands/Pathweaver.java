@@ -54,17 +54,18 @@ public class Pathweaver extends CommandBase {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + filename, ex.getStackTrace());
     }
-    odometry = new DifferentialDriveOdometry(new Rotation2d(m_drive.getGyroAngle()), autoTrajectory.getInitialPose());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    odometry = new DifferentialDriveOdometry(new Rotation2d(m_drive.getGyroAngle()), autoTrajectory.getInitialPose());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    odometry.update(new Rotation2d(m_drive.getGyroAngle()), m_drive.getLeftDeltaDistanceM(), m_drive.getRightDeltaDistanceM());
     pose = odometry.getPoseMeters();
     ChassisSpeeds adjustedSpeeds = ramCont.calculate(pose, autoTrajectory.sample(Robot.m_timer.get()));
 

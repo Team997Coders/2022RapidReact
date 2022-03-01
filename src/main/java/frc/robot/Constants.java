@@ -44,4 +44,5 @@ public final class Constants {
     public static final double DRIVE_WHEEL_DIA_IN = 6;
     public static final double DRIVE_GEARBOX_RATIO = 7.31;
     public static final double DRIVE_IN_PER_COUNT = (DRIVE_WHEEL_DIA_IN*Math.PI) / (DRIVE_ENCODER_CPR*DRIVE_GEARBOX_RATIO);
+    public static final double INCHES_PER_METER = 39.37;
 }
