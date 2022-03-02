@@ -31,7 +31,7 @@ public class SimpleClimb extends CommandBase {
   public void execute() {
     movement = -m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN) + m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP);
     if (Math.abs(movement) < 0.1) {movement = 0;}
-    m_climber.climberMove(movement);
+    m_climber.climberMove(-1*movement);
   }
 
   // Called once the command ends or is interrupted.

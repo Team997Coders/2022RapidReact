@@ -15,7 +15,7 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX frontLeft;
   private WPI_TalonFX backRight;
   private WPI_TalonFX backLeft;
-  public AHRS gyro;
+  public static AHRS gyro;
 
   
   private MotorControllerGroup leftSide;

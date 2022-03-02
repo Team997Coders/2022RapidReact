@@ -28,6 +28,7 @@ public class RobotContainer {
 
   public Joystick js1;
   public JoystickButton resetPidGainsButton;
+  public JoystickButton resetClimbEncoder;
   private Climber m_climber;
   private ClimberPID m_climberPID;
   private SimpleClimb m_simpleClimb;
@@ -36,7 +37,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    js1 = new Joystick(Constants.Controller.JOYSTICK_1);
+    js1 = new Joystick(Constants.Controller.CONTROLLER_0);
     m_climber = new Climber();
     m_drive = new Drivetrain();
     m_climberPID = new ClimberPID(m_climber, js1);
@@ -44,7 +45,7 @@ public class RobotContainer {
     m_arcadeDrive = new ArcadeDrive(m_drive, js1);
     // Configure the button bindings
     configureButtonBindings();
-
+    
   }
 
   public void setDefaultCommands() {
@@ -60,8 +61,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     resetPidGainsButton = new JoystickButton(js1, Constants.Controller.A_BUTTON);
-
+    resetClimbEncoder = new JoystickButton(js1, Constants.Controller.X_BUTTON);
+    
     resetPidGainsButton.whenPressed(m_climberPID::reDisplayPidGains);
+
+    //resetClimbEncoder.whenPressed(m_climber::resetEncoder);
   }
 
   /**

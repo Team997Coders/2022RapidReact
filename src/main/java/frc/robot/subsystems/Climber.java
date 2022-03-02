@@ -23,23 +23,30 @@ public class Climber extends SubsystemBase {
         climberEncoder = climberMotor.getEncoder();
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
+        
         SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
+        SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity());
+        SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
+        //SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());
+        //SmartDashboard.putNumber("NavX Yaw", Drivetrain.gyro.getYaw());
+       // SmartDashboard.putNumber("NavX Roll", Drivetrain.gyro.getRoll());
     }
 
     public void climberMove(double movement) {
         if (climberZeroSwitch.get()){
             climberEncoder.setPosition(0);
-            if (movement < 0) {
+            if (movement > 0) {
                 movement = 0;
             }
         }
-        if (climberEncoder.getPosition() > Constants.MovementConstants.CLIMBER_MAX_HEIGHT && movement > 0) {
+        if (climberEncoder.getPosition() > Constants.MovementConstants.CLIMBER_MAX_HEIGHT && movement < 0) {
             movement = 0;
         }
-        SmartDashboard.putNumber("final velocity", movement);
         climberMotor.set(movement);
     }
-
+    public void resetEncoder() {
+        climberEncoder.setPosition(0);
+    }
     @Override
     public void periodic() {
     }
