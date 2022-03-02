@@ -26,8 +26,8 @@ public final class Constants {
         public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
         public static final double DEAD_ZONE_SENSITIVITY = 0.05;
     }
-    
-    public static final int CLIMBER_MAX_HEIGHT = 2000; // temporary until physical measurements can be made
+
+    public static final int CLIMBER_MAX_HEIGHT = 2000; // SHOULD BE 115
 
     public static class MovementConstants {
         public static final double INPUT_SMOOTH_SLOPE_NORMAL = 0.02;

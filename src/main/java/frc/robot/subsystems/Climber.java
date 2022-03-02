@@ -23,13 +23,6 @@ public class Climber extends SubsystemBase {
         climberEncoder = climberMotor.getEncoder();
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
-        
-        SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
-        SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity());
-        SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
-        //SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());
-        //SmartDashboard.putNumber("NavX Yaw", Drivetrain.gyro.getYaw());
-       // SmartDashboard.putNumber("NavX Roll", Drivetrain.gyro.getRoll());
     }
 
     public void climberMove(double movement) {
@@ -39,7 +32,7 @@ public class Climber extends SubsystemBase {
                 movement = 0;
             }
         }
-        if (climberEncoder.getPosition() > Constants.CLIMBER_MAX_HEIGHT && movement < 0) {
+        if (-climberEncoder.getPosition() > Constants.CLIMBER_MAX_HEIGHT && movement < 0) {
             movement = 0;
         }
         climberMotor.set(movement);
@@ -49,5 +42,11 @@ public class Climber extends SubsystemBase {
     }
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
+        SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity());
+        SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
+        //SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());
+        //SmartDashboard.putNumber("NavX Yaw", Drivetrain.gyro.getYaw());
+       // SmartDashboard.putNumber("NavX Roll", Drivetrain.gyro.getRoll());
     }
 }
