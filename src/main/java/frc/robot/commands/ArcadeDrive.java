@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
@@ -16,7 +17,6 @@ public class ArcadeDrive extends CommandBase {
   private double lastLeft;
   private double lastRight;
   private double slope;
-  private Boolean turbo;
   public ArcadeDrive(Drivetrain drive, Joystick joy) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
@@ -33,18 +33,14 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turbo = !m_joystick.getRawButtonPressed(Constants.Controller.CONTROLLER_X);
-    if (turbo) {
-      slope = Constants.MovementConstants.INPUT_SMOOTH_SLOPE_NORMAL;
-    }
-    else if (!turbo) {
-      slope = Constants.MovementConstants.INPUT_SMOOTH_SLOPE_TURBO;
-    }
+    slope = Constants.MovementConstants.INPUT_SMOOTH_SLOPE_NORMAL;
     double left = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1)*Constants.MovementConstants.DRIVE_MODIFIER + m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2)*Constants.MovementConstants.TURN_MODIFIER;
     double right = m_joystick.getRawAxis(Constants.Controller.JOYSTICK_1)*Constants.MovementConstants.DRIVE_MODIFIER - m_joystick.getRawAxis(Constants.Controller.JOYSTICK_2)*Constants.MovementConstants.TURN_MODIFIER;
     lastLeft = MathUtil.clamp(left, lastLeft-slope, lastLeft+slope);
     lastRight = MathUtil.clamp(right, lastRight-slope, lastRight+slope);
     m_drivetrain.basicMove(lastRight, lastLeft);
+    SmartDashboard.putNumber("right", lastRight);
+    SmartDashboard.putNumber("left", lastLeft);
   }
 
   // Called once the command ends or is interrupted.

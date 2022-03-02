@@ -25,13 +25,12 @@ public final class Constants {
         public static final int CONTROLLER_X = 1; // turbo
         public static final int CONTROLLER_B = 2; // reset drive encoders
         public static final int CONTROLLER_Y = 3; // nothing
-        public static final double DEAD_ZONE_SENSITIVITY = 0.2;
+        public static final double DEAD_ZONE_SENSITIVITY = 0.05;
     }
 
     public static class MovementConstants {
-        public static final double INPUT_SMOOTH_SLOPE_NORMAL = 0.01;
-        public static final double INPUT_SMOOTH_SLOPE_TURBO = 0.025;
-        public static final double DRIVE_MODIFIER = -0.5;
+        public static final double INPUT_SMOOTH_SLOPE_NORMAL = 0.02;
+        public static final double DRIVE_MODIFIER = -1;
         public static final double TURN_MODIFIER = -0.5;
     }
     public static final double DRIVE_ENCODER_CPR = 2048;
