@@ -26,7 +26,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void climberMove(double movement) {
-        if (climberZeroSwitch.get()){
+        if (!climberZeroSwitch.get()){
             climberEncoder.setPosition(0);
             if (movement > 0) {
                 movement = 0;
@@ -42,7 +42,7 @@ public class Climber extends SubsystemBase {
     }
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
+        SmartDashboard.putBoolean("Zero Switch", !climberZeroSwitch.get());
         SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity());
         SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
         SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());
