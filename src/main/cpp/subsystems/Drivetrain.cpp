@@ -46,5 +46,8 @@ Drivetrain::~Drivetrain() {
     delete gyro;
 }
 
+double Drivetrain::GetLeftEncoder() { return frontLeft -> GetSelectedSensorPosition(); }
+double Drivetrain::GetRightEncoder() { return frontRight -> GetSelectedSensorPosition(); }
+
 // This method will be called once per scheduler run
 void Drivetrain::Periodic() {}

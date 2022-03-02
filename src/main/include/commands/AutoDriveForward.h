@@ -6,6 +6,8 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc/controller/ProfiledPIDController.h>
+#include <units/length.h>
 
 #include "subsystems/Drivetrain.h"
 /**
@@ -26,4 +28,8 @@ class AutoDriveForward
     bool IsFinished() override;
   private:
     double m_distance;
+    double targetPosition;
+    double initialPosition;
+    Drivetrain* m_drivetrain;
+    frc::ProfiledPIDController<units::feet>* pidController;
 };

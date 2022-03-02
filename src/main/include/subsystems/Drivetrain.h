@@ -18,6 +18,8 @@ class Drivetrain : public frc2::SubsystemBase {
     void SetMotors(double x, double z);
     void SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode);
     double GetGyroAngle();
+    double GetLeftEncoder();
+    double GetRightEncoder();
   private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
