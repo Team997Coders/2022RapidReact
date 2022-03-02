@@ -45,8 +45,11 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
         SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity());
         SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
-        //SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());
-        //SmartDashboard.putNumber("NavX Yaw", Drivetrain.gyro.getYaw());
-       // SmartDashboard.putNumber("NavX Roll", Drivetrain.gyro.getRoll());
+        SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());
+        SmartDashboard.putNumber("NavX Yaw", Drivetrain.gyro.getYaw());
+        SmartDashboard.putNumber("NavX Roll", Drivetrain.gyro.getRoll());
+        SmartDashboard.putNumber("Delta NavX Roll", Drivetrain.gyro.getRawGyroX());
+        SmartDashboard.putNumber("Delta NavX Pitch", Drivetrain.gyro.getRawGyroY());
+        SmartDashboard.putNumber("Delta NavX Yaw", Drivetrain.gyro.getRawGyroZ());
     }
 }
