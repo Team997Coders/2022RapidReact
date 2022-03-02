@@ -6,11 +6,10 @@ import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drivetrain extends SubsystemBase {
   public static WPI_TalonFX frontRight;
@@ -44,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
     frontLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     frontRight.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
 
-    ResetEncoders();
+    resetEncoders();
 
     frontLeft.setInverted(true);
     backLeft.setInverted(true);
@@ -56,7 +55,7 @@ public class Drivetrain extends SubsystemBase {
     
   }
   
-  public void ResetEncoders(){
+  public void resetEncoders(){
     frontLeft.setSelectedSensorPosition(0);
     frontRight.setSelectedSensorPosition(0);
   }
