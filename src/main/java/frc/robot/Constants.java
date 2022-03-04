@@ -24,10 +24,11 @@ public final class Constants {
         public static final int CONTROLLER_0 = 0;
         public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4, TRIGGER_CLIMB_UP = 3, TRIGGER_CLIMB_DN = 2;
         public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
+        public static final int UP_ARROW = 5, RIGHT_ARROW = 6, DOWN_ARROW = 7, LEFT_ARROW = 8; // check
         public static final double DEAD_ZONE_SENSITIVITY = 0.05;
     }
 
-    public static final int CLIMBER_MAX_HEIGHT = 2000; // SHOULD BE 115
+    public static final int CLIMBER_MAX_HEIGHT = 110;
 
     public static class MovementConstants {
         public static final double INPUT_SMOOTH_SLOPE_NORMAL = 0.02;

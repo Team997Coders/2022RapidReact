@@ -19,22 +19,22 @@ public class Climber extends SubsystemBase {
     private DigitalInput climberZeroSwitch;
     public Climber() {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
-        climberMotor.setIdleMode(IdleMode.kBrake);
+        climberMotor.setIdleMode(IdleMode.kBrake); // the climber needs to hang for a while- this prevents it from slipping
         climberEncoder = climberMotor.getEncoder();
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
     }
 
     public void climberMove(double movement) {
-        if (!climberZeroSwitch.get()){
-            climberEncoder.setPosition(0);
-            if (movement > 0) {
-                movement = 0;
+        if (!climberZeroSwitch.get()){ // climberZeroSwitch is flipped- returns 0 if pressed, 1 if not pressed
+            climberEncoder.setPosition(0); // if we're touching the switch at the bottom:
+            if (movement > 0) {            // we're at encoder position 0 (b/c relative encoder); if we're trying to move down (sign flipped):
+                movement = 0;              // don't
             }
         }
-        if (-climberEncoder.getPosition() > Constants.CLIMBER_MAX_HEIGHT && movement < 0) {
-            movement = 0;
-        }
+        if (-climberEncoder.getPosition() > Constants.CLIMBER_MAX_HEIGHT && movement < 0) { //encoder on the NEO was set up to count backwards
+            movement = 0; // if we're higher than the max height and trying to move up (sign flipped):
+        }                 // don't
         climberMotor.set(movement);
     }
     public void resetEncoder() {
