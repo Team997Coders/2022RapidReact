@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-  public static WPI_TalonFX frontRight;
-  public static WPI_TalonFX frontLeft;
-  private static WPI_TalonFX backRight;
-  private static WPI_TalonFX backLeft;
+  public WPI_TalonFX frontRight;
+  public WPI_TalonFX frontLeft;
+  private WPI_TalonFX backRight;
+  private WPI_TalonFX backLeft;
   public static AHRS gyro;
 
   
