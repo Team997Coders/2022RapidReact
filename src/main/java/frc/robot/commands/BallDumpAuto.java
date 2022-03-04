@@ -13,13 +13,11 @@ public class BallDumpAuto extends SequentialCommandGroup {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
     addCommands(
-      new TimedDrive(m_drive, 0.5, -0.2, -0.2),
-      new TimedDrive(m_drive, 0.25, 0, 0),
-      new TimedDrive(m_drive, 0.25, 0.8, 0.8),
-      // new TimeLimitedAutoDistance(m_drive, 3, 2) // meters, seconds
-      new TimedDrive(m_drive, 1, -0.4, -0.4),
-      // new TimeLimitedAutoRotate(m_drive, 180, 2) // degrees, seconds
-      new TimedDrive(m_drive, 1, 0.2, -0.2)
+      new TimedDrive(m_drive, 1, -0.2, -0.2), // seconds, l, r
+      new TimedDrive(m_drive, 1, 0, 0),
+      new TimedAutoDistance(m_drive, -90, 2), // inches, seconds
+      new TimedAutoRotate(m_drive, 180, 2), // degrees, seconds
+      new TimedDrive(m_drive, 9, 0, 0)
     );
   }
 

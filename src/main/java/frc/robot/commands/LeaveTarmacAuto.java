@@ -13,7 +13,8 @@ public class LeaveTarmacAuto extends SequentialCommandGroup{
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     addCommands(
-      new TimedDrive(drivetrain, 2, -0.2, -0.2)
+      new TimedDrive(drivetrain, 2, -0.2, -0.2),
+      new TimedDrive(drivetrain, 13, 0, 0)
     );
   }
 
