@@ -10,12 +10,13 @@ import frc.robot.subsystems.Drivetrain;
 public class LeaveTarmacAuto extends SequentialCommandGroup{
   /** Creates a new LeaveTarmacAuto. */
   public LeaveTarmacAuto(Drivetrain drivetrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
-    addCommands(
-      new TimedDrive(drivetrain, 2, -0.2, -0.2),
-      new TimedDrive(drivetrain, 13, 0, 0)
-    );
+	// Use addRequirements() here to declare subsystem dependencies.
+	addRequirements(drivetrain);
+	addCommands(
+	  new TimedAutoRotate(drivetrain, 4, 180),
+	  new TimedAutoDistance(drivetrain, 4, 90),
+	  new TimedDrive(drivetrain, 7, 0, 0)
+	);
   }
 
   // Called when the command is initially scheduled.
@@ -33,6 +34,6 @@ public class LeaveTarmacAuto extends SequentialCommandGroup{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+	return false;
   }
 }
