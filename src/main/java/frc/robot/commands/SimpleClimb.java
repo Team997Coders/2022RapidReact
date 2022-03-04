@@ -28,10 +28,10 @@ public class SimpleClimb extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() { // if the combined joysticks are pressed down more than a value, move by that sum
     movement = -m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN) + m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP);
-    if (Math.abs(movement) < 0.1) {movement = 0;}
-    m_climber.climberMove(-1*movement);
+    if (Math.abs(movement) < 2*Constants.Controller.DEAD_ZONE_SENSITIVITY) {movement = 0;}
+    m_climber.climberMove(-1*movement); // because movement is backwards on the NEO
   }
 
   // Called once the command ends or is interrupted.

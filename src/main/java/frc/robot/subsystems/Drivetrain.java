@@ -25,25 +25,25 @@ public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   public Drivetrain() {
 
-    frontRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[2]);
-    frontLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[0]);
-    backRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[3]);
+    frontRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[2]); // constructs motor controllers and
+    frontLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[0]); // assigns them to the correct
+    backRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[3]); // device ID
     backLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[1]);
 
-    gyro = new AHRS();
+    gyro = new AHRS(); // constructs the IMU
 
     frontRight.configFactoryDefault();
     frontLeft.configFactoryDefault();
     backRight.configFactoryDefault();
     backLeft.configFactoryDefault();
 
-    backRight.follow(frontRight);
-    backLeft.follow(frontLeft);
+    backRight.follow(frontRight); // we only have to handle two motors, not four
+    backLeft.follow(frontLeft); // in a tank drive, they do the same thing
 
-    frontLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
+    frontLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30); //sets up encoders
     frontRight.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
 
-    resetEncoders();
+    resetEncoders(); // makes sure they're at zero
 
     frontLeft.setInverted(true);
     backLeft.setInverted(true);
@@ -61,17 +61,17 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDriveMove(double speed, double rotation) {
-    double left_throttle = (speed-rotation);
-    double right_throttle = (speed+rotation);
+    double left_throttle = (speed-rotation); // equations for a differential drive
+    double right_throttle = (speed+rotation); // pass in raw controller values
     SmartDashboard.putNumber("lThrottle", left_throttle);
     SmartDashboard.putNumber("rThrottle", right_throttle);
 
 
-    diffDrive.tankDrive(left_throttle, right_throttle);
+    diffDrive.tankDrive(left_throttle, right_throttle); // moves motors
   }
 
-  public void basicMove(double right, double left) {
-    diffDrive.tankDrive(left, right);
+  public void basicMove(double right, double left) { // handy little wrapper for diffDrive
+    diffDrive.tankDrive(left, right);                // pass in processed values
   }
   @Override
   public void periodic() {
@@ -83,13 +83,13 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
     SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
   }
-  public void setMotorModeCoast() {
+  public void setMotorModeCoast() { // for auto-- PIDs don't like brake mode
     frontLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
     backLeft.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);
   }
-  public void setMotorModeBrake() {
+  public void setMotorModeBrake() { // for teleop safety/ease of drive
     frontLeft.setNeutralMode(NeutralMode.Coast);
     frontRight.setNeutralMode(NeutralMode.Coast);
     backLeft.setNeutralMode(NeutralMode.Coast);
