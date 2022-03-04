@@ -7,7 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.BallDumpAuto;
+import frc.robot.commands.LeaveTarmacAuto;
 import frc.robot.commands.SimpleClimb;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -33,6 +36,7 @@ public class RobotContainer {
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
   private Drivetrain m_drive;
+  private SendableChooser<Command> autoModeSwitcher;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -43,7 +47,9 @@ public class RobotContainer {
     m_arcadeDrive = new ArcadeDrive(m_drive);
     // Configure the button bindings
     configureButtonBindings();
-    
+    autoModeSwitcher.setDefaultOption("None", new InstantCommand());
+    autoModeSwitcher.addOption("Ball Dump", new BallDumpAuto(m_drive));
+    autoModeSwitcher.addOption("Leave Tarmac", new LeaveTarmacAuto(m_drive));
   }
 
   public void setDefaultCommands() {
@@ -89,7 +95,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand();
+    return autoModeSwitcher.getSelected();
   }
 
   public void disabledInit() {
