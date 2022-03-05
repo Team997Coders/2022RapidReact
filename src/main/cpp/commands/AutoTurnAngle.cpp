@@ -23,11 +23,13 @@ AutoTurnAngle::AutoTurnAngle(Drivetrain* drivetrain, double degrees)
 void AutoTurnAngle::Initialize() {
   initialAngle = m_drivetrain -> GetGyroAngle();
   targetAngle = initialAngle + m_degrees;
+  output = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void AutoTurnAngle::Execute() {
-  double output = pidController -> Calculate((units::angle::degree_t) (m_drivetrain -> GetGyroAngle()), (units::angle::degree_t) targetAngle);
+  lastOutput = output;
+  output = pidController -> Calculate(units::angle::degree_t(m_drivetrain -> GetGyroAngle()), units::angle::degree_t(targetAngle));
   m_drivetrain -> SetMotorOutput(-output, output);
 }
 
@@ -36,6 +38,8 @@ void AutoTurnAngle::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool AutoTurnAngle::IsFinished() {
+  if (abs(m_drivetrain -> GetGyroAngle() - targetAngle) <= constants::Values::AUTO_TURN_ERROR_TOLERANCE
+   && abs(lastOutput - output) <= constants::Values::AUTO_TURN_STOPPING_ACCELERATION) return true;
   return false;
 }
 

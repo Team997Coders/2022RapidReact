@@ -30,6 +30,8 @@ class AutoDriveForward
     double m_distance;
     double targetPosition;
     double initialPosition;
+    double output;
+    double lastOutput;
     Drivetrain* m_drivetrain;
     frc::ProfiledPIDController<units::feet>* pidController;
 };

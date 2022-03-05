@@ -32,6 +32,8 @@ class AutoTurnAngle
     double initialAngle;
     double targetAngle;
     double m_degrees;
+    double output;
+    double lastOutput;
     Drivetrain* m_drivetrain;
     frc::ProfiledPIDController<units::degrees>* pidController;
 };

@@ -35,8 +35,17 @@ namespace constants {
       CLIMBER_INPUT_MODIFIER = 0.2,
       CLIMBER_UPPER_LIMIT = 143,
 
+      // auto turn
+      AUTO_TURN_ERROR_TOLERANCE = 3,
+      AUTO_TURN_STOPPING_ACCELERATION = 0.05,
+
+      // auto drive
+      AUTO_DRIVE_ERROR_TOLERANCE = 10,
+      AUTO_DRIVE_STOPPING_ACCELERATION = 0.05,
+      TICKS_TO_FEET = 0.0001049234465,
+
       // PID
-      DRIVE_P = 0.0,
+      DRIVE_P = 0.001,
       DRIVE_I = 0.0,
       DRIVE_D = 0.0,
 

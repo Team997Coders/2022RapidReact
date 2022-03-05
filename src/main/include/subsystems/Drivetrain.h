@@ -20,6 +20,7 @@ class Drivetrain : public frc2::SubsystemBase {
     double GetGyroAngle();
     double GetLeftEncoder();
     double GetRightEncoder();
+    void ResetEncoders();
   private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

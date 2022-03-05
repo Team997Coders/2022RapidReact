@@ -12,6 +12,7 @@
 #include "commands/ArcadeDrive.h"
 #include "commands/ClimberMove.h"
 #include "commands/AutoTurnAngle.h"
+#include "commands/AutoDriveForward.h"
 
 
 class RobotContainer {
@@ -32,4 +33,5 @@ class RobotContainer {
     ClimberMove* m_defaultClimberCommand;
 
     AutoTurnAngle* m_autoTurnCommand;
+    AutoDriveForward* m_autoDriveCommand;
 };

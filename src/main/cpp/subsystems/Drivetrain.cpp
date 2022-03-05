@@ -35,6 +35,11 @@ void Drivetrain::SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode) {
     backLeft -> SetNeutralMode(mode);
 }
 
+void Drivetrain::ResetEncoders() {
+    frontLeft -> SetSelectedSensorPosition(0);
+    frontRight -> SetSelectedSensorPosition(0);
+}
+
 double Drivetrain::GetGyroAngle() { return gyro -> GetAngle(); }
 
 Drivetrain::~Drivetrain() {

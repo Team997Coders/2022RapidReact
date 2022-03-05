@@ -29,6 +29,7 @@ RobotContainer::RobotContainer() {
     );
 
     m_autoTurnCommand = new AutoTurnAngle(m_drivetrain, 120);
+    m_autoDriveCommand = new AutoDriveForward(m_drivetrain, 3);
     
     m_climber -> SetDefaultCommand(*m_defaultClimberCommand);
     m_drivetrain -> SetDefaultCommand(*m_defaultDriveCommand);
@@ -41,11 +42,12 @@ RobotContainer::~RobotContainer() {
     delete m_defaultDriveCommand;
     delete m_defaultClimberCommand;
     delete m_autoTurnCommand;
+    delete m_autoDriveCommand;
 }
 
 frc2::Command* RobotContainer::GetDefaultDriveCommand() { return m_defaultDriveCommand; }
 frc2::Command* RobotContainer::GetDefaultClimberCommand() { return m_defaultClimberCommand; }
-frc2::Command* RobotContainer::GetAutoCommand() { return m_autoTurnCommand; }
+frc2::Command* RobotContainer::GetAutoCommand() { return m_autoDriveCommand; }
 
 Drivetrain* RobotContainer::GetDrivetrain() { return m_drivetrain; }
 Climber* RobotContainer::GetClimber() { return m_climber; }
