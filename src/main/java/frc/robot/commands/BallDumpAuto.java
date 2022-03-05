@@ -16,8 +16,8 @@ public class BallDumpAuto extends SequentialCommandGroup {
       new TimedDrive(m_drive, 2, -0.1, -0.1), // seconds, l, r
       new TimedDrive(m_drive, 1, 0, 0),
       new TimedDrive(m_drive, 1, 1, 1),
-      new TimedAutoDistance(m_drive, -90, 4), // inches, seconds
-      new TimedAutoRotate(m_drive, 180, 4), // degrees, seconds
+      new AutoDistance(m_drive, -80), // inches
+      new AutoRotate(m_drive, 180), // degrees
       new TimedDrive(m_drive, 3, 0, 0)
     );
   }

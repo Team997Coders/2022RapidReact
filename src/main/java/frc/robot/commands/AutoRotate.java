@@ -10,16 +10,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class TimedAutoRotate extends CommandBase {
+public class AutoRotate extends CommandBase {
   /** Creates a new TimedAutoDistance. */
   private Drivetrain m_drive;
   private ProfiledPIDController m_controller;
   private Constraints m_constraints;
-  private double length;
-  private double startTime;
   private double m_rotation;
   private double measurement;
-  public TimedAutoRotate(Drivetrain drive, double duration, double rotation) {
+  public AutoRotate(Drivetrain drive, double rotation) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     m_drive = drive;
@@ -28,8 +26,6 @@ public class TimedAutoRotate extends CommandBase {
     m_controller = new ProfiledPIDController(Constants.MovementConstants.AUTO_ROTATE_KP, 
       Constants.MovementConstants.AUTO_ROTATE_KI, 
       Constants.MovementConstants.AUTO_ROTATE_KD, m_constraints);
-    length = duration*1000;
-    startTime = System.currentTimeMillis();
     m_rotation = rotation;
   }
 
@@ -53,6 +49,8 @@ public class TimedAutoRotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis() >= startTime+length);
+    //return (System.currentTimeMillis() >= startTime+length);
+    return (measurement-m_rotation <= Constants.MovementConstants.AUTO_ROTATE_TOL*m_rotation && 
+      measurement-m_rotation >= -Constants.MovementConstants.AUTO_ROTATE_TOL*m_rotation);
   }
 }
