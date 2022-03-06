@@ -12,22 +12,24 @@ Climber::Climber() {
     m_climberMotor = new rev::CANSparkMax(constants::Ports::CLIMBER, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
     m_climberMotor -> SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
     m_sensor = new frc::DigitalInput(constants::Ports::CLIMBER_SENSOR);
-    //m_encoder = new rev::SparkMaxRelativeEncoder()
-    m_encoder = new rev::SparkMaxRelativeEncoder(m_climberMotor -> GetEncoder());  //m_climberMotor -> GetEncoder();
-    minimumPosition = m_encoder -> GetPosition();
-    maximumPosition = minimumPosition + constants::Values::CLIMBER_UPPER_LIMIT;
+    m_encoder = new rev::SparkMaxRelativeEncoder(m_climberMotor -> GetEncoder());
+    isSet = false;
 }
 
 void Climber::Set(double input) {
     input = std::clamp(input, -constants::Values::CLIMBER_MAX_SPEED, constants::Values::CLIMBER_MAX_SPEED);
-    if (abs(input) <= constants::Values::CLIMBER_INPUT_DEADZONE) {
-        input = 0;
-    } 
-    if (m_encoder -> GetPosition() + maximumPosition <= 0 && input <= 0) {
+    frc::SmartDashboard::PutBoolean("CLIMBER SENSOR", !(m_sensor -> Get()));
+    if (!(m_sensor -> Get())) {
+        maximumPosition = m_encoder -> GetPosition() + constants::Values::CLIMBER_UPPER_LIMIT;
+        isSet = true;
+    }
+    if ((abs(input) <= constants::Values::CLIMBER_INPUT_DEADZONE) || 
+    (((m_encoder -> GetPosition() + maximumPosition < 0 || !isSet) && input <= 0)) ||
+    (!(m_sensor -> Get()) && input >= 0)) {
         input = 0;
     } 
     frc::SmartDashboard::PutNumber("climber encoder value", m_encoder -> GetPosition());
-    frc::SmartDashboard::PutNumber("climber max pos", maximumPosition);
+    //frc::SmartDashboard::PutNumber("climber max pos", maximumPosition);
     m_climberMotor -> Set(input);
 }
 

@@ -31,9 +31,9 @@ namespace constants {
 
       // climber
       CLIMBER_INPUT_DEADZONE = 0.05,
-      CLIMBER_MAX_SPEED = 0.3,
-      CLIMBER_INPUT_MODIFIER = 0.2,
-      CLIMBER_UPPER_LIMIT = 143,
+      CLIMBER_MAX_SPEED = 0.6,
+      CLIMBER_INPUT_MODIFIER = 1.0,
+      CLIMBER_UPPER_LIMIT = 109,
 
       // auto turn
       AUTO_TURN_ERROR_TOLERANCE = 3,
@@ -45,7 +45,7 @@ namespace constants {
       TICKS_TO_FEET = 0.0001049234465,
 
       // PID
-      DRIVE_P = 0.001,
+      DRIVE_P = 10,
       DRIVE_I = 0.0,
       DRIVE_D = 0.0,
 

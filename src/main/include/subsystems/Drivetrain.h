@@ -20,6 +20,7 @@ class Drivetrain : public frc2::SubsystemBase {
     double GetGyroAngle();
     double GetLeftEncoder();
     double GetRightEncoder();
+    double GetEncoderAverage();
     void ResetEncoders();
   private:
   // Components (e.g. motor controllers and sensors) should generally be

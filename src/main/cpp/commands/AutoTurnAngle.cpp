@@ -29,7 +29,7 @@ void AutoTurnAngle::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void AutoTurnAngle::Execute() {
   lastOutput = output;
-  output = pidController -> Calculate(units::angle::degree_t(m_drivetrain -> GetGyroAngle()), units::angle::degree_t(targetAngle));
+  output = pidController -> Calculate((units::angle::degree_t) (m_drivetrain -> GetGyroAngle()), (units::angle::degree_t)(targetAngle));
   m_drivetrain -> SetMotorOutput(-output, output);
 }
 

@@ -42,6 +42,10 @@ void Drivetrain::ResetEncoders() {
 
 double Drivetrain::GetGyroAngle() { return gyro -> GetAngle(); }
 
+double Drivetrain::GetEncoderAverage() {
+    return (frontLeft -> GetSelectedSensorPosition() + frontRight -> GetSelectedSensorPosition()) / 2;
+}
+
 Drivetrain::~Drivetrain() {
     delete frontLeft;
     delete frontRight;

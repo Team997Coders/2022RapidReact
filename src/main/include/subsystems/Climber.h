@@ -25,4 +25,5 @@ class Climber : public frc2::SubsystemBase {
     frc::DigitalInput* m_sensor;
     double minimumPosition;
     double maximumPosition;
+    bool isSet;
 };

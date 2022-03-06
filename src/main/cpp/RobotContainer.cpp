@@ -11,6 +11,7 @@
 RobotContainer::RobotContainer() {
     frc::SmartDashboard::PutBoolean("STUFF EXISTS", true);
     m_joystick1 = new frc::Joystick(constants::Ports::CONTROLLER_1);
+    m_chooser = new frc::SendableChooser<frc2::Command*>();
 
     m_drivetrain = new Drivetrain();
     m_climber = new Climber();
@@ -30,7 +31,14 @@ RobotContainer::RobotContainer() {
 
     m_autoTurnCommand = new AutoTurnAngle(m_drivetrain, 120);
     m_autoDriveCommand = new AutoDriveForward(m_drivetrain, 3);
-    
+    m_doNothingCommand = new DoNothing(m_drivetrain);
+
+    m_chooser -> SetDefaultOption("Do Nothing", m_doNothingCommand);
+    m_chooser -> AddOption("Drive 3 Feet", m_autoDriveCommand);
+    m_chooser -> AddOption("Turn 120 Degrees", m_autoTurnCommand);
+
+    frc::SmartDashboard::PutData(m_chooser);
+
     m_climber -> SetDefaultCommand(*m_defaultClimberCommand);
     m_drivetrain -> SetDefaultCommand(*m_defaultDriveCommand);
 }
@@ -43,11 +51,8 @@ RobotContainer::~RobotContainer() {
     delete m_defaultClimberCommand;
     delete m_autoTurnCommand;
     delete m_autoDriveCommand;
+    delete m_doNothingCommand;
+    delete m_chooser;
 }
 
-frc2::Command* RobotContainer::GetDefaultDriveCommand() { return m_defaultDriveCommand; }
-frc2::Command* RobotContainer::GetDefaultClimberCommand() { return m_defaultClimberCommand; }
-frc2::Command* RobotContainer::GetAutoCommand() { return m_autoDriveCommand; }
-
-Drivetrain* RobotContainer::GetDrivetrain() { return m_drivetrain; }
-Climber* RobotContainer::GetClimber() { return m_climber; }
+frc2::Command* RobotContainer::GetAutoCommand() { return m_chooser -> GetSelected(); }

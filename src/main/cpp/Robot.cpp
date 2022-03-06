@@ -5,6 +5,7 @@
 #include "Robot.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/CommandScheduler.h>
 #include "RobotContainer.h"
 
@@ -22,6 +23,8 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   //frc2::CommandScheduler::GetInstance().Run();
+  //m_chooser = new frc::SendableChooser<frc2::Command>();
+  //m_chooser -> SetDefaultOption("Do Nothing", *(m_container -> GetDoNothingCommand()));
 }
 
 /**
@@ -39,7 +42,7 @@ void Robot::DisabledPeriodic() {}
  */
 void Robot::AutonomousInit() {
   m_autonomousCommand = m_container -> GetAutoCommand();
-  if (m_autonomousCommand != NULL) {
+  if (m_autonomousCommand != nullptr) {
     frc::SmartDashboard::PutBoolean("AUTO INIT", true);
     m_autonomousCommand -> Schedule();
   }
@@ -54,11 +57,10 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
-  //frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_container -> GetDrivetrain(), *(m_container -> GetDefaultDriveCommand()));
-  //frc2::CommandScheduler::GetInstance().SetDefaultCommand(m_container -> GetClimber(), *(m_container -> GetDefaultClimberCommand()));
-  // Need to figure out why default commands arent working
-  //frc2::CommandScheduler::GetInstance().Schedule(m_container -> GetDefaultDriveCommand());
-  //frc2::CommandScheduler::GetInstance().Schedule(m_container -> GetDefaultClimberCommand());
+  if (m_autonomousCommand != nullptr) {
+    m_autonomousCommand -> Cancel();
+    m_autonomousCommand = nullptr;
+  }
 }
 
 /**
