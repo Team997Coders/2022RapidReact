@@ -38,7 +38,7 @@ public class AutoRotate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    measurement = (Drivetrain.gyro.getYaw())/2;
+    measurement = ((Drivetrain.gyro.getYaw())/2)%360;
     m_drive.tankDriveMove(0, m_controller.calculate(measurement));
   }
 
@@ -49,7 +49,6 @@ public class AutoRotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //return (System.currentTimeMillis() >= startTime+length);
     return (measurement-m_rotation <= Constants.MovementConstants.AUTO_ROTATE_TOL*m_rotation && 
       measurement-m_rotation >= -Constants.MovementConstants.AUTO_ROTATE_TOL*m_rotation);
   }

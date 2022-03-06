@@ -28,16 +28,16 @@ public final class Constants {
         public static final double DEAD_ZONE_SENSITIVITY = 0.05;
     }
 
-    public static final int CLIMBER_MAX_HEIGHT = 110;
+    public static final int CLIMBER_MAX_HEIGHT = 109;
 
     public static class MovementConstants {
-        public static final double INPUT_SMOOTH_SLOPE_NORMAL = 0.02;
-        public static final double DRIVE_MODIFIER = -1;
-        public static final double TURN_MODIFIER = -0.5;
+        public static final double INPUT_SMOOTH_SLOPE = 0.075;
+        public static final double DRIVE_MODIFIER = -0.6;
+        public static final double TURN_MODIFIER = -0.45;
         public static final double AUTO_DISTANCE_KP = 0.05, AUTO_DISTANCE_KI = 0, AUTO_DISTANCE_KD = 0;
         public static final double AUTO_DISTANCE_MAX_V = 100, AUTO_DISTANCE_MAX_A = 50;
         public static final double AUTO_DISTANCE_TOL = 0.01;
-        public static final double AUTO_ROTATE_KP = 0.003, AUTO_ROTATE_KI = 0, AUTO_ROTATE_KD = 0;
+        public static final double AUTO_ROTATE_KP = 0.005, AUTO_ROTATE_KI = 0, AUTO_ROTATE_KD = 0;
         public static final double AUTO_ROTATE_MAX_V = 360, AUTO_ROTATE_MAX_A = 60;
         public static final double AUTO_ROTATE_TOL = 0.01;
     }

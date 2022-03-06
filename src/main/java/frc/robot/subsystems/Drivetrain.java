@@ -63,9 +63,6 @@ public class Drivetrain extends SubsystemBase {
   public void tankDriveMove(double speed, double rotation) {
     double left_throttle = (speed-rotation); // equations for a differential drive
     double right_throttle = (speed+rotation); // pass in raw controller values
-    SmartDashboard.putNumber("lThrottle", left_throttle);
-    SmartDashboard.putNumber("rThrottle", right_throttle);
-
 
     diffDrive.tankDrive(left_throttle, right_throttle); // moves motors
   }
@@ -76,12 +73,10 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("L Encoder V", frontLeft.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
-    SmartDashboard.putNumber("R Encoder V", frontRight.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
-    SmartDashboard.putNumber("NavX Heading", gyro.getAngle());
-
-    SmartDashboard.putNumber("L Encoder Distance", frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
-    SmartDashboard.putNumber("R Encoder Distance", frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
+    SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
+    SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
+    SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
+    SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
   }
   public void setMotorModeCoast() { // for auto-- PIDs don't like brake mode
     frontLeft.setNeutralMode(NeutralMode.Brake);

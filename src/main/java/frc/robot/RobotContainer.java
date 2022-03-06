@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoRotate;
 import frc.robot.commands.BallDumpAuto;
 import frc.robot.commands.LeaveTarmacAuto;
 import frc.robot.commands.SimpleClimb;
@@ -18,7 +19,6 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -34,6 +34,7 @@ public class RobotContainer {
   //public JoystickButton neutralModeToggleButton;
   public JoystickButton resetClimbEncoderButton;
   public JoystickButton resetDriveEncodersButton;
+  public static JoystickButton turboModeButton;
   private Climber m_climber;
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
@@ -50,7 +51,7 @@ public class RobotContainer {
     m_arcadeDrive = new ArcadeDrive(m_drive);
     // Configure the button bindings
     configureButtonBindings();
-    autoModeSwitcher.setDefaultOption("None", new WaitCommand(15));
+    autoModeSwitcher.setDefaultOption("None", new InstantCommand());
     autoModeSwitcher.addOption("Ball Dump", new BallDumpAuto(m_drive));
     autoModeSwitcher.addOption("Leave Tarmac", new LeaveTarmacAuto(m_drive));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
@@ -70,6 +71,7 @@ public class RobotContainer {
     resetClimbEncoderButton = new JoystickButton(js1, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
     resetDriveEncodersButton = new JoystickButton(js1, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
     // neutralModeToggleButton = new JoystickButton(js1, Constants.Controller.Y_BUTTON); // when Y is pressed, the drivetrain goes to coast mode
+    turboModeButton = new JoystickButton(js1, Constants.Controller.A_BUTTON);
 
     resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
     resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
@@ -91,6 +93,9 @@ public class RobotContainer {
       return js1.getRawAxis(Constants.Controller.JOYSTICK_2);
     }
   }
+  public static boolean turboModePressed() {
+    return turboModeButton.get();
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -100,9 +105,11 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
 
-    //return selected;
     //return autoModeSwitcher.getSelected();
     //return new AutoDistance(m_drive, 10, 80);
-    return new LeaveTarmacAuto(m_drive);
+    //return new LeaveTarmacAuto(m_drive);
+    //return new TimedDrive(m_drive, 0.5, 0.8, 0.8);
+    return new AutoRotate(m_drive, 180);
+    //return new BallDumpAuto(m_drive);
   }
 }
