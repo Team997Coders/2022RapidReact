@@ -14,19 +14,19 @@ namespace constants {
       FRONT_LEFT = 13, BACK_LEFT = 14, FRONT_RIGHT = 15, BACK_RIGHT = 16,
       CLIMBER = 8,
       // joystick
-      CONTROLLER_1 = 0,
+      CONTROLLER_1 = 0, CONTROLLER_2 = 1,
       DRIVE = 1, TURN = 4,
       DRIVE_TURBO = 5,
-      CLIMBER_UP = 2, CLIMBER_DOWN = 3,
+      CLIMBER_UP = 2, CLIMBER_DOWN = 3, CLIMBER_UNLOCK = 0,
       // digital input
       CLIMBER_SENSOR = 0;
   };
   struct Values {
     static constexpr double 
       // drive modifiers
-      DRIVE_INPUT_MODIFIER = 0.25,
+      DRIVE_INPUT_MODIFIER = 0.5,
       TURN_INPUT_MODIFIER = 0.20,
-      RAMPING_MODIFIER = 0.01,
+      RAMPING_MODIFIER = 0.02,
       TURBO_MODIFIER = 2,
 
       // climber
@@ -45,7 +45,7 @@ namespace constants {
       TICKS_TO_FEET = 0.0001049234465,
 
       // PID
-      DRIVE_P = 10,
+      DRIVE_P = 0.01,
       DRIVE_I = 0.0,
       DRIVE_D = 0.0,
 

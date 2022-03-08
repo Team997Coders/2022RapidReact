@@ -4,8 +4,8 @@
 
 #include "commands/ClimberMove.h"
 
-ClimberMove::ClimberMove(Climber* climber, std::function<double()> up, std::function<double()> down)
-: m_climber(climber), m_up(up), m_down(down) {
+ClimberMove::ClimberMove(Climber* climber, std::function<double()> up, std::function<double()> down, std::function<bool()> unlock)
+: m_climber(climber), m_up(up), m_down(down), m_unlock(unlock) {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(climber);
 }
@@ -15,7 +15,7 @@ void ClimberMove::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void ClimberMove::Execute() {
-  m_climber -> Set(m_up() - m_down());
+  m_climber -> Set(m_up() - m_down(), m_unlock());
 }
 
 // Called once the command ends or is interrupted.

@@ -15,7 +15,7 @@ AutoDriveForward::AutoDriveForward(Drivetrain* drivetrain, double distance)
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(drivetrain);
   pidController = new frc::ProfiledPIDController<units::feet>(constants::Values::DRIVE_P, constants::Values::DRIVE_I,
-  constants::Values::DRIVE_D, frc::TrapezoidProfile<units::feet>::Constraints{5_fps, 1_fps_sq});
+  constants::Values::DRIVE_D, frc::TrapezoidProfile<units::feet>::Constraints{5_fps, 3_fps_sq});
 }
 
 // Called when the command is initially scheduled.
@@ -31,7 +31,7 @@ void AutoDriveForward::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void AutoDriveForward::Execute() {
   lastOutput = output;
-  output = pidController -> Calculate(units::foot_t(m_drivetrain -> GetEncoderAverage() * constants::Values::TICKS_TO_FEET), units::foot_t(targetPosition));
+  output = pidController -> Calculate(1_ft * m_drivetrain -> GetEncoderAverage() * constants::Values::TICKS_TO_FEET, 1_ft * targetPosition);
   frc::SmartDashboard::PutNumber("OUTPUT", output);
   frc::SmartDashboard::PutNumber("POSITION", m_drivetrain -> GetEncoderAverage() * constants::Values::TICKS_TO_FEET);
   frc::SmartDashboard::PutNumber("TARGET", targetPosition);

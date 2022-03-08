@@ -16,16 +16,16 @@ Climber::Climber() {
     isSet = false;
 }
 
-void Climber::Set(double input) {
+void Climber::Set(double input, bool override) {
     input = std::clamp(input, -constants::Values::CLIMBER_MAX_SPEED, constants::Values::CLIMBER_MAX_SPEED);
     frc::SmartDashboard::PutBoolean("CLIMBER SENSOR", !(m_sensor -> Get()));
     if (!(m_sensor -> Get())) {
         maximumPosition = m_encoder -> GetPosition() + constants::Values::CLIMBER_UPPER_LIMIT;
         isSet = true;
     }
-    if ((abs(input) <= constants::Values::CLIMBER_INPUT_DEADZONE) || 
+    if (!override && ((abs(input) <= constants::Values::CLIMBER_INPUT_DEADZONE) || 
     (((m_encoder -> GetPosition() + maximumPosition < 0 || !isSet) && input <= 0)) ||
-    (!(m_sensor -> Get()) && input >= 0)) {
+    (!(m_sensor -> Get()) && input >= 0))) {
         input = 0;
     } 
     frc::SmartDashboard::PutNumber("climber encoder value", m_encoder -> GetPosition());

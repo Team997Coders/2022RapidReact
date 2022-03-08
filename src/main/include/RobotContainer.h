@@ -30,6 +30,7 @@ class RobotContainer {
   Climber* GetClimber();
   private:
     frc::Joystick* m_joystick1;
+    frc::Joystick* m_joystick2;
     frc2::JoystickButton* m_turboButton;
     frc::SendableChooser<frc2::Command*>* m_chooser;
     Drivetrain* m_drivetrain;

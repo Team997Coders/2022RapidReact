@@ -13,7 +13,7 @@ class Climber : public frc2::SubsystemBase {
   public:
     Climber();
     ~Climber();
-    void Set(double input);
+    void Set(double input, bool override);
     /**
     * Will be called periodically whenever the CommandScheduler runs.
     */
