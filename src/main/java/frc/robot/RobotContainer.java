@@ -30,7 +30,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public static Joystick js1;
+  public static Joystick jsDrive;
+  public static Joystick jsClimb;
   //public JoystickButton neutralModeToggleButton;
   public JoystickButton resetClimbEncoderButton;
   public JoystickButton resetDriveEncodersButton;
@@ -44,10 +45,11 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    js1 = new Joystick(Constants.Controller.CONTROLLER_0);
+    jsDrive = new Joystick(Constants.Controller.CONTROLLER_0);
+    jsClimb = new Joystick(Constants.Controller.CONTROLLER_1);
     m_climber = new Climber();
     m_drive = new Drivetrain();
-    m_simpleClimb = new SimpleClimb(m_climber, js1);
+    m_simpleClimb = new SimpleClimb(m_climber, jsClimb);
     m_arcadeDrive = new ArcadeDrive(m_drive);
     // Configure the button bindings
     configureButtonBindings();
@@ -68,10 +70,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    resetClimbEncoderButton = new JoystickButton(js1, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
-    resetDriveEncodersButton = new JoystickButton(js1, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
+    resetClimbEncoderButton = new JoystickButton(jsClimb, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
+    resetDriveEncodersButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
     // neutralModeToggleButton = new JoystickButton(js1, Constants.Controller.Y_BUTTON); // when Y is pressed, the drivetrain goes to coast mode
-    turboModeButton = new JoystickButton(js1, Constants.Controller.A_BUTTON);
+    turboModeButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
 
     resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
     resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
@@ -80,18 +82,18 @@ public class RobotContainer {
   }
 
   public static double joystickLeftInput() {
-    if (Math.abs(js1.getRawAxis(Constants.Controller.JOYSTICK_1)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
-      return 0;                        // these methods are here so that the deadzone code doesn't
-    } else {                           // have to be repeatedly copied-- static to avoid constructing a
-      return js1.getRawAxis(Constants.Controller.JOYSTICK_1);  // RobotContainer in each subsystem
-    }
+    //if (Math.abs(jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
+    //  return 0;                        // these methods are here so that the deadzone code doesn't
+    //} else {                           // have to be repeatedly copied-- static to avoid constructing a
+      return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1);  // RobotContainer in each subsystem
+    //}
   }
   public static double joystickRightInput() {
-    if (Math.abs(js1.getRawAxis(Constants.Controller.JOYSTICK_2)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
-      return 0;
-    } else {
-      return js1.getRawAxis(Constants.Controller.JOYSTICK_2);
-    }
+    //if (Math.abs(jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
+     // return 0;
+    //} else {
+      return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2);
+    //}
   }
   public static boolean turboModePressed() {
     return turboModeButton.get();
