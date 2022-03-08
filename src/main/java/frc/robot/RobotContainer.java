@@ -109,9 +109,9 @@ public class RobotContainer {
 
     //return autoModeSwitcher.getSelected();
     //return new AutoDistance(m_drive, 10, 80);
-    //return new LeaveTarmacAuto(m_drive);
+    return new LeaveTarmacAuto(m_drive);
     //return new TimedDrive(m_drive, 0.5, 0.8, 0.8);
-    return new AutoRotate(m_drive, 180);
+    //return new AutoRotate(m_drive, 180);
     //return new BallDumpAuto(m_drive);
   }
 }
