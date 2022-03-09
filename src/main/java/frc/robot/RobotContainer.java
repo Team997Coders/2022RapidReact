@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.AutoRotate;
 import frc.robot.commands.BallDumpAuto;
 import frc.robot.commands.LeaveTarmacAuto;
 import frc.robot.commands.SimpleClimb;
