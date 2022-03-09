@@ -17,9 +17,12 @@ public class AutoDistance extends CommandBase {
   private Constraints m_constraints;
   private double m_distance;
   private double measurement;
-  public AutoDistance(Drivetrain drive, double distance) {
+  private double timeout;
+  private double startTime;
+  public AutoDistance(Drivetrain drive, double distance, double timeSecs) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
+    timeout = timeSecs*1000;
     m_constraints = new Constraints(Constants.MovementConstants.AUTO_DISTANCE_MAX_V, 
       Constants.MovementConstants.AUTO_DISTANCE_MAX_A);
     m_controller = new ProfiledPIDController(Constants.MovementConstants.AUTO_DISTANCE_KP, 
@@ -34,6 +37,7 @@ public class AutoDistance extends CommandBase {
   public void initialize() {
     m_drive.resetEncoders();
     m_controller.setGoal(m_distance);
+    startTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,7 +55,8 @@ public class AutoDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (measurement-m_distance <= Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance && 
-    measurement-m_distance >= -Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance);
+    // return (measurement-m_distance <= Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance && 
+    // measurement-m_distance >= -Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance);
+    return (m_controller.atGoal() || System.currentTimeMillis()>=(startTime+timeout));
   }
 }

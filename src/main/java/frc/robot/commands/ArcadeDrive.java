@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -44,8 +45,12 @@ public class ArcadeDrive extends CommandBase {
     }
     turnMod = Constants.MovementConstants.TURN_MODIFIER;
     
-    double left = RobotContainer.joystickLeftInput()*driveMod + RobotContainer.joystickRightInput()*turnMod;
-    double right = RobotContainer.joystickLeftInput()*driveMod - RobotContainer.joystickRightInput()*turnMod;
+    double left = MathUtil.applyDeadband(RobotContainer.joystickLeftInput(), Constants.Controller.DEAD_ZONE_SENSITIVITY)*driveMod +
+      MathUtil.applyDeadband(RobotContainer.joystickRightInput(), Constants.Controller.DEAD_ZONE_SENSITIVITY) *turnMod;
+    double right = MathUtil.applyDeadband(RobotContainer.joystickLeftInput(), Constants.Controller.DEAD_ZONE_SENSITIVITY)*driveMod - 
+      MathUtil.applyDeadband(RobotContainer.joystickRightInput(), Constants.Controller.DEAD_ZONE_SENSITIVITY)*turnMod;
+    SmartDashboard.putNumber("test l", left);
+    SmartDashboard.putNumber("test r", right);
     lastLeft = MathUtil.clamp(left, lastLeft-slope, lastLeft+slope);
     lastRight = MathUtil.clamp(right, lastRight-slope, lastRight+slope);
     m_drivetrain.basicMove(lastRight, lastLeft);
