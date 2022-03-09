@@ -21,11 +21,11 @@ public final class Constants {
         public static final int ZERO_SWITCH_PORT = 0;
     }
     public static class Controller {
-        public static final int CONTROLLER_0 = 0;
+        public static final int CONTROLLER_0 = 0; // drive
+        public static final int CONTROLLER_1 = 1; // climb
         public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4, TRIGGER_CLIMB_UP = 3, TRIGGER_CLIMB_DN = 2;
         public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
         public static final int UP_ARROW = 5, RIGHT_ARROW = 6, DOWN_ARROW = 7, LEFT_ARROW = 8; // check
-        public static final double DEAD_ZONE_SENSITIVITY = 0.05;
     }
 
     public static final int CLIMBER_MAX_HEIGHT = 109;
@@ -33,7 +33,7 @@ public final class Constants {
     public static class MovementConstants {
         public static final double INPUT_SMOOTH_SLOPE = 0.075;
         public static final double DRIVE_MODIFIER = -0.6;
-        public static final double TURN_MODIFIER = -0.45;
+        public static final double TURN_MODIFIER = -0.6;
         public static final double AUTO_DISTANCE_KP = 0.05, AUTO_DISTANCE_KI = 0, AUTO_DISTANCE_KD = 0;
         public static final double AUTO_DISTANCE_MAX_V = 100, AUTO_DISTANCE_MAX_A = 50;
         public static final double AUTO_DISTANCE_TOL = 0.01;

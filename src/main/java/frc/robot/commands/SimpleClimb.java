@@ -30,7 +30,6 @@ public class SimpleClimb extends CommandBase {
   @Override
   public void execute() { // if the combined joysticks are pressed down more than a value, move by that sum
     movement = -m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN) + m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP);
-    if (Math.abs(movement) < 2*Constants.Controller.DEAD_ZONE_SENSITIVITY) {movement = 0;}
     m_climber.climberMove(-1*movement); // because movement is backwards on the NEO
   }
 
