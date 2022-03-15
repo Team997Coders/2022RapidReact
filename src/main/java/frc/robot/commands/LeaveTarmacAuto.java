@@ -9,11 +9,10 @@ import frc.robot.subsystems.Drivetrain;
 
 public class LeaveTarmacAuto extends SequentialCommandGroup{
   /** Creates a new LeaveTarmacAuto. */
-  public LeaveTarmacAuto(Drivetrain drivetrain) {
+  public LeaveTarmacAuto(Drivetrain drivetrain, int mode) { // 0: positioned on side 1: positioned in center
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(
-      //new TimedAutoRotate(drivetrain, 4, 180),
-      new AutoDistance(drivetrain, 72, 15)
+      new AutoDistance(drivetrain, (-60+(mode*-30)), 15)
     );
   }
 }

@@ -86,8 +86,8 @@ public static void setMotorModeCoast() { // for teleop safety/ease of drive
  @Override
  public void periodic() {
   // This method will be called once per scheduler run
-  SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
-  SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT);
+  SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT*0.1);
+  SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT*0.1);
   SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
   SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
  }
