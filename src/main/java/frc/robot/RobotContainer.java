@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -38,8 +39,8 @@ public class RobotContainer {
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
   private Drivetrain m_drive;
-  //private SendableChooser<Command> autoModeSwitcher;
   SendableChooser<Command> autoModeSwitcher = new SendableChooser<>();
+  public static String allianceColor;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -57,6 +58,7 @@ public class RobotContainer {
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, 0));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
+    allianceColor = DriverStation.getAlliance().toString();
   }
 
   public void setDefaultCommands() {

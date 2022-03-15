@@ -19,6 +19,7 @@ public final class Constants {
         public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
         public static final int CLIMBER_PORT = 8;
         public static final int ZERO_SWITCH_PORT = 0;
+        public static final int LED_PORT = 9;
     }
     public static class Controller {
         public static final int CONTROLLER_0 = 0; // drive
@@ -43,6 +44,7 @@ public final class Constants {
         public static final double AUTO_ROTATE_TOL = 0.01;
     }
 
+    public static final int LED_COUNT = 50;
     public static final double DRIVE_ENCODER_CPR = 2048;
     public static final double DRIVE_WHEEL_DIA_IN = 6;
     public static final double DRIVE_GEARBOX_RATIO = 7.31;
