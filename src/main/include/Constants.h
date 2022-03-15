@@ -31,7 +31,7 @@ namespace constants {
 
       // climber
       CLIMBER_INPUT_DEADZONE = 0.05,
-      CLIMBER_MAX_SPEED = 0.6,
+      CLIMBER_MAX_SPEED = 1.0,
       CLIMBER_INPUT_MODIFIER = 1.0,
       CLIMBER_UPPER_LIMIT = 109,
 

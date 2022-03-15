@@ -26,9 +26,9 @@ RobotContainer::RobotContainer() {
 
     m_defaultClimberCommand = new ClimberMove(
         m_climber,
-        [this] { return m_joystick2 -> GetRawAxis(constants::Ports::CLIMBER_UP); },
-        [this] { return m_joystick2 -> GetRawAxis(constants::Ports::CLIMBER_DOWN); },
-        [this] { return m_joystick2 -> GetRawAxis(constants::Ports::CLIMBER_UNLOCK); }
+        [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_UP); },
+        [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_DOWN); },
+        [this] { return m_joystick1 -> GetRawAxis(constants::Ports::CLIMBER_UNLOCK); }
     );
 
     m_autoTurnCommand = new AutoTurnAngle(m_drivetrain, 120);
