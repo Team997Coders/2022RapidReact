@@ -16,14 +16,16 @@ public final class Constants {
 
     public static class Ports {
         
-        public static final int[] DRIVE_PORTS = {13, 14, 15, 16};
+        public static final int FRONT_LEFT = 13, BACK_LEFT = 14, FRONT_RIGHT = 15, BACK_RIGHT = 16;
         public static final int CLIMBER_PORT = 8;
         public static final int ZERO_SWITCH_PORT = 0;
+        public static final int LED_PWM_PORT = 0;
     }
     public static class Controller {
         public static final int CONTROLLER_0 = 0; // drive
         public static final int CONTROLLER_1 = 1; // climb
         public static final int JOYSTICK_1 = 1, JOYSTICK_2 = 4, TRIGGER_CLIMB_UP = 3, TRIGGER_CLIMB_DN = 2;
+        public static final int LEFT_BUMPER = 5, RIGHT_BUMPER = 6;
         public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4;
         public static final int UP_ARROW = 5, RIGHT_ARROW = 6, DOWN_ARROW = 7, LEFT_ARROW = 8; // check
         public static final double DEAD_ZONE_SENSITIVITY = 0.02;
@@ -33,11 +35,13 @@ public final class Constants {
 
     public static class MovementConstants {
         public static final double INPUT_SMOOTH_SLOPE = 0.02;
-        public static final double DRIVE_MODIFIER = -0.6;
-        public static final double TURN_MODIFIER = -0.5;
+        public static final double DRIVE_MODIFIER = 0.6;
+        public static final double TURN_MODIFIER = 0.5;
+
         public static final double AUTO_DISTANCE_KP = 0.1, AUTO_DISTANCE_KI = 0, AUTO_DISTANCE_KD = 0;
         public static final double AUTO_DISTANCE_MAX_V = 200, AUTO_DISTANCE_MAX_A = 100;
         public static final double AUTO_DISTANCE_TOL = 0.01;
+
         public static final double AUTO_ROTATE_KP = 0.005, AUTO_ROTATE_KI = 0, AUTO_ROTATE_KD = 0;
         public static final double AUTO_ROTATE_MAX_V = 360, AUTO_ROTATE_MAX_A = 60;
         public static final double AUTO_ROTATE_TOL = 0.01;

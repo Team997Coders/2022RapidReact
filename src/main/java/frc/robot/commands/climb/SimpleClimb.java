@@ -2,24 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.Joystick;
+import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
 
 public class SimpleClimb extends CommandBase {
   /** Creates a new SimpleClimb. */
   private Climber m_climber;
-  private Joystick m_joystick;
-  private double movement;
+  private Supplier<Double> m_up, m_down;
 
-  public SimpleClimb(Climber climb, Joystick joy) {
+  public SimpleClimb(Climber climb, Supplier<Double> up, Supplier<Double> down) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climb);
     m_climber = climb;
-    m_joystick = joy;
+    m_up = up;
+    m_down = down;
   }
 
   // Called when the command is initially scheduled.
@@ -28,9 +27,8 @@ public class SimpleClimb extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() { // if the combined joysticks are pressed down more than a value, move by that sum
-    movement = -m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN) + m_joystick.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP);
-    m_climber.climberMove(-1*movement); // because movement is backwards on the NEO
+  public void execute() {
+    m_climber.climberMove(m_up.get() - m_down.get());
   }
 
   // Called once the command ends or is interrupted.

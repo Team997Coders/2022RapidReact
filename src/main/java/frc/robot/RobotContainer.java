@@ -4,15 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.BallDumpAuto;
-import frc.robot.commands.LeaveTarmacAuto;
-import frc.robot.commands.SimpleClimb;
+import frc.robot.commands.auto.BallDumpAuto;
+import frc.robot.commands.auto.LeaveTarmacAuto;
+import frc.robot.commands.climb.SimpleClimb;
+import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,17 +39,25 @@ public class RobotContainer {
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
   private Drivetrain m_drive;
-  //private SendableChooser<Command> autoModeSwitcher;
-  SendableChooser<Command> autoModeSwitcher = new SendableChooser<>();
+  private SendableChooser<Command> autoModeSwitcher;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     jsDrive = new Joystick(Constants.Controller.CONTROLLER_0);
     //jsClimb = new Joystick(Constants.Controller.CONTROLLER_1);
+
     m_climber = new Climber();
     m_drive = new Drivetrain();
-    m_simpleClimb = new SimpleClimb(m_climber, jsDrive);
-    m_arcadeDrive = new ArcadeDrive(m_drive);
+
+    m_simpleClimb = new SimpleClimb(m_climber, 
+      () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP); }, 
+      () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN); });
+    m_arcadeDrive = new ArcadeDrive(m_drive,
+      () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
+      () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
+      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+
+    autoModeSwitcher = new SendableChooser<Command>();
     // Configure the button bindings
     configureButtonBindings();
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
@@ -57,6 +66,8 @@ public class RobotContainer {
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, 0));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
+
+    CameraServer.startAutomaticCapture();
   }
 
   public void setDefaultCommands() {
@@ -77,8 +88,6 @@ public class RobotContainer {
 
     resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
     resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
-    //neutralModeToggleButton.whenPressed(m_drive::setMotorModeCoast);
-    //neutralModeToggleButton.whenReleased(m_drive::setMotorModeBrake);
   }
 
   public static double joystickLeftInput() {

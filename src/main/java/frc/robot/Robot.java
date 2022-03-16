@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -53,7 +55,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    Drivetrain.setMotorModeBrake();
+    Drivetrain.setMotorNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -68,7 +70,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    Drivetrain.setMotorModeCoast();
+    Drivetrain.setMotorNeutralMode(NeutralMode.Coast);
   }
 
   /** This function is called periodically during autonomous. */
@@ -85,7 +87,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.setDefaultCommands();
-    Drivetrain.setMotorModeCoast();
+    Drivetrain.setMotorNeutralMode(NeutralMode.Coast);
   }
 
   /** This function is called periodically during operator control. */
