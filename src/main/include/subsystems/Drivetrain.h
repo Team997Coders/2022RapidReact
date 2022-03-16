@@ -30,5 +30,7 @@ class Drivetrain : public frc2::SubsystemBase {
     ctre::phoenix::motorcontrol::can::TalonFX* frontLeft;
     ctre::phoenix::motorcontrol::can::TalonFX* backLeft;
 
+    ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration* currentLimitConfig;
+
     AHRS* gyro;
 };

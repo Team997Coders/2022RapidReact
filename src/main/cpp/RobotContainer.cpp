@@ -7,6 +7,7 @@
 #include <frc/Joystick.h>
 #include <frc2/command/CommandScheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <cameraserver/CameraServer.h>
 
 RobotContainer::RobotContainer() {
 
@@ -43,6 +44,7 @@ RobotContainer::RobotContainer() {
 
     m_climber -> SetDefaultCommand(*m_defaultClimberCommand);
     m_drivetrain -> SetDefaultCommand(*m_defaultDriveCommand);
+    frc::CameraServer::StartAutomaticCapture();
 }
 
 RobotContainer::~RobotContainer() {

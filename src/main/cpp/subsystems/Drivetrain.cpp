@@ -8,10 +8,13 @@
 #include "Constants.h"
 
 Drivetrain::Drivetrain() {
+    // Vex Pro Falcon 500
     frontLeft = new ctre::phoenix::motorcontrol::can::TalonFX(constants::Ports::FRONT_LEFT);
     backLeft = new ctre::phoenix::motorcontrol::can::TalonFX(constants::Ports::BACK_LEFT);
     frontRight = new ctre::phoenix::motorcontrol::can::TalonFX(constants::Ports::FRONT_RIGHT);
     backRight = new ctre::phoenix::motorcontrol::can::TalonFX(constants::Ports::BACK_RIGHT);
+
+    currentLimitConfig = new ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, constants::Values::DRIVE_CURRENT_LIMIT, constants::Values::DRIVE_TRIGGER_THRESHOLD, constants::Values::DRIVE_TRIGGER_TIME);
 
     backLeft -> Follow(*frontLeft, ctre::phoenix::motorcontrol::FollowerType::FollowerType_PercentOutput);
     backRight -> Follow(*frontRight, ctre::phoenix::motorcontrol::FollowerType::FollowerType_PercentOutput);
@@ -21,6 +24,11 @@ Drivetrain::Drivetrain() {
 
     frontLeft -> SetInverted(true);
     backLeft -> SetInverted(true);
+
+    frontLeft -> ConfigSupplyCurrentLimit(*currentLimitConfig);
+    frontRight -> ConfigSupplyCurrentLimit(*currentLimitConfig);
+    backLeft -> ConfigSupplyCurrentLimit(*currentLimitConfig);
+    backRight -> ConfigSupplyCurrentLimit(*currentLimitConfig);
 
     gyro = new AHRS(frc::SPI::kMXP);
 }

@@ -14,6 +14,7 @@ class Climber : public frc2::SubsystemBase {
     Climber();
     ~Climber();
     void Set(double input, bool override);
+    bool GetSensorStatus();
     /**
     * Will be called periodically whenever the CommandScheduler runs.
     */

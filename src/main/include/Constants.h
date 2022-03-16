@@ -23,17 +23,21 @@ namespace constants {
   };
   struct Values {
     static constexpr double 
-      // drive modifiers
+      // drive
       DRIVE_INPUT_MODIFIER = 0.5,
       TURN_INPUT_MODIFIER = 0.20,
       RAMPING_MODIFIER = 0.02,
       TURBO_MODIFIER = 2,
+      DRIVE_CURRENT_LIMIT = 120,
+      DRIVE_TRIGGER_THRESHOLD = 120,
+      DRIVE_TRIGGER_TIME = 500,
 
       // climber
       CLIMBER_INPUT_DEADZONE = 0.05,
       CLIMBER_MAX_SPEED = 1.0,
       CLIMBER_INPUT_MODIFIER = 1.0,
       CLIMBER_UPPER_LIMIT = 109,
+      CLIMBER_CURRENT_LIMIT = 95,
 
       // auto turn
       AUTO_TURN_ERROR_TOLERANCE = 3,

@@ -9,28 +9,34 @@
 #include "Constants.h"
 
 Climber::Climber() {
+    //rev robotics Neo Brushless
     m_climberMotor = new rev::CANSparkMax(constants::Ports::CLIMBER, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
     m_climberMotor -> SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
     m_sensor = new frc::DigitalInput(constants::Ports::CLIMBER_SENSOR);
     m_encoder = new rev::SparkMaxRelativeEncoder(m_climberMotor -> GetEncoder());
+    m_encoder -> SetInverted(true);
     isSet = false;
 }
 
 void Climber::Set(double input, bool override) {
     input = -std::clamp(input, -constants::Values::CLIMBER_MAX_SPEED, constants::Values::CLIMBER_MAX_SPEED);
-    frc::SmartDashboard::PutBoolean("CLIMBER SENSOR", !(m_sensor -> Get()));
-    if (!(m_sensor -> Get())) {
-        maximumPosition = -(m_encoder -> GetPosition()) + constants::Values::CLIMBER_UPPER_LIMIT;
+    frc::SmartDashboard::PutBoolean("CLIMBER SENSOR", GetSensorStatus());
+    if (GetSensorStatus()) {
+        maximumPosition = m_encoder -> GetPosition() + constants::Values::CLIMBER_UPPER_LIMIT;
         isSet = true;
     }
     if (!override && ((abs(input) <= constants::Values::CLIMBER_INPUT_DEADZONE) || 
     (((-(m_encoder -> GetPosition()) - maximumPosition < 0 || !isSet) && input <= 0)) ||
     (!(m_sensor -> Get()) && input >= 0))) {
-        input = 0;
+        //input = 0;
     } 
     frc::SmartDashboard::PutNumber("climber encoder value", m_encoder -> GetPosition());
     frc::SmartDashboard::PutNumber("climber max pos", maximumPosition);
     m_climberMotor -> Set(input);
+}
+
+bool Climber::GetSensorStatus() {
+    return !(m_sensor -> Get());
 }
 
 Climber::~Climber() {
