@@ -8,15 +8,20 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.io.LineNumberInputStream;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Climber extends SubsystemBase {
-    public CANSparkMax climberMotor;
-    public RelativeEncoder climberEncoder;
+    private CANSparkMax climberMotor;
+    private RelativeEncoder climberEncoder;
     private DigitalInput climberZeroSwitch;
+    private boolean isSet;
+
     public Climber() {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
         climberMotor.setIdleMode(IdleMode.kBrake); // the climber needs to hang for a while- this prevents it from slipping
@@ -24,18 +29,21 @@ public class Climber extends SubsystemBase {
         climberEncoder = climberMotor.getEncoder();
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
+        isSet = false;
     }
 
-    public void climberMove(double movement) {
-        if (!climberZeroSwitch.get()){ // climberZeroSwitch is flipped- returns 0 if pressed, 1 if not pressed
-            climberEncoder.setPosition(0); // if we're touching the switch at the bottom:
-            if (movement > 0) {            // we're at encoder position 0 (b/c relative encoder); if we're trying to move down (sign flipped):
-                movement = 0;              // don't
-            }
+    public void climberMove(double movement, boolean override) {
+        if (climberZeroSwitch.get()) 
+        { 
+            isSet = true; 
+            climberEncoder.setPosition(0);
         }
-        if (-climberEncoder.getPosition() > Constants.CLIMBER_MAX_HEIGHT && movement < 0) { //encoder on the NEO was set up to count backwards
-            movement = 0; // if we're higher than the max height and trying to move up (sign flipped):
-        }                 // don't
+        if (
+            (Math.abs(movement) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) ||
+            (!override && climberEncoder.getPosition() >= Constants.CLIMBER_MAX_HEIGHT && movement > 0) ||
+            (!override && climberZeroSwitch.get() && movement < 0)
+        ) { movement = 0; }
+
         climberMotor.set(movement);
     }
     public void resetEncoder() {
@@ -43,7 +51,7 @@ public class Climber extends SubsystemBase {
     }
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("Zero Switch", !climberZeroSwitch.get());
+        SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
         SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity()/60);
         SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
         SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());

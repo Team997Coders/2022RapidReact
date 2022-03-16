@@ -51,7 +51,8 @@ public class RobotContainer {
 
     m_simpleClimb = new SimpleClimb(m_climber, 
       () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP); }, 
-      () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN); });
+      () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN); },
+      () -> { return jsDrive.getRawButton(Constants.Controller.A_BUTTON); });
     m_arcadeDrive = new ArcadeDrive(m_drive,
       () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
       () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
@@ -83,29 +84,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     resetClimbEncoderButton = new JoystickButton(jsDrive, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
     resetDriveEncodersButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
-    // neutralModeToggleButton = new JoystickButton(js1, Constants.Controller.Y_BUTTON); // when Y is pressed, the drivetrain goes to coast mode
-    turboModeButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
 
     resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
     resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
-  }
-
-  public static double joystickLeftInput() {
-    //if (Math.abs(jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
-    //  return 0;                        // these methods are here so that the deadzone code doesn't
-    //} else {                           // have to be repeatedly copied-- static to avoid constructing a
-      return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1);  // RobotContainer in each subsystem
-    //}
-  }
-  public static double joystickRightInput() {
-    //if (Math.abs(jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
-     // return 0;
-    //} else {
-      return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2);
-    //}
-  }
-  public static boolean turboModePressed() {
-    return turboModeButton.get();
   }
 
   /**
