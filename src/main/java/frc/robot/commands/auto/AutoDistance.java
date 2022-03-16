@@ -23,11 +23,11 @@ public class AutoDistance extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
     timeout = timeSecs*1000;
-    m_constraints = new Constraints(Constants.MovementConstants.AUTO_DISTANCE_MAX_V, 
-      Constants.MovementConstants.AUTO_DISTANCE_MAX_A);
-    m_controller = new ProfiledPIDController(Constants.MovementConstants.AUTO_DISTANCE_KP, 
-      Constants.MovementConstants.AUTO_DISTANCE_KI, 
-      Constants.MovementConstants.AUTO_DISTANCE_KD, m_constraints);
+    m_constraints = new Constraints(Constants.Drive.AUTO_DISTANCE_MAX_V, 
+      Constants.Drive.AUTO_DISTANCE_MAX_A);
+    m_controller = new ProfiledPIDController(Constants.Drive.AUTO_DISTANCE_KP, 
+      Constants.Drive.AUTO_DISTANCE_KI, 
+      Constants.Drive.AUTO_DISTANCE_KD, m_constraints);
     m_distance = distance;
     addRequirements(drive);
   }
@@ -43,8 +43,8 @@ public class AutoDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    measurement = (Drivetrain.frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT
-      + Drivetrain.frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT)/2;
+    measurement = (Drivetrain.frontRight.getSelectedSensorPosition()*Constants.Drive.DRIVE_IN_PER_COUNT
+      + Drivetrain.frontLeft.getSelectedSensorPosition()*Constants.Drive.DRIVE_IN_PER_COUNT)/2;
     m_drive.tankDriveMove(m_controller.calculate(measurement), 0);
   }
 

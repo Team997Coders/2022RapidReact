@@ -14,8 +14,11 @@ import frc.robot.commands.auto.BallDumpAuto;
 import frc.robot.commands.auto.LeaveTarmacAuto;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.lighting.AllianceColors;
+import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -30,16 +33,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public static Joystick jsDrive;
-  public static Joystick jsClimb;
-  public JoystickButton resetClimbEncoderButton;
-  public JoystickButton resetDriveEncodersButton;
-  public static JoystickButton turboModeButton;
+  private Joystick jsDrive;
+  private Joystick jsClimb;
+  private JoystickButton resetClimbEncoderButton;
+  private JoystickButton resetDriveEncodersButton;
   private Climber m_climber;
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
   private Drivetrain m_drive;
+  private Lighting m_lighting;
   private SendableChooser<Command> autoModeSwitcher;
+  private SendableChooser<Command> ledModeSwitcher;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -48,6 +52,7 @@ public class RobotContainer {
 
     m_climber = new Climber();
     m_drive = new Drivetrain();
+    m_lighting = new Lighting(Constants.Lighting.LED_COUNT);
 
     m_simpleClimb = new SimpleClimb(m_climber, 
       () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP); }, 
@@ -59,14 +64,20 @@ public class RobotContainer {
       () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
 
     autoModeSwitcher = new SendableChooser<Command>();
+    ledModeSwitcher = new SendableChooser<Command>();
+    
     // Configure the button bindings
     configureButtonBindings();
+
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
     autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new BallDumpAuto(m_drive, 1));
     autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, 0));
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, 0));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
+
+    ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
+    ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
 
     CameraServer.startAutomaticCapture();
   }

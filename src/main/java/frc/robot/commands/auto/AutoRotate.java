@@ -21,11 +21,11 @@ public class AutoRotate extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     m_drive = drive;
-    m_constraints = new Constraints(Constants.MovementConstants.AUTO_ROTATE_MAX_V, 
-      Constants.MovementConstants.AUTO_ROTATE_MAX_A);
-    m_controller = new ProfiledPIDController(Constants.MovementConstants.AUTO_ROTATE_KP, 
-      Constants.MovementConstants.AUTO_ROTATE_KI, 
-      Constants.MovementConstants.AUTO_ROTATE_KD, m_constraints);
+    m_constraints = new Constraints(Constants.Drive.AUTO_ROTATE_MAX_V, 
+      Constants.Drive.AUTO_ROTATE_MAX_A);
+    m_controller = new ProfiledPIDController(Constants.Drive.AUTO_ROTATE_KP, 
+      Constants.Drive.AUTO_ROTATE_KI, 
+      Constants.Drive.AUTO_ROTATE_KD, m_constraints);
     m_rotation = rotation;
   }
 
@@ -49,7 +49,7 @@ public class AutoRotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (measurement-m_rotation <= Constants.MovementConstants.AUTO_ROTATE_TOL*m_rotation && 
-      measurement-m_rotation >= -Constants.MovementConstants.AUTO_ROTATE_TOL*m_rotation);
+    return (measurement-m_rotation <= Constants.Drive.AUTO_ROTATE_TOL*m_rotation && 
+      measurement-m_rotation >= -Constants.Drive.AUTO_ROTATE_TOL*m_rotation);
   }
 }

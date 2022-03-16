@@ -19,10 +19,10 @@ public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   public Drivetrain() {
 
-    frontRight = new WPI_TalonFX(Constants.Ports.FRONT_RIGHT); // constructs motor controllers and
-    frontLeft = new WPI_TalonFX(Constants.Ports.FRONT_LEFT); // assigns them to the correct
-    backRight = new WPI_TalonFX(Constants.Ports.BACK_RIGHT); // device ID
-    backLeft = new WPI_TalonFX(Constants.Ports.BACK_LEFT);
+    frontRight = new WPI_TalonFX(Constants.Ports.FRONT_RIGHT_PORT); // constructs motor controllers and
+    frontLeft = new WPI_TalonFX(Constants.Ports.FRONT_LEFT_PORT); // assigns them to the correct
+    backRight = new WPI_TalonFX(Constants.Ports.BACK_RIGHT_PORT); // device ID
+    backLeft = new WPI_TalonFX(Constants.Ports.BACK_LEFT_PORT);
 
     gyro = new AHRS(); // constructs the IMU
 
@@ -71,9 +71,9 @@ public class Drivetrain extends SubsystemBase {
  @Override
  public void periodic() {
   // This method will be called once per scheduler run
-  SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity() * Constants.DRIVE_IN_PER_COUNT * 0.1);
-  SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity() * Constants.DRIVE_IN_PER_COUNT * 0.1);
-  SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition() * Constants.DRIVE_IN_PER_COUNT);
-  SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition() * Constants.DRIVE_IN_PER_COUNT);
+  SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
+  SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
+  SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
+  SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
  }
 }

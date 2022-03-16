@@ -40,7 +40,7 @@ public class Climber extends SubsystemBase {
         }
         if (
             (Math.abs(movement) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) ||
-            (!override && climberEncoder.getPosition() >= Constants.CLIMBER_MAX_HEIGHT && movement > 0) ||
+            (!override && climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement > 0) ||
             (!override && climberZeroSwitch.get() && movement < 0)
         ) { movement = 0; }
 
