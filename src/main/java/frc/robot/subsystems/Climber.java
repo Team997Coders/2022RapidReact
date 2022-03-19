@@ -23,7 +23,6 @@ public class Climber extends SubsystemBase {
     public Climber() {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
         climberMotor.setIdleMode(IdleMode.kBrake); // the climber needs to hang for a while- this prevents it from slipping
-        climberMotor.setInverted(true);
         climberEncoder = climberMotor.getEncoder();
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
@@ -39,8 +38,8 @@ public class Climber extends SubsystemBase {
         }
         if (
             (Math.abs(movement) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) ||
-            (!override && climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement > 0) ||
-            (!override && getZeroSwitch() && movement < 0)
+            (!override && climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement < 0) ||
+            (!override && getZeroSwitch() && movement > 0)
         ) { movement = 0; }
 
         climberMotor.set(movement);

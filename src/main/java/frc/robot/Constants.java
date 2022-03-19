@@ -26,7 +26,7 @@ public final class Constants {
 
         public static final int 
             CONTROLLER_0 = 0, CONTROLLER_1 = 1, // drive = 0, climb = 1
-            JOYSTICK_1 = 1, JOYSTICK_2 = 4, TRIGGER_CLIMB_UP = 3, TRIGGER_CLIMB_DN = 2,
+            JOYSTICK_1 = 1, JOYSTICK_2 = 4, TRIGGER_CLIMB_UP = 2, TRIGGER_CLIMB_DN = 3,
             LEFT_BUMPER = 5, RIGHT_BUMPER = 6,
             A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4,
             UP_ARROW = 5, RIGHT_ARROW = 6, DOWN_ARROW = 7, LEFT_ARROW = 8; // check

@@ -79,8 +79,11 @@ public class RobotContainer {
 
     ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
     ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
+    Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
 
     CameraServer.startAutomaticCapture();
+
+    CommandScheduler.getInstance().schedule(new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
   }
 
   public void setDefaultCommands() {
@@ -108,6 +111,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoModeSwitcher.getSelected();
+  }
+
+  public Command getLedCommand() {
+    return ledModeSwitcher.getSelected();
   }
 
   public void SetDriveNeutralMode(NeutralMode mode) {
