@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,6 +12,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
     private CANSparkMax climberMotor;
@@ -28,15 +29,18 @@ public class Climber extends SubsystemBase {
         climberMotor.restoreFactoryDefaults();
     }
 
+    private boolean getZeroSwitch() {
+        return (!(climberZeroSwitch.get()));
+    }
     public void climberMove(double movement, boolean override) {
-        if (climberZeroSwitch.get()) 
+        if (getZeroSwitch())
         { 
             climberEncoder.setPosition(0);
         }
         if (
             (Math.abs(movement) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) ||
             (!override && climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement > 0) ||
-            (!override && climberZeroSwitch.get() && movement < 0)
+            (!override && getZeroSwitch() && movement < 0)
         ) { movement = 0; }
 
         climberMotor.set(movement);
@@ -46,14 +50,8 @@ public class Climber extends SubsystemBase {
     }
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("Zero Switch", climberZeroSwitch.get());
-        SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity()/60);
+         SmartDashboard.putBoolean("Zero Switch", getZeroSwitch());
+    //     SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity()/60);
         SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
-        SmartDashboard.putNumber("NavX Pitch", Drivetrain.gyro.getPitch());
-        SmartDashboard.putNumber("NavX Yaw", Drivetrain.gyro.getYaw());
-        SmartDashboard.putNumber("NavX Roll", Drivetrain.gyro.getRoll());
-        SmartDashboard.putNumber("Delta NavX Roll", Drivetrain.gyro.getRawGyroX());
-        SmartDashboard.putNumber("Delta NavX Pitch", Drivetrain.gyro.getRawGyroY());
-        SmartDashboard.putNumber("Delta NavX Yaw", Drivetrain.gyro.getRawGyroZ());
     }
 }

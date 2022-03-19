@@ -60,15 +60,10 @@ public final class Constants {
         public static final int CLIMBER_MAX_HEIGHT = 109;
     }
 
-    public static final int LED_COUNT = 50;
-    public static final double DRIVE_ENCODER_CPR = 2048;
-    public static final double DRIVE_WHEEL_DIA_IN = 6;
-    public static final double DRIVE_GEARBOX_RATIO = 7.31;
-    public static final double DRIVE_IN_PER_COUNT = (DRIVE_WHEEL_DIA_IN*Math.PI) / (DRIVE_ENCODER_CPR*DRIVE_GEARBOX_RATIO);
     public static class Lighting {
         
         public static final int 
-            LED_COUNT = 0,
+            LED_COUNT = 17,
             DEFAULT_ALTERNATING_TIME_MS = 500;
     }
 }

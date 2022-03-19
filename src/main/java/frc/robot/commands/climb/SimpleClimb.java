@@ -20,6 +20,7 @@ public class SimpleClimb extends CommandBase {
     m_climber = climb;
     m_up = up;
     m_down = down;
+    m_override = override;
   }
 
   // Called when the command is initially scheduled.

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -106,5 +108,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoModeSwitcher.getSelected();
+  }
+
+  public void SetDriveNeutralMode(NeutralMode mode) {
+    m_drive.setMotorNeutralMode(mode);
   }
 }

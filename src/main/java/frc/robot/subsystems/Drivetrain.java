@@ -5,16 +5,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-  public static WPI_TalonFX frontRight;
-  public static WPI_TalonFX frontLeft;
-  private static WPI_TalonFX backRight;
-  private static WPI_TalonFX backLeft;
-  public static AHRS gyro;
+  private WPI_TalonFX frontRight;
+  private WPI_TalonFX frontLeft;
+  private WPI_TalonFX backRight;
+  private WPI_TalonFX backLeft;
+  private AHRS gyro;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -39,8 +38,8 @@ public class Drivetrain extends SubsystemBase {
 
     resetEncoders(); // makes sure they're at zero
 
-    frontLeft.setInverted(true);
-    backLeft.setInverted(true);
+    frontRight.setInverted(true);
+    backRight.setInverted(true);
   }
   
   public void resetEncoders(){
@@ -61,19 +60,30 @@ public class Drivetrain extends SubsystemBase {
     frontRight.set(right);
   }
   
-  public static void setMotorNeutralMode(NeutralMode mode) {
+  public void setMotorNeutralMode(NeutralMode mode) {
     frontLeft.setNeutralMode(mode);
     frontRight.setNeutralMode(mode);
     backLeft.setNeutralMode(mode);
     backRight.setNeutralMode(mode);
   }
 
+  public double getGyroAngle() { return gyro.getAngle(); }
+
+  public double getRightSensorPosition() { return frontRight.getSelectedSensorPosition(); }
+  public double getLeftSensorPosition() { return frontLeft.getSelectedSensorPosition(); }
+
  @Override
  public void periodic() {
   // This method will be called once per scheduler run
-  SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
-  SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
-  SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
-  SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
+  //SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
+  //SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
+  //SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
+  //SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
+  //SmartDashboard.putNumber("NavX Pitch", gyro.getPitch());
+  //SmartDashboard.putNumber("NavX Yaw", gyro.getYaw());
+  //SmartDashboard.putNumber("NavX Roll", gyro.getRoll());
+  //SmartDashboard.putNumber("Delta NavX Roll", gyro.getRawGyroX());
+  //SmartDashboard.putNumber("Delta NavX Pitch", gyro.getRawGyroY());
+  //SmartDashboard.putNumber("Delta NavX Yaw", gyro.getRawGyroZ());
  }
 }
