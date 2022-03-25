@@ -24,6 +24,7 @@ public class Climber extends SubsystemBase {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
         climberMotor.setIdleMode(IdleMode.kBrake); // the climber needs to hang for a while- this prevents it from slipping
         climberEncoder = climberMotor.getEncoder();
+        climberEncoder.setInverted(true);
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
     }
