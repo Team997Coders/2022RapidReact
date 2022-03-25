@@ -24,7 +24,6 @@ public class Climber extends SubsystemBase {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
         climberMotor.setIdleMode(IdleMode.kBrake); // the climber needs to hang for a while- this prevents it from slipping
         climberEncoder = climberMotor.getEncoder();
-        climberEncoder.setInverted(true);
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
     }
@@ -39,7 +38,7 @@ public class Climber extends SubsystemBase {
         }
         if (
             (Math.abs(movement) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) ||
-            (!override && climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement < 0) ||
+            (!override && -climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement < 0) ||
             (!override && getZeroSwitch() && movement > 0)
         ) { movement = 0; }
 
@@ -52,6 +51,6 @@ public class Climber extends SubsystemBase {
     public void periodic() {
          SmartDashboard.putBoolean("Zero Switch", getZeroSwitch());
     //     SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity()/60);
-        SmartDashboard.putNumber("Climber Encoder", climberEncoder.getPosition());
+        SmartDashboard.putNumber("Climber Encoder", -climberEncoder.getPosition());
     }
 }
