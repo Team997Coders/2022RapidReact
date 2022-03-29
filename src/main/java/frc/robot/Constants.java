@@ -38,7 +38,7 @@ public final class Constants {
 
         public static final double 
             INPUT_SMOOTH_SLOPE = 0.03,
-            DRIVE_MODIFIER = 0.6,
+            DRIVE_MODIFIER = 1.0,
             TURN_MODIFIER = 0.5,
 
             AUTO_DISTANCE_KP = 0.1, AUTO_DISTANCE_KI = 0, AUTO_DISTANCE_KD = 0,
