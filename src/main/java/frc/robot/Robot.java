@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     m_robotContainer.SetDriveNeutralMode(NeutralMode.Brake);
+    m_robotContainer.setLeds();
   }
 
   @Override

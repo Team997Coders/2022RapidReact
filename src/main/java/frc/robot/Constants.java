@@ -37,7 +37,7 @@ public final class Constants {
     public static class Drive {
 
         public static final double 
-            INPUT_SMOOTH_SLOPE = 0.02,
+            INPUT_SMOOTH_SLOPE = 0.03,
             DRIVE_MODIFIER = 0.6,
             TURN_MODIFIER = 0.5,
 

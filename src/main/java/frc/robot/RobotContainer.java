@@ -39,8 +39,11 @@ public class RobotContainer {
   private JoystickButton resetClimbEncoderButton;
   private JoystickButton resetDriveEncodersButton;
   private Climber m_climber;
+
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
+  private Spartan1 m_defaultLighting;
+
   private Drivetrain m_drive;
   private Lighting m_lighting;
   private SendableChooser<Command> autoModeSwitcher;
@@ -64,6 +67,8 @@ public class RobotContainer {
       () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
       () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
 
+    m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
+
     autoModeSwitcher = new SendableChooser<Command>();
     ledModeSwitcher = new SendableChooser<Command>();
     
@@ -77,13 +82,17 @@ public class RobotContainer {
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
-    ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
-    ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
-    Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
+    //ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
+    //ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
+    //Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
 
     CameraServer.startAutomaticCapture();
 
-    CommandScheduler.getInstance().schedule(new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
+    
+  }
+
+  public void setLeds() {
+    CommandScheduler.getInstance().setDefaultCommand(m_lighting, m_defaultLighting);
   }
 
   public void setDefaultCommands() {

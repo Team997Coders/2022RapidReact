@@ -19,6 +19,7 @@ public class Climber extends SubsystemBase {
     private CANSparkMax climberMotor;
     private RelativeEncoder climberEncoder;
     private DigitalInput climberZeroSwitch;
+    private int smartdashboardCounter = 0;
 
     public Climber() {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
@@ -49,8 +50,10 @@ public class Climber extends SubsystemBase {
     }
     @Override
     public void periodic() {
-         SmartDashboard.putBoolean("Zero Switch", getZeroSwitch());
-    //     SmartDashboard.putNumber("Delta Climber Encoder", climberEncoder.getVelocity()/60);
-        SmartDashboard.putNumber("Climber Encoder", -climberEncoder.getPosition());
+        if (smartdashboardCounter >= 10) {
+            SmartDashboard.putBoolean("Zero Switch", getZeroSwitch());
+            smartdashboardCounter = 0;
+        }
+        smartdashboardCounter += 1;
     }
 }

@@ -21,6 +21,9 @@ public class Lighting extends SubsystemBase {
     m_led = new AddressableLED(Constants.Ports.LED_PWM_PORT);
     m_ledBuffer = new AddressableLEDBuffer(length);
     m_led.setLength(length);
+
+    updateLeds();
+    m_led.start();
   }
 
   public AddressableLEDBuffer getLedBuffer() { return m_ledBuffer; }
@@ -30,7 +33,6 @@ public class Lighting extends SubsystemBase {
     if (buffer.getLength() == m_length) {
       m_ledBuffer = buffer; 
     }
-    SmartDashboard.putString("LED Status", "Invalid Buffer Length");
   }
   public void updateLeds() {
     if (m_ledBuffer == null) {

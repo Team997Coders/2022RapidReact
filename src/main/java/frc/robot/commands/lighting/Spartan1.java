@@ -5,6 +5,7 @@
 package frc.robot.commands.lighting;
 
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Lighting;
@@ -26,16 +27,23 @@ public class Spartan1 extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putString("init", "leds");
     m_buffer1 = new AddressableLEDBuffer(m_lighting.getLength());
     m_buffer2 = new AddressableLEDBuffer(m_lighting.getLength());
     for (int i = 0; i < m_buffer1.getLength(); i++) {
       if (i % 2 == 0) {
-        m_buffer1.setRGB(i, 0, 0, 255);
+        if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+          m_buffer1.setRGB(i, 255, 0, 0);
+        } else {
+          m_buffer1.setRGB(i, 0, 0, 255);
+        }
         m_buffer2.setRGB(i, 255, 255, 255);
       }
       else {
-        m_buffer2.setRGB(i, 0, 0, 255);
+        if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+          m_buffer2.setRGB(i, 255, 0, 0);
+        } else {
+          m_buffer2.setRGB(i, 0, 0, 255);
+        }
         m_buffer1.setRGB(i, 255, 255, 255);
       }
     }
