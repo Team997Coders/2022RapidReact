@@ -52,7 +52,6 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     jsDrive = new Joystick(Constants.Controller.CONTROLLER_0);
-    //jsClimb = new Joystick(Constants.Controller.CONTROLLER_1);
 
     m_climber = new Climber();
     m_drive = new Drivetrain();
@@ -86,7 +85,7 @@ public class RobotContainer {
     //ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
     //Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
 
-    CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture().setResolution(320, 240);
 
     
   }
