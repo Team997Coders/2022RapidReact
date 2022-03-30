@@ -4,17 +4,23 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.BallDumpAuto;
-import frc.robot.commands.LeaveTarmacAuto;
-import frc.robot.commands.SimpleClimb;
+import frc.robot.commands.auto.BallDumpAuto;
+import frc.robot.commands.auto.LeaveTarmacAuto;
+import frc.robot.commands.climb.SimpleClimb;
+import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.lighting.AllianceColors;
+import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -29,34 +35,63 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public static Joystick jsDrive;
-  public static Joystick jsClimb;
-  public JoystickButton resetClimbEncoderButton;
-  public JoystickButton resetDriveEncodersButton;
-  public static JoystickButton turboModeButton;
+  private Joystick jsDrive;
+  private JoystickButton resetClimbEncoderButton;
+  private JoystickButton resetDriveEncodersButton;
   private Climber m_climber;
+
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
+  private Spartan1 m_defaultLighting;
+
   private Drivetrain m_drive;
-  //private SendableChooser<Command> autoModeSwitcher;
-  SendableChooser<Command> autoModeSwitcher = new SendableChooser<>();
+  private Lighting m_lighting;
+  private SendableChooser<Command> autoModeSwitcher;
+  private SendableChooser<Command> ledModeSwitcher;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     jsDrive = new Joystick(Constants.Controller.CONTROLLER_0);
-    //jsClimb = new Joystick(Constants.Controller.CONTROLLER_1);
+
     m_climber = new Climber();
     m_drive = new Drivetrain();
-    m_simpleClimb = new SimpleClimb(m_climber, jsDrive);
-    m_arcadeDrive = new ArcadeDrive(m_drive);
+    m_lighting = new Lighting(Constants.Lighting.LED_COUNT);
+
+    m_simpleClimb = new SimpleClimb(m_climber, 
+      () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_UP); }, 
+      () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN); },
+      () -> { return jsDrive.getRawButton(Constants.Controller.A_BUTTON); });
+    m_arcadeDrive = new ArcadeDrive(m_drive,
+      () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
+      () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
+      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+
+    m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
+
+    autoModeSwitcher = new SendableChooser<Command>();
+    ledModeSwitcher = new SendableChooser<Command>();
+    
     // Configure the button bindings
     configureButtonBindings();
+
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
     autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new BallDumpAuto(m_drive, 1));
     autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, 0));
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, 0));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
+
+    //ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
+    //ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
+    //Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
+
+    CameraServer.startAutomaticCapture().setResolution(320, 240);
+
+    
+  }
+
+  public void setLeds() {
+    CommandScheduler.getInstance().setDefaultCommand(m_lighting, m_defaultLighting);
   }
 
   public void setDefaultCommands() {
@@ -72,31 +107,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     resetClimbEncoderButton = new JoystickButton(jsDrive, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
     resetDriveEncodersButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
-    // neutralModeToggleButton = new JoystickButton(js1, Constants.Controller.Y_BUTTON); // when Y is pressed, the drivetrain goes to coast mode
-    turboModeButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
 
     resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
     resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
-    //neutralModeToggleButton.whenPressed(m_drive::setMotorModeCoast);
-    //neutralModeToggleButton.whenReleased(m_drive::setMotorModeBrake);
-  }
-
-  public static double joystickLeftInput() {
-    //if (Math.abs(jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
-    //  return 0;                        // these methods are here so that the deadzone code doesn't
-    //} else {                           // have to be repeatedly copied-- static to avoid constructing a
-      return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1);  // RobotContainer in each subsystem
-    //}
-  }
-  public static double joystickRightInput() {
-    //if (Math.abs(jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2)) < Constants.Controller.DEAD_ZONE_SENSITIVITY) {
-     // return 0;
-    //} else {
-      return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2);
-    //}
-  }
-  public static boolean turboModePressed() {
-    return turboModeButton.get();
   }
 
   /**
@@ -106,5 +119,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoModeSwitcher.getSelected();
+  }
+
+  public Command getLedCommand() {
+    return ledModeSwitcher.getSelected();
+  }
+
+  public void SetDriveNeutralMode(NeutralMode mode) {
+    m_drive.setMotorNeutralMode(mode);
   }
 }
