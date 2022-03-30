@@ -5,23 +5,28 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-  private WPI_TalonFX frontRight;
-  private WPI_TalonFX frontLeft;
-  private WPI_TalonFX backRight;
-  private WPI_TalonFX backLeft;
-  private AHRS gyro;
+  public static WPI_TalonFX frontRight;
+  public static WPI_TalonFX frontLeft;
+  private static WPI_TalonFX backRight;
+  private static WPI_TalonFX backLeft;
+  public static AHRS gyro;
 
+  
+  // private MotorControllerGroup leftSide;
+  // private MotorControllerGroup rightSide;
+  // private DifferentialDrive diffDrive;
   /** Creates a new Drivetrain. */
   public Drivetrain() {
 
-    frontRight = new WPI_TalonFX(Constants.Ports.FRONT_RIGHT_PORT); // constructs motor controllers and
-    frontLeft = new WPI_TalonFX(Constants.Ports.FRONT_LEFT_PORT); // assigns them to the correct
-    backRight = new WPI_TalonFX(Constants.Ports.BACK_RIGHT_PORT); // device ID
-    backLeft = new WPI_TalonFX(Constants.Ports.BACK_LEFT_PORT);
+    frontRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[2]); // constructs motor controllers and
+    frontLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[0]); // assigns them to the correct
+    backRight = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[3]); // device ID
+    backLeft = new WPI_TalonFX(Constants.Ports.DRIVE_PORTS[1]);
 
     gyro = new AHRS(); // constructs the IMU
 
@@ -38,8 +43,14 @@ public class Drivetrain extends SubsystemBase {
 
     resetEncoders(); // makes sure they're at zero
 
-    frontRight.setInverted(true);
-    backRight.setInverted(true);
+    frontLeft.setInverted(true);
+    backLeft.setInverted(true);
+
+    // leftSide = new MotorControllerGroup(frontLeft, backLeft);
+    // rightSide = new MotorControllerGroup(frontRight, backRight);
+
+    // diffDrive = new DifferentialDrive(leftSide, rightSide);
+    
   }
   
   public void resetEncoders(){
@@ -48,8 +59,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDriveMove(double speed, double rotation) {
-    double left_throttle = (speed - rotation); // equations for a differential drive
-    double right_throttle = (speed + rotation); // pass in raw controller values
+    double left_throttle = (speed-rotation); // equations for a differential drive
+    double right_throttle = (speed+rotation); // pass in raw controller values
 
     frontLeft.set(left_throttle);
     frontRight.set(right_throttle);
@@ -59,31 +70,25 @@ public class Drivetrain extends SubsystemBase {
     frontLeft.set(left);               // pass in processed values
     frontRight.set(right);
   }
-  
-  public void setMotorNeutralMode(NeutralMode mode) {
-    frontLeft.setNeutralMode(mode);
-    frontRight.setNeutralMode(mode);
-    backLeft.setNeutralMode(mode);
-    backRight.setNeutralMode(mode);
-  }
-
-  public double getGyroAngle() { return gyro.getAngle(); }
-
-  public double getRightSensorPosition() { return frontRight.getSelectedSensorPosition(); }
-  public double getLeftSensorPosition() { return frontLeft.getSelectedSensorPosition(); }
+  public static void setMotorModeBrake() { // for auto-- PIDs don't like brake mode
+  frontLeft.setNeutralMode(NeutralMode.Brake);
+  frontRight.setNeutralMode(NeutralMode.Brake);
+  backLeft.setNeutralMode(NeutralMode.Brake);
+  backRight.setNeutralMode(NeutralMode.Brake);
+}
+public static void setMotorModeCoast() { // for teleop safety/ease of drive
+  frontLeft.setNeutralMode(NeutralMode.Coast);
+  frontRight.setNeutralMode(NeutralMode.Coast);
+  backLeft.setNeutralMode(NeutralMode.Coast);
+  backRight.setNeutralMode(NeutralMode.Coast);
+}
 
  @Override
  public void periodic() {
   // This method will be called once per scheduler run
-  //SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
-  //SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity() * Constants.Drive.DRIVE_IN_PER_COUNT * 0.1);
-  //SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
-  //SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT);
-  //SmartDashboard.putNumber("NavX Pitch", gyro.getPitch());
-  //SmartDashboard.putNumber("NavX Yaw", gyro.getYaw());
-  //SmartDashboard.putNumber("NavX Roll", gyro.getRoll());
-  //SmartDashboard.putNumber("Delta NavX Roll", gyro.getRawGyroX());
-  //SmartDashboard.putNumber("Delta NavX Pitch", gyro.getRawGyroY());
-  //SmartDashboard.putNumber("Delta NavX Yaw", gyro.getRawGyroZ());
+  SmartDashboard.putNumber("Delta Drive L Encoder", frontLeft.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT*0.1);
+  SmartDashboard.putNumber("Delta Drive R Encoder", frontRight.getSelectedSensorVelocity()*Constants.DRIVE_IN_PER_COUNT*0.1);
+  SmartDashboard.putNumber("Drive L Encoder", frontLeft.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
+  SmartDashboard.putNumber("Drive R Encoder", frontRight.getSelectedSensorPosition()*Constants.DRIVE_IN_PER_COUNT);
  }
 }
