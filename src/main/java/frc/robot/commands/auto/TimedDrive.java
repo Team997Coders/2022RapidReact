@@ -9,19 +9,19 @@ import frc.robot.subsystems.Drivetrain;
 
 public class TimedDrive extends CommandBase {
   /** Creates a new TimedDrive. */
-  private Drivetrain drive;
+  private Drivetrain m_drive;
   private double timeout;
-  private double left;
-  private double right;
+  private double m_left;
+  private double m_right;
   private double startTime;
 
-  public TimedDrive(Drivetrain m_drive, double m_left, double m_right, double timeoutMS) {
+  public TimedDrive(Drivetrain drive, double left, double right, double timeoutMS) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_drive);
-    drive = m_drive;
+    m_drive = drive;
     timeout = timeoutMS;
-    left = m_left;
-    right = m_right;
+    m_left = left;
+    m_right = right;
+    addRequirements(m_drive);
   }
 
   // Called when the command is initially scheduled.
@@ -33,7 +33,7 @@ public class TimedDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.basicMove(right, left);
+    m_drive.basicMove(m_right, m_left);
   }
 
   // Called once the command ends or is interrupted.

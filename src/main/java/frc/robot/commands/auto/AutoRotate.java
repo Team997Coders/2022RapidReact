@@ -6,6 +6,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
@@ -14,32 +15,33 @@ public class AutoRotate extends CommandBase {
   /** Creates a new TimedAutoDistance. */
   private Drivetrain m_drive;
   private ProfiledPIDController m_controller;
-  private Constraints m_constraints;
   private double m_rotation;
-  private double measurement;
+
   public AutoRotate(Drivetrain drive, double rotation) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     m_drive = drive;
-    m_constraints = new Constraints(Constants.Drive.AUTO_ROTATE_MAX_V, 
-      Constants.Drive.AUTO_ROTATE_MAX_A);
+
     m_controller = new ProfiledPIDController(Constants.Drive.AUTO_ROTATE_KP, 
       Constants.Drive.AUTO_ROTATE_KI, 
-      Constants.Drive.AUTO_ROTATE_KD, m_constraints);
+      Constants.Drive.AUTO_ROTATE_KD, 
+      new Constraints(Constants.Drive.AUTO_ROTATE_MAX_V, 
+        Constants.Drive.AUTO_ROTATE_MAX_A));
     m_rotation = rotation;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_drive.resetGyroAngle();
     m_controller.setGoal(m_rotation);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    measurement = m_drive.getGyroAngle();
-    m_drive.tankDriveMove(0, m_controller.calculate(measurement));
+    SmartDashboard.putNumber("Gyro Angle", m_drive.getGyroAngle());
+    m_drive.tankDriveMove(0, m_controller.calculate(m_drive.getGyroAngle()));
   }
 
   // Called once the command ends or is interrupted.
@@ -49,7 +51,6 @@ public class AutoRotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (measurement-m_rotation <= Constants.Drive.AUTO_ROTATE_TOL*m_rotation && 
-      measurement-m_rotation >= -Constants.Drive.AUTO_ROTATE_TOL*m_rotation);
+    return (Math.abs(m_drive.getGyroAngle() - m_rotation) <= Constants.Drive.AUTO_ROTATE_TOL);
   }
 }

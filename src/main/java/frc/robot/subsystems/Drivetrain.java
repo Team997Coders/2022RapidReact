@@ -68,6 +68,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getGyroAngle() { return gyro.getAngle(); }
+  public void resetGyroAngle() { gyro.reset(); }
 
   public double getRightSensorPosition() { return frontRight.getSelectedSensorPosition(); }
   public double getLeftSensorPosition() { return frontLeft.getSelectedSensorPosition(); }

@@ -101,7 +101,7 @@ public class RobotContainer {
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new AutoDistance(m_drive, 60, 5000));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new AutoDistance(m_drive, 90, 5000));
     autoModeSwitcher.addOption("Collect Auto Full", new AutoBackGrabBall(m_drive, m_intake, m_pdp, 120));
-    autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, 135));
+    autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, -90));
     autoModeSwitcher.addOption("Drive Intake Test", new AutoDriveToDistanceIntake(m_drive, m_intake, m_pdp, 36, 3000));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
