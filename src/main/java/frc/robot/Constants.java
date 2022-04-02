@@ -44,12 +44,12 @@ public final class Constants {
             TURN_MODIFIER = 0.5,
 
             AUTO_DISTANCE_KP = 0.1, AUTO_DISTANCE_KI = 0, AUTO_DISTANCE_KD = 0,
-            AUTO_DISTANCE_MAX_V = 200, AUTO_DISTANCE_MAX_A = 100,
-            AUTO_DISTANCE_TOL = 3, // in degrees
+            AUTO_DISTANCE_MAX_V = 100, AUTO_DISTANCE_MAX_A = 100,
+            AUTO_DISTANCE_TOL = 3, 
 
-            AUTO_ROTATE_KP = 0.005, AUTO_ROTATE_KI = 0, AUTO_ROTATE_KD = 0,
-            AUTO_ROTATE_MAX_V = 360, AUTO_ROTATE_MAX_A = 60,
-            AUTO_ROTATE_TOL = 0.01,
+            AUTO_ROTATE_KP = 0.015, AUTO_ROTATE_KI = 0, AUTO_ROTATE_KD = 0,
+            AUTO_ROTATE_MAX_V = 360, AUTO_ROTATE_MAX_A = 100,
+            AUTO_ROTATE_TOL = 1,
 
             DRIVE_ENCODER_CPR = 2048,
             DRIVE_WHEEL_DIA_IN = 6,

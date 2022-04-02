@@ -33,8 +33,8 @@ public class AutoRotate extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drive.resetGyroAngle();
-    m_controller.setGoal(m_rotation);
+    m_controller.setGoal(m_drive.getGyroAngle() + m_rotation);
+    SmartDashboard.putNumber("Target Angle", m_drive.getGyroAngle() + m_rotation);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
