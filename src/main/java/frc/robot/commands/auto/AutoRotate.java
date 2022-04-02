@@ -16,12 +16,14 @@ public class AutoRotate extends CommandBase {
   private Drivetrain m_drive;
   private ProfiledPIDController m_controller;
   private double m_rotation;
+  private double timeout;
+  private double startTime;
 
-  public AutoRotate(Drivetrain drive, double rotation) {
+  public AutoRotate(Drivetrain drive, double rotation, double timeoutMS) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     m_drive = drive;
-
+    timeout = timeoutMS;
     m_controller = new ProfiledPIDController(Constants.Drive.AUTO_ROTATE_KP, 
       Constants.Drive.AUTO_ROTATE_KI, 
       Constants.Drive.AUTO_ROTATE_KD, 
@@ -33,6 +35,7 @@ public class AutoRotate extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = System.currentTimeMillis();
     m_controller.setGoal(m_drive.getGyroAngle() + m_rotation);
     SmartDashboard.putNumber("Target Angle", m_drive.getGyroAngle() + m_rotation);
   }
@@ -51,6 +54,7 @@ public class AutoRotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(m_drive.getGyroAngle() - m_rotation) <= Constants.Drive.AUTO_ROTATE_TOL);
+    return (Math.abs(m_drive.getGyroAngle() - m_rotation) <= Constants.Drive.AUTO_ROTATE_TOL
+    || System.currentTimeMillis() - startTime >= timeout);
   }
 }

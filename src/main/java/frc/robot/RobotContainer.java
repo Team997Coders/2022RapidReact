@@ -17,6 +17,7 @@ import frc.robot.commands.auto.AutoBackGrabBall;
 import frc.robot.commands.auto.AutoDistance;
 import frc.robot.commands.auto.AutoDriveToDistanceIntake;
 import frc.robot.commands.auto.AutoRotate;
+import frc.robot.commands.auto.FullAuto;
 import frc.robot.commands.auto.AutoBallDump;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
@@ -74,11 +75,11 @@ public class RobotContainer {
     m_arcadeDrive = new ArcadeDrive(m_drive,
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
-      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+      () -> { return jsDrive.getRawButton(Constants.Controller.B_BUTTON); });
       
     m_simpleIntake = new SimpleIntake(m_intake, 
-      () -> { return jsDrive.getRawButton(Constants.Controller.Y_BUTTON); }, 
-      () -> { return jsDrive.getRawButton(Constants.Controller.B_BUTTON); });
+      () -> { return jsDrive.getRawButton(Constants.Controller.LEFT_BUMPER); }, 
+      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
 
     m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
 
@@ -95,9 +96,8 @@ public class RobotContainer {
     autoModeSwitcher.addOption("Ball Dump: Stay In Position", new AutoBallDump(m_drive, 0, 5000));
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new AutoDistance(m_drive, 60, 5000));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new AutoDistance(m_drive, 90, 5000));
-    autoModeSwitcher.addOption("Collect Auto Full", new AutoBackGrabBall(m_drive, m_intake, m_pdp, 120));
-    autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, -90));
-    autoModeSwitcher.addOption("Drive Intake Test", new AutoDriveToDistanceIntake(m_drive, m_intake, m_pdp, 36, 3000));
+    autoModeSwitcher.addOption("Collect Auto Full", new FullAuto(m_drive, m_intake, m_pdp));
+    autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, -90, 3000));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
     //ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));

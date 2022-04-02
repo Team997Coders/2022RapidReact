@@ -15,6 +15,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public Intake() {
     intakeMotor = new VictorSPX(Constants.Ports.INTAKE_PORT);
+    intakeMotor.setInverted(true);
   }
   public void setIntakeSpeed(double speed) {
     intakeMotor.set(ControlMode.PercentOutput, speed);

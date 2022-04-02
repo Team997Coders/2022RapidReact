@@ -18,6 +18,7 @@ public class AutoDistance extends CommandBase {
   private double measurement;
   private double timeout;
   private double startTime;
+  
   public AutoDistance(Drivetrain drive, double distance, double timeoutMS) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;

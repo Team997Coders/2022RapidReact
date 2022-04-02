@@ -12,15 +12,14 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoBackGrabBall extends SequentialCommandGroup {
-  /** Creates a new AutoBackGrabBall. */
-  public AutoBackGrabBall(Drivetrain m_drive, Intake intake, PowerDistribution pdp, double angle, double endDistance) {
+public class FullAuto extends SequentialCommandGroup {
+  /** Creates a new FullAuto. */
+  public FullAuto(Drivetrain drive, Intake intake, PowerDistribution pdp) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoDistance(m_drive, -12, 3000),
-      new AutoRotate(m_drive, angle, 3000),
-      new AutoDriveToDistanceIntake(m_drive, intake, pdp, endDistance, 3000)
+      new AutoBallDump(drive, 0, 3000),
+      new AutoBackGrabBall(drive, intake, pdp, 135, 36)
     );
   }
 }
