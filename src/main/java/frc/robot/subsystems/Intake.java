@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -11,20 +13,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  private CANSparkMax intakeMotor;
-  private double motorSpeed;
+  private VictorSPX intakeMotor;
   /** Creates a new Intake. */
   public Intake() {
-    intakeMotor = new CANSparkMax(Constants.Ports.INTAKE_PORT, MotorType.kBrushless);
-    motorSpeed = 0;
+    intakeMotor = new VictorSPX(Constants.Ports.INTAKE_PORT);
   }
   public void setIntakeSpeed(double speed) {
-    motorSpeed = speed;
+    intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    intakeMotor.set(motorSpeed);
   }
 }

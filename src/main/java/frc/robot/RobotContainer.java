@@ -21,6 +21,7 @@ import frc.robot.commands.auto.AutoBallDump;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.intake.IntakeCommand;
+import frc.robot.commands.intake.SimpleIntake;
 import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -46,6 +47,7 @@ public class RobotContainer {
 
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
+  private SimpleIntake m_simpleIntake;
   private IntakeCommand m_intakeCommand;
   private Spartan1 m_defaultLighting;
 
@@ -79,6 +81,9 @@ public class RobotContainer {
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
       () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+    m_simpleIntake = new SimpleIntake(m_intake, 
+      () -> { return jsDrive.getRawButton(Constants.Controller.Y_BUTTON); }, 
+      () -> { return jsDrive.getRawButton(Constants.Controller.B_BUTTON); });
 
     m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
 
@@ -114,7 +119,7 @@ public class RobotContainer {
   public void setDefaultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadeDrive); //sets the Drivetrain to default to ArcadeDrive in teleop
     CommandScheduler.getInstance().setDefaultCommand(m_climber, m_simpleClimb); //sets the Climber to default to SimpleClimb in teleop
-    CommandScheduler.getInstance().setDefaultCommand(m_intake, m_intakeCommand);
+    CommandScheduler.getInstance().setDefaultCommand(m_intake, m_simpleIntake);
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -123,14 +128,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    intakeForwardButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
-    intakeBackwardsButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON);
+    //intakeForwardButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
+    //intakeBackwardsButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON);
 
-    intakeForwardButton.whileHeld(intakeForwardsCommand = new IntakeCommand(m_intake, Constants.Intake.INTAKE_DEFAULT_SPEED));
-    intakeBackwardsButton.cancelWhenPressed(intakeForwardsCommand);
+    //intakeForwardButton.whileHeld(intakeForwardsCommand = new IntakeCommand(m_intake, Constants.Intake.INTAKE_DEFAULT_SPEED));
+    //intakeBackwardsButton.cancelWhenPressed(intakeForwardsCommand);
 
-    intakeBackwardsButton.whileHeld(intakeBackwardsCommand = new IntakeCommand(m_intake, -Constants.Intake.INTAKE_DEFAULT_SPEED));
-    intakeForwardButton.cancelWhenPressed(intakeBackwardsCommand);
+    //intakeBackwardsButton.whileHeld(intakeBackwardsCommand = new IntakeCommand(m_intake, -Constants.Intake.INTAKE_DEFAULT_SPEED));
+    //intakeForwardButton.cancelWhenPressed(intakeBackwardsCommand);
   }
 
   /**
