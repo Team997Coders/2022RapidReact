@@ -96,8 +96,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
-    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new AutoBallDump(m_drive, m_intake, -96, 4000));
-    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new AutoBallDump(m_drive, m_intake, 0, 5000));
+    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new AutoBallDump(m_drive, -96, 4000));
+    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new AutoBallDump(m_drive, 0, 5000));
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new AutoDistance(m_drive, 60, 5000));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new AutoDistance(m_drive, 90, 5000));
     autoModeSwitcher.addOption("Collect Auto Full", new AutoBackGrabBall(m_drive, m_intake, m_pdp, 120));

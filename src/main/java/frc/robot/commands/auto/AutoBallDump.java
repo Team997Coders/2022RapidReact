@@ -11,11 +11,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoBallDump extends SequentialCommandGroup {
   /** Creates a new BallDumpAuto. */
-  public AutoBallDump(Drivetrain drive, Intake intake, double endingDistance, int timeout) { // 1: move out after dump 0: stay after dump
+  public AutoBallDump(Drivetrain drive, double endingDistance, int timeout) { // 1: move out after dump 0: stay after dump
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     addCommands(
-      new IntakeCommand(intake),
       new AutoDistance(drive, 36, 5000),
       new TimedDrive(drive, 0, 0, 3000),
       new AutoDistance(drive, endingDistance, timeout)
