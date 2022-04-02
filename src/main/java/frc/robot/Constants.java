@@ -19,6 +19,7 @@ public final class Constants {
         public static final int 
             FRONT_LEFT_PORT = 13, BACK_LEFT_PORT = 14, FRONT_RIGHT_PORT = 15, BACK_RIGHT_PORT = 16,
             CLIMBER_PORT = 8,
+            INTAKE_PORT = 5, //just making this up
             ZERO_SWITCH_PORT = 0,
             LED_PWM_PORT = 0;
     }
@@ -60,6 +61,10 @@ public final class Constants {
         public static final int CLIMBER_MAX_HEIGHT = 109;
     }
 
+    public static class Intake {
+        public static final double INTAKE_DEFAULT_SPEED = 0.3; // idk
+    }
+    
     public static class Lighting {
         
         public static final int 

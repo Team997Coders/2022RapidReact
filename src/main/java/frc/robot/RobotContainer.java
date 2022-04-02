@@ -16,9 +16,11 @@ import frc.robot.commands.auto.BallDumpAuto;
 import frc.robot.commands.auto.LeaveTarmacAuto;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -37,13 +39,16 @@ public class RobotContainer {
   private Joystick jsDrive;
   private JoystickButton resetClimbEncoderButton;
   private JoystickButton resetDriveEncodersButton;
+  private JoystickButton stopIntakeMotorButton;
   private Climber m_climber;
 
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
+  private IntakeCommand m_intakeCommand;
   private Spartan1 m_defaultLighting;
 
   private Drivetrain m_drive;
+  private Intake m_intake;
   private Lighting m_lighting;
   private SendableChooser<Command> autoModeSwitcher;
   private SendableChooser<Command> ledModeSwitcher;
@@ -54,6 +59,7 @@ public class RobotContainer {
 
     m_climber = new Climber();
     m_drive = new Drivetrain();
+    m_intake = new Intake();
     m_lighting = new Lighting(Constants.Lighting.LED_COUNT);
 
     m_simpleClimb = new SimpleClimb(m_climber, 
@@ -74,11 +80,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
-    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac, Fast", new BallDumpAuto(m_drive, 1, 2));
-    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac, Slow", new BallDumpAuto(m_drive, 1, 5));
-    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, 0, 2));
-    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, 0));
-    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
+    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac, Fast", new BallDumpAuto(m_drive, m_intake, 1, 2));
+    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac, Slow", new BallDumpAuto(m_drive, m_intake, 1, 5));
+    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, m_intake, 0, 2));
+    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, m_intake, 0));
+    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, m_intake, 1));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
     //ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
@@ -95,6 +101,7 @@ public class RobotContainer {
   public void setDefaultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(m_drive, m_arcadeDrive); //sets the Drivetrain to default to ArcadeDrive in teleop
     CommandScheduler.getInstance().setDefaultCommand(m_climber, m_simpleClimb); //sets the Climber to default to SimpleClimb in teleop
+    CommandScheduler.getInstance().setDefaultCommand(m_intake, m_intakeCommand);
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -105,9 +112,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     resetClimbEncoderButton = new JoystickButton(jsDrive, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
     resetDriveEncodersButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
+    stopIntakeMotorButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
 
     resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
     resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
+    stopIntakeMotorButton.whenPressed(new IntakeCommand(m_intake));
   }
 
   /**

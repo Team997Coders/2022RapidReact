@@ -4,18 +4,21 @@
 
 package frc.robot.commands.auto;
 
+import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class BallDumpAuto extends SequentialCommandGroup {
   /** Creates a new BallDumpAuto. */
-  public BallDumpAuto(Drivetrain m_drive, int leaveOrNo, int speed) { // 1: move out after dump 0: stay after dump
+  public BallDumpAuto(Drivetrain drive, Intake intake, int leaveOrNo, int speed) { // 1: move out after dump 0: stay after dump
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_drive);
+    addRequirements(drive);
     addCommands(
-      new AutoDistance(m_drive, 36, 5),
-      new TimedDrive(m_drive, 3, 0, 0),
-      new AutoDistance(m_drive, -(96*leaveOrNo), speed)
+      new IntakeCommand(intake),
+      new AutoDistance(drive, 36, 5),
+      new TimedDrive(drive, 3, 0, 0),
+      new AutoDistance(drive, -(96*leaveOrNo), speed)
     );
   }
 }
