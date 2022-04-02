@@ -10,16 +10,16 @@ import frc.robot.subsystems.Drivetrain;
 public class TimedDrive extends CommandBase {
   /** Creates a new TimedDrive. */
   private Drivetrain drive;
-  private double duration;
+  private double timeout;
   private double left;
   private double right;
   private double startTime;
 
-  public TimedDrive(Drivetrain m_drive, double m_duration, double m_left, double m_right) {
+  public TimedDrive(Drivetrain m_drive, double m_left, double m_right, double timeoutMS) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
     drive = m_drive;
-    duration = m_duration*1000;
+    timeout = timeoutMS;
     left = m_left;
     right = m_right;
   }
@@ -43,6 +43,6 @@ public class TimedDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis()-startTime >= duration);
+    return (System.currentTimeMillis() - startTime >= timeout);
   }
 }

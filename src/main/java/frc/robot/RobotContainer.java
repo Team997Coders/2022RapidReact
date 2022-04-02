@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.commands.auto.AutoBackGrabBall;
+import frc.robot.commands.auto.AutoDistance;
 import frc.robot.commands.auto.BallDumpAuto;
-import frc.robot.commands.auto.LeaveTarmacAuto;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
-import frc.robot.commands.lighting.AllianceColors;
 import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -62,8 +62,8 @@ public class RobotContainer {
       () -> { return jsDrive.getRawAxis(Constants.Controller.TRIGGER_CLIMB_DN); },
       () -> { return jsDrive.getRawButton(Constants.Controller.A_BUTTON); });
     m_arcadeDrive = new ArcadeDrive(m_drive,
-      () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
-      () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
+      () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
+      () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
       () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
 
     m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
@@ -75,10 +75,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
-    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new BallDumpAuto(m_drive, 1));
+    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new BallDumpAuto(m_drive, -96));
     autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, 0));
-    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, 0));
-    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
+    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new AutoDistance(m_drive, -60, 5000));
+    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new AutoDistance(m_drive, -90, 5000));
+    autoModeSwitcher.addOption("Collect Auto Full", new AutoBackGrabBall(m_drive, 120));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
     //ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));

@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Controller;
 import frc.robot.subsystems.Drivetrain;
 public class ArcadeDrive extends CommandBase {
   /** Creates a new ArcadeDrive. */
@@ -37,15 +38,21 @@ public class ArcadeDrive extends CommandBase {
   public void execute() {
     
     if (!m_turbo.get()) {
-      currentLeft = (m_xInput.get() * Constants.Drive.DRIVE_MODIFIER) + (m_zInput.get() * Constants.Drive.TURN_MODIFIER);
-      currentRight = (m_xInput.get() * Constants.Drive.DRIVE_MODIFIER) - (m_zInput.get() * Constants.Drive.TURN_MODIFIER);
+      currentLeft = (MathUtil.applyDeadband(m_xInput.get() * Constants.Drive.DRIVE_MODIFIER, Constants.Controller.DEAD_BAND) 
+        + MathUtil.applyDeadband(m_zInput.get() * Constants.Drive.TURN_MODIFIER, Constants.Controller.DEAD_BAND));
+      
+        currentRight = (MathUtil.applyDeadband(m_xInput.get() * Constants.Drive.DRIVE_MODIFIER, Constants.Controller.DEAD_BAND) 
+        - MathUtil.applyDeadband(m_zInput.get() * Constants.Drive.TURN_MODIFIER, Constants.Controller.DEAD_BAND));
     }
 
-    if (Math.abs(currentLeft) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) { lastLeft = 0; } 
-    else { lastLeft = MathUtil.clamp(currentLeft, lastLeft - Constants.Drive.INPUT_SMOOTH_SLOPE, lastLeft + Constants.Drive.INPUT_SMOOTH_SLOPE); }
-    if (Math.abs(currentRight) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) { lastRight = 0; } 
-    else { lastRight = MathUtil.clamp(currentRight, lastRight - Constants.Drive.INPUT_SMOOTH_SLOPE, lastRight + Constants.Drive.INPUT_SMOOTH_SLOPE); }
+    //if (Math.abs(currentLeft) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) { lastLeft = 0; } 
+    //else { lastLeft = MathUtil.clamp(currentLeft, lastLeft - Constants.Drive.INPUT_SMOOTH_SLOPE, lastLeft + Constants.Drive.INPUT_SMOOTH_SLOPE); }
+    //if (Math.abs(currentRight) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) { lastRight = 0; } 
+    //else { lastRight = MathUtil.clamp(currentRight, lastRight - Constants.Drive.INPUT_SMOOTH_SLOPE, lastRight + Constants.Drive.INPUT_SMOOTH_SLOPE); }
     
+    lastLeft = MathUtil.clamp(currentLeft, lastLeft - Constants.Drive.INPUT_SMOOTH_SLOPE, lastLeft + Constants.Drive.INPUT_SMOOTH_SLOPE);
+    lastRight = MathUtil.clamp(currentRight, lastRight - Constants.Drive.INPUT_SMOOTH_SLOPE, lastRight + Constants.Drive.INPUT_SMOOTH_SLOPE);
+
     m_drivetrain.basicMove(lastRight, lastLeft);
   }
 

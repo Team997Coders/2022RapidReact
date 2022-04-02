@@ -38,7 +38,7 @@ public class Climber extends SubsystemBase {
             climberEncoder.setPosition(0);
         }
         if (
-            (Math.abs(movement) <= Constants.Controller.DEAD_ZONE_SENSITIVITY) ||
+            (Math.abs(movement) <= Constants.Controller.DEAD_BAND) ||
             (!override && -climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement < 0) ||
             (!override && getZeroSwitch() && movement > 0)
         ) { movement = 0; }

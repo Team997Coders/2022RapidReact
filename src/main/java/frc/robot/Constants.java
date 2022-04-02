@@ -31,7 +31,7 @@ public final class Constants {
             A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4,
             UP_ARROW = 5, RIGHT_ARROW = 6, DOWN_ARROW = 7, LEFT_ARROW = 8; // check
         
-        public static final double DEAD_ZONE_SENSITIVITY = 0.02;
+        public static final double DEAD_BAND = 0.04;
     }
 
     public static class Drive {

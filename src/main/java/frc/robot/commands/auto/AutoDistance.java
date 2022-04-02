@@ -14,21 +14,21 @@ public class AutoDistance extends CommandBase {
   /** Creates a new TimedAutoDistance. */
   private Drivetrain m_drive;
   private ProfiledPIDController m_controller;
-  private Constraints m_constraints;
   private double m_distance;
   private double measurement;
   private double timeout;
   private double startTime;
-  public AutoDistance(Drivetrain drive, double distance, double timeSecs) {
+  public AutoDistance(Drivetrain drive, double distance, double timeoutMS) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
-    timeout = timeSecs*1000;
-    m_constraints = new Constraints(Constants.Drive.AUTO_DISTANCE_MAX_V, 
-      Constants.Drive.AUTO_DISTANCE_MAX_A);
+    timeout = timeoutMS;
+    m_distance = distance; // flip because drive is inverted
+
     m_controller = new ProfiledPIDController(Constants.Drive.AUTO_DISTANCE_KP, 
       Constants.Drive.AUTO_DISTANCE_KI, 
-      Constants.Drive.AUTO_DISTANCE_KD, m_constraints);
-    m_distance = distance;
+      Constants.Drive.AUTO_DISTANCE_KD,
+      new Constraints(Constants.Drive.AUTO_DISTANCE_MAX_V, Constants.Drive.AUTO_DISTANCE_MAX_A));
+    
     addRequirements(drive);
   }
 
@@ -43,9 +43,10 @@ public class AutoDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    measurement = (m_drive.getRightSensorPosition() *Constants.Drive.DRIVE_IN_PER_COUNT
-      + m_drive.getLeftSensorPosition()*Constants.Drive.DRIVE_IN_PER_COUNT)/2;
-    m_drive.tankDriveMove(m_controller.calculate(measurement), 0);
+    measurement = (m_drive.getRightSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT 
+      + m_drive.getLeftSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT) / 2;
+    
+      m_drive.tankDriveMove(m_controller.calculate(measurement), 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,6 +58,6 @@ public class AutoDistance extends CommandBase {
   public boolean isFinished() {
     // return (measurement-m_distance <= Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance && 
     // measurement-m_distance >= -Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance);
-    return (m_controller.atGoal() || System.currentTimeMillis()>=(startTime+timeout));
+    return (m_controller.atGoal() || System.currentTimeMillis() - startTime >= timeout);
   }
 }
