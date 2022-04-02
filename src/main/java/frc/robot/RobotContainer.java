@@ -37,21 +37,23 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private Joystick jsDrive;
-  private JoystickButton resetClimbEncoderButton;
-  private JoystickButton resetDriveEncodersButton;
-  private JoystickButton stopIntakeMotorButton;
-  private Climber m_climber;
+  private JoystickButton intakeForwardButton;
+  private JoystickButton intakeBackwardsButton;
 
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
   private IntakeCommand m_intakeCommand;
   private Spartan1 m_defaultLighting;
 
+  private Climber m_climber;
   private Drivetrain m_drive;
   private Intake m_intake;
   private Lighting m_lighting;
   private SendableChooser<Command> autoModeSwitcher;
   private SendableChooser<Command> ledModeSwitcher;
+
+  private IntakeCommand intakeForwardsCommand;
+  private IntakeCommand intakeBackwardsCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -110,13 +112,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    resetClimbEncoderButton = new JoystickButton(jsDrive, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
-    resetDriveEncodersButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
-    stopIntakeMotorButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
+    intakeForwardButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
+    intakeBackwardsButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON);
 
-    resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
-    resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
-    stopIntakeMotorButton.whenPressed(new IntakeCommand(m_intake));
+    intakeForwardButton.whileHeld(intakeForwardsCommand = new IntakeCommand(m_intake, Constants.Intake.INTAKE_DEFAULT_SPEED));
+    intakeBackwardsButton.cancelWhenPressed(intakeForwardsCommand);
+
+    intakeBackwardsButton.whileHeld(intakeBackwardsCommand = new IntakeCommand(m_intake, -Constants.Intake.INTAKE_DEFAULT_SPEED));
+    intakeForwardButton.cancelWhenPressed(intakeBackwardsCommand);
   }
 
   /**
