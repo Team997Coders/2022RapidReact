@@ -12,7 +12,7 @@ public class LeaveTarmacAuto extends SequentialCommandGroup{
   public LeaveTarmacAuto(Drivetrain drivetrain, int mode) { // 0: positioned on side 1: positioned in center
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(
-      new AutoDistance(drivetrain, (-60+(mode*-30)), 15)
+      new AutoDistance(drivetrain, 60+(mode*-30), 15)
     );
   }
 }

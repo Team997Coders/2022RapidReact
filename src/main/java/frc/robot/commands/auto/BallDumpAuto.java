@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class BallDumpAuto extends SequentialCommandGroup {
   /** Creates a new BallDumpAuto. */
-  public BallDumpAuto(Drivetrain m_drive, int mode) { // 1: move out after dump 0: stay after dump
+  public BallDumpAuto(Drivetrain m_drive, int leaveOrNo, int speed) { // 1: move out after dump 0: stay after dump
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
     addCommands(
-      new AutoDistance(m_drive, -36, 5),
+      new AutoDistance(m_drive, 36, 5),
       new TimedDrive(m_drive, 3, 0, 0),
-      new AutoDistance(m_drive, (96*mode), 5)
+      new AutoDistance(m_drive, -(96*leaveOrNo), speed)
     );
   }
 }

@@ -16,7 +16,6 @@ import frc.robot.commands.auto.BallDumpAuto;
 import frc.robot.commands.auto.LeaveTarmacAuto;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
-import frc.robot.commands.lighting.AllianceColors;
 import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -75,8 +74,9 @@ public class RobotContainer {
     configureButtonBindings();
 
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
-    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new BallDumpAuto(m_drive, 1));
-    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, 0));
+    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac, Fast", new BallDumpAuto(m_drive, 1, 2));
+    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac, Slow", new BallDumpAuto(m_drive, 1, 5));
+    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, 0, 2));
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, 0));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, 1));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
@@ -85,9 +85,7 @@ public class RobotContainer {
     //ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
     //Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
 
-    CameraServer.startAutomaticCapture().setResolution(320, 240);
-
-    
+    CameraServer.startAutomaticCapture().setResolution(100, 100);
   }
 
   public void setLeds() {
