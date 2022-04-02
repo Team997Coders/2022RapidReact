@@ -9,16 +9,16 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class BallDumpAuto extends SequentialCommandGroup {
+public class AutoBallDump extends SequentialCommandGroup {
   /** Creates a new BallDumpAuto. */
-  public BallDumpAuto(Drivetrain drive, Intake intake, int leaveOrNo, int timeout) { // 1: move out after dump 0: stay after dump
+  public AutoBallDump(Drivetrain drive, Intake intake, double endingDistance, int timeout) { // 1: move out after dump 0: stay after dump
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     addCommands(
       new IntakeCommand(intake),
-      new AutoDistance(drive, 36, 5),
-      new TimedDrive(drive, 3, 0, 0),
-      new AutoDistance(drive, -(96*leaveOrNo), timeout)
+      new AutoDistance(drive, 36, 5000),
+      new TimedDrive(drive, 0, 0, 3000),
+      new AutoDistance(drive, endingDistance, timeout)
     );
   }
 }

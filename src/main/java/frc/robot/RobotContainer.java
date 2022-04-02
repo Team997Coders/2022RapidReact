@@ -9,12 +9,15 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.auto.AutoBackGrabBall;
-import frc.robot.commands.auto.BallDumpAuto;
-import frc.robot.commands.auto.LeaveTarmacAuto;
+import frc.robot.commands.auto.AutoDistance;
+import frc.robot.commands.auto.AutoDriveToDistanceIntake;
+import frc.robot.commands.auto.AutoRotate;
+import frc.robot.commands.auto.AutoBallDump;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.intake.IntakeCommand;
@@ -46,6 +49,7 @@ public class RobotContainer {
   private IntakeCommand m_intakeCommand;
   private Spartan1 m_defaultLighting;
 
+  private PowerDistribution m_pdp;
   private Climber m_climber;
   private Drivetrain m_drive;
   private Intake m_intake;
@@ -58,6 +62,8 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_pdp = new PowerDistribution();
+
     jsDrive = new Joystick(Constants.Controller.CONTROLLER_0);
 
     m_climber = new Climber();
@@ -79,15 +85,19 @@ public class RobotContainer {
     autoModeSwitcher = new SendableChooser<Command>();
     ledModeSwitcher = new SendableChooser<Command>();
     
+    m_pdp.clearStickyFaults();
+
     // Configure the button bindings
     configureButtonBindings();
 
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
-    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new BallDumpAuto(m_drive, m_intake, 1, -96));
-    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, m_intake, 0, 0));
-    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, m_intake, 0));
-    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, m_intake, 1));
-    autoModeSwitcher.addOption("Collect Auto Full", new AutoBackGrabBall(m_drive, 120));
+    autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new AutoBallDump(m_drive, m_intake, -96, 4000));
+    autoModeSwitcher.addOption("Ball Dump: Stay In Position", new AutoBallDump(m_drive, m_intake, 0, 5000));
+    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new AutoDistance(m_drive, 60, 5000));
+    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new AutoDistance(m_drive, 90, 5000));
+    autoModeSwitcher.addOption("Collect Auto Full", new AutoBackGrabBall(m_drive, m_intake, m_pdp, 120));
+    autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, 135));
+    autoModeSwitcher.addOption("Drive Intake Test", new AutoDriveToDistanceIntake(m_drive, m_intake, m_pdp, 36, 3000));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
     //ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));

@@ -50,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
   public void tankDriveMove(double speed, double rotation) {
     double left_throttle = (speed - rotation); // equations for a differential drive
     double right_throttle = (speed + rotation); // pass in raw controller values
-
+    
     frontLeft.set(left_throttle);
     frontRight.set(right_throttle);
   }

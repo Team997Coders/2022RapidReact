@@ -19,7 +19,8 @@ public final class Constants {
         public static final int 
             FRONT_LEFT_PORT = 13, BACK_LEFT_PORT = 14, FRONT_RIGHT_PORT = 15, BACK_RIGHT_PORT = 16,
             CLIMBER_PORT = 8,
-            INTAKE_PORT = 5, //just making this up
+            INTAKE_PORT = 12, //just making this up
+            INTAKE_PDP = 11,
             ZERO_SWITCH_PORT = 0,
             LED_PWM_PORT = 0;
     }

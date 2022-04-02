@@ -5,22 +5,22 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoBackGrabBall extends SequentialCommandGroup {
-  /** Creates a new AutoBackGrabBall. */
-  public AutoBackGrabBall(Drivetrain m_drive, Intake intake, PowerDistribution pdp, double endDistance) {
+public class AutoDriveToDistanceIntake extends ParallelCommandGroup {
+  /** Creates a new DriveToDistanceIntake. */
+  public AutoDriveToDistanceIntake(Drivetrain drive, Intake intake, PowerDistribution pdp, double distance, double timeMS) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoDistance(m_drive, -12, 3000),
-      new AutoRotate(m_drive, 135),
-      new AutoDriveToDistanceIntake(m_drive, intake, pdp, endDistance, 4000)
+      new AutoDistance(drive, distance, timeMS),
+      new AutoIntake(intake, pdp, 52, timeMS, false) // 53 is stall current
     );
   }
 }
