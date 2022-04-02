@@ -4,9 +4,7 @@
 
 package frc.robot.commands.auto;
 
-import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoBallDump extends SequentialCommandGroup {
