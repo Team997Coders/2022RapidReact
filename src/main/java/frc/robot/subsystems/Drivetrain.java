@@ -38,8 +38,8 @@ public class Drivetrain extends SubsystemBase {
 
     resetEncoders(); // makes sure they're at zero
 
-    frontRight.setInverted(true);
-    backRight.setInverted(true);
+    frontLeft.setInverted(true);
+    backLeft.setInverted(true);
   }
   
   public void resetEncoders(){
