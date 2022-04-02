@@ -19,12 +19,14 @@ public class SimpleIntake extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     m_forward = forward;
     m_backward = backward;
-    addRequirements(intake);
+    m_intake = intake;
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

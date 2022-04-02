@@ -63,13 +63,13 @@ public final class Constants {
     }
 
     public static class Intake {
-        public static final double INTAKE_DEFAULT_SPEED = 0.3; // idk
+        public static final double INTAKE_DEFAULT_SPEED = 0.5; // idk
     }
     
     public static class Lighting {
         
         public static final int 
             LED_COUNT = 17,
-            DEFAULT_ALTERNATING_TIME_MS = 500;
+            DEFAULT_ALTERNATING_TIME_MS = 750;
     }
 }

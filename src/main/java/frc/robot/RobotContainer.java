@@ -10,6 +10,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,7 +21,6 @@ import frc.robot.commands.auto.AutoRotate;
 import frc.robot.commands.auto.AutoBallDump;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
-import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.SimpleIntake;
 import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
@@ -30,7 +30,6 @@ import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -42,25 +41,19 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private Joystick jsDrive;
-  private JoystickButton intakeForwardButton;
-  private JoystickButton intakeBackwardsButton;
 
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
   private SimpleIntake m_simpleIntake;
-  private IntakeCommand m_intakeCommand;
   private Spartan1 m_defaultLighting;
 
-  private PowerDistribution m_pdp;
-  private Climber m_climber;
-  private Drivetrain m_drive;
-  private Intake m_intake;
-  private Lighting m_lighting;
+  private static PowerDistribution m_pdp;
+  private static Climber m_climber;
+  private static Drivetrain m_drive;
+  private static Intake m_intake;
+  private static Lighting m_lighting;
   private SendableChooser<Command> autoModeSwitcher;
   private SendableChooser<Command> ledModeSwitcher;
-
-  private IntakeCommand intakeForwardsCommand;
-  private IntakeCommand intakeBackwardsCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -80,10 +73,10 @@ public class RobotContainer {
     m_arcadeDrive = new ArcadeDrive(m_drive,
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
-      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });  // turbo
     m_simpleIntake = new SimpleIntake(m_intake, 
-      () -> { return jsDrive.getRawButton(Constants.Controller.Y_BUTTON); }, 
-      () -> { return jsDrive.getRawButton(Constants.Controller.B_BUTTON); });
+      () -> { return jsDrive.getRawButton(Constants.Controller.Y_BUTTON); }, // forward (pull in)
+      () -> { return jsDrive.getRawButton(Constants.Controller.B_BUTTON); }); // backwards (spit out)
 
     m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
 
@@ -109,7 +102,10 @@ public class RobotContainer {
     //ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
     //Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
 
-    CameraServer.startAutomaticCapture().setResolution(100, 100);
+    // the camera will crash the simulator.
+    if (RobotBase.isReal()) {
+      CameraServer.startAutomaticCapture().setResolution(100, 100);
+    }
   }
 
   public void setLeds() {

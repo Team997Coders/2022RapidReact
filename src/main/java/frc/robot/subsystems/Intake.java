@@ -5,19 +5,18 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  private VictorSPX intakeMotor;
-  /** Creates a new Intake. */
+  private WPI_VictorSPX intakeMotor;
+
   public Intake() {
-    intakeMotor = new VictorSPX(Constants.Ports.INTAKE_PORT);
+    intakeMotor = new WPI_VictorSPX(Constants.Ports.INTAKE_PORT);
   }
+
   public void setIntakeSpeed(double speed) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
   }
