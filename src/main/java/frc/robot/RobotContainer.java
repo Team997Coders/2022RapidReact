@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.auto.AutoBackGrabBall;
-import frc.robot.commands.auto.AutoDistance;
 import frc.robot.commands.auto.BallDumpAuto;
+import frc.robot.commands.auto.LeaveTarmacAuto;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.intake.IntakeCommand;
@@ -85,8 +85,8 @@ public class RobotContainer {
     autoModeSwitcher.setDefaultOption("None", new InstantCommand());
     autoModeSwitcher.addOption("Ball Dump: Leave Tarmac", new BallDumpAuto(m_drive, m_intake, 1, -96));
     autoModeSwitcher.addOption("Ball Dump: Stay In Position", new BallDumpAuto(m_drive, m_intake, 0, 0));
-    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new AutoDistance(m_drive, -60, 5000));
-    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new AutoDistance(m_drive, -90, 5000));
+    autoModeSwitcher.addOption("Leave Tarmac: Side Position", new LeaveTarmacAuto(m_drive, m_intake, 0));
+    autoModeSwitcher.addOption("Leave Tarmac: Center Position", new LeaveTarmacAuto(m_drive, m_intake, 1));
     autoModeSwitcher.addOption("Collect Auto Full", new AutoBackGrabBall(m_drive, 120));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
