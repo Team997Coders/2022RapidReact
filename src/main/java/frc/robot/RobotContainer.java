@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.auto.AutoDistance;
+import frc.robot.commands.auto.AutoDriveTimeIntake;
+import frc.robot.commands.auto.AutoDriveToDistanceIntake;
 import frc.robot.commands.auto.AutoRotate;
 import frc.robot.commands.auto.FullAuto;
 import frc.robot.commands.auto.AutoBallDump;
@@ -28,6 +30,7 @@ import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -95,7 +98,12 @@ public class RobotContainer {
     autoModeSwitcher.addOption("Leave Tarmac: Side Position", new AutoDistance(m_drive, 60, 5000));
     autoModeSwitcher.addOption("Leave Tarmac: Center Position", new AutoDistance(m_drive, 90, 5000));
     autoModeSwitcher.addOption("Collect Auto Full", new FullAuto(m_drive, m_intake, m_pdp));
-    autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, -90, 3000));
+    autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, 95, 3000));
+    autoModeSwitcher.addOption("Good Auto", new SequentialCommandGroup(
+      new AutoBallDump(m_drive, -70, 2000),
+      new AutoRotate(m_drive, -111, 2000),
+      new AutoDriveToDistanceIntake(m_drive, m_intake, m_pdp, 130, 3000)
+    ));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
     CameraServer.startAutomaticCapture().setResolution(100, 100);

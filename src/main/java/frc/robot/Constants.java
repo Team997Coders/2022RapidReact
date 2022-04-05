@@ -47,8 +47,8 @@ public final class Constants {
             AUTO_DISTANCE_MAX_V = 100, AUTO_DISTANCE_MAX_A = 100,
             AUTO_DISTANCE_TOL = 3, 
 
-            AUTO_ROTATE_KP = 0.015, AUTO_ROTATE_KI = 0, AUTO_ROTATE_KD = 0,
-            AUTO_ROTATE_MAX_V = 360, AUTO_ROTATE_MAX_A = 100,
+            AUTO_ROTATE_KP = 0.012, AUTO_ROTATE_KI = 0.002, AUTO_ROTATE_KD = 0,
+            AUTO_ROTATE_MAX_V = 360, AUTO_ROTATE_MAX_A = 180,
             AUTO_ROTATE_TOL = 1,
 
             DRIVE_ENCODER_CPR = 2048,

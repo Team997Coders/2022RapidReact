@@ -13,8 +13,8 @@ public class AutoBallDump extends SequentialCommandGroup {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     addCommands(
-      new AutoDistance(drive, 36, 5000),
-      new TimedDrive(drive, 0, 0, 3000),
+      new AutoDistance(drive, 36, 3000),
+      new TimedDrive(drive, 0, 0, 1000),
       new AutoDistance(drive, endingDistance, timeout)
     );
   }

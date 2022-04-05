@@ -44,7 +44,8 @@ public class AutoRotate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Gyro Angle", m_drive.getGyroAngle());
+    //SmartDashboard.putNumber("Gyro Angle", m_drive.getGyroAngle());
+    //SmartDashboard.putNumber("Profiler", m_controller.getSetpoint().position);
     m_drive.tankDriveMove(0, m_controller.calculate(m_drive.getGyroAngle()));
   }
 

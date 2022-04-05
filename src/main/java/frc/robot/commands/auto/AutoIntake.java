@@ -50,6 +50,6 @@ public class AutoIntake extends CommandBase {
   @Override
   public boolean isFinished() {
     // might automatically stop if it draws too much current starting up
-    return (m_pdp.getCurrent(Constants.Ports.INTAKE_PDP) >= m_stall || System.currentTimeMillis() - startTime >= m_timeout);
+    return (m_pdp.getCurrent(Constants.Ports.INTAKE_PDP) >= m_stall || (System.currentTimeMillis() - startTime) >= m_timeout);
   }
 }
