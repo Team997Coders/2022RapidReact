@@ -33,15 +33,14 @@ public class Climber extends SubsystemBase {
         return (!(climberZeroSwitch.get()));
     }
     public void climberMove(double movement, boolean override) {
-        if (getZeroSwitch())
-        { 
+        if (getZeroSwitch()) { 
             climberEncoder.setPosition(0);
         }
-        if (
-            (Math.abs(movement) <= Constants.Controller.DEAD_BAND) ||
+        if ((Math.abs(movement) <= Constants.Controller.DEAD_BAND) ||
             (!override && -climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement < 0) ||
-            (!override && getZeroSwitch() && movement > 0)
-        ) { movement = 0; }
+            (!override && getZeroSwitch() && movement > 0)) {
+             movement = 0; 
+        }
 
         climberMotor.set(movement);
     }

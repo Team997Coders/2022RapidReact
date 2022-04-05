@@ -36,6 +36,7 @@ public class AutoDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_controller.reset(0);
     m_drive.resetEncoders();
     m_controller.setGoal(m_distance);
     startTime = System.currentTimeMillis();
@@ -57,8 +58,6 @@ public class AutoDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return (measurement-m_distance <= Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance && 
-    // measurement-m_distance >= -Constants.MovementConstants.AUTO_ROTATE_TOL*m_distance);
     return (m_controller.atGoal() || System.currentTimeMillis() - startTime >= timeout);
   }
 }

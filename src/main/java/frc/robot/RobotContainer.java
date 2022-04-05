@@ -13,9 +13,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.auto.AutoBackGrabBall;
 import frc.robot.commands.auto.AutoDistance;
-import frc.robot.commands.auto.AutoDriveToDistanceIntake;
 import frc.robot.commands.auto.AutoRotate;
 import frc.robot.commands.auto.FullAuto;
 import frc.robot.commands.auto.AutoBallDump;
@@ -99,10 +97,6 @@ public class RobotContainer {
     autoModeSwitcher.addOption("Collect Auto Full", new FullAuto(m_drive, m_intake, m_pdp));
     autoModeSwitcher.addOption("Test turn", new AutoRotate(m_drive, -90, 3000));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
-
-    //ledModeSwitcher.setDefaultOption("Default Spartan", new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS));
-    //ledModeSwitcher.addOption("Alliance Colors", new AllianceColors(m_lighting));
-    //Shuffleboard.getTab("LEDs").add(ledModeSwitcher);
 
     CameraServer.startAutomaticCapture().setResolution(100, 100);
   }

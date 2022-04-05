@@ -35,6 +35,7 @@ public class AutoRotate extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_controller.reset(m_drive.getGyroAngle());
     startTime = System.currentTimeMillis();
     m_controller.setGoal(m_drive.getGyroAngle() + m_rotation);
     SmartDashboard.putNumber("Target Angle", m_drive.getGyroAngle() + m_rotation);
@@ -54,7 +55,6 @@ public class AutoRotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(m_drive.getGyroAngle() - m_rotation) <= Constants.Drive.AUTO_ROTATE_TOL
-    || System.currentTimeMillis() - startTime >= timeout);
+    return (m_controller.atGoal() || System.currentTimeMillis() - startTime >= timeout);
   }
 }

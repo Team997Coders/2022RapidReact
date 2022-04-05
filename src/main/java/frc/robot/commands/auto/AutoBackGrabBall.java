@@ -14,13 +14,13 @@ import frc.robot.subsystems.Intake;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoBackGrabBall extends SequentialCommandGroup {
   /** Creates a new AutoBackGrabBall. */
-  public AutoBackGrabBall(Drivetrain m_drive, Intake intake, PowerDistribution pdp, double angle, double endDistance) {
+  public AutoBackGrabBall(Drivetrain drive, Intake intake, PowerDistribution pdp, double angle, double endDistance) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoDistance(m_drive, -12, 3000),
-      new AutoRotate(m_drive, angle, 3000),
-      new AutoDriveToDistanceIntake(m_drive, intake, pdp, endDistance, 3000)
+      new AutoDistance(drive, -12, 3000),
+      new AutoRotate(drive, angle, 3000),
+      new AutoDriveToDistanceIntake(drive, intake, pdp, endDistance, 3000)
     );
   }
 }

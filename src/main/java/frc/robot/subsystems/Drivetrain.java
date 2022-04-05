@@ -23,7 +23,7 @@ public class Drivetrain extends SubsystemBase {
     backRight = new WPI_TalonFX(Constants.Ports.BACK_RIGHT_PORT); // device ID
     backLeft = new WPI_TalonFX(Constants.Ports.BACK_LEFT_PORT);
 
-    gyro = new AHRS(); // constructs the IMU
+    gyro = new AHRS(); // instantiates the IMU
 
     frontRight.configFactoryDefault();
     frontLeft.configFactoryDefault();
