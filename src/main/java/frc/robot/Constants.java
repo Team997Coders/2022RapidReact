@@ -58,6 +58,8 @@ public final class Constants {
     public static class Climber {
 
         public static final int CLIMBER_MAX_HEIGHT = 109;
+        public static final int[] CLIMB_CHECKPOINTS = {2,10,95,109};
+        public static final double CLIMB_PID_KP = 0.3, CLIMB_PID_KI = 0, CLIMB_PID_KD = 0;
     }
 
     public static class Lighting {

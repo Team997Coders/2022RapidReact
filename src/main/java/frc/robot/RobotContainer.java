@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.auto.BallDumpAuto;
 import frc.robot.commands.auto.LeaveTarmacAuto;
+import frc.robot.commands.climb.CheckpointClimb;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
-import frc.robot.commands.lighting.AllianceColors;
 import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -36,12 +36,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private Joystick jsDrive;
-  private JoystickButton resetClimbEncoderButton;
-  private JoystickButton resetDriveEncodersButton;
+
+  private JoystickButton startCheckpointClimbButton;
+  private JoystickButton endCheckpointClimbButton;
+
   private Climber m_climber;
 
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
+  private CheckpointClimb m_checkpointClimber;
   private Spartan1 m_defaultLighting;
 
   private Drivetrain m_drive;
@@ -65,6 +68,10 @@ public class RobotContainer {
       () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
       () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
       () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+
+    m_checkpointClimber = new CheckpointClimb(m_climber,
+      () -> { return jsDrive.getRawButtonPressed(Constants.Controller.X_BUTTON); },
+      () -> { return jsDrive.getRawButtonPressed(Constants.Controller.B_BUTTON); });
 
     m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
 
@@ -105,11 +112,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    resetClimbEncoderButton = new JoystickButton(jsDrive, Constants.Controller.X_BUTTON); // when X is pressed, distance on the climber NEO encoder is zeroed, for testing
-    resetDriveEncodersButton = new JoystickButton(jsDrive, Constants.Controller.B_BUTTON); // when B is pressed, distance on drive encoders is zeroed
+    startCheckpointClimbButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
+    endCheckpointClimbButton = new JoystickButton(jsDrive, Constants.Controller.Y_BUTTON);
 
-    resetDriveEncodersButton.whenPressed(m_drive::resetEncoders);
-    resetClimbEncoderButton.whenPressed(m_climber::resetEncoder);
+    startCheckpointClimbButton.cancelWhenActive(m_simpleClimb);
+    startCheckpointClimbButton.whenPressed(m_checkpointClimber);
+
+    endCheckpointClimbButton.cancelWhenActive(m_checkpointClimber);
+    endCheckpointClimbButton.whenPressed(m_simpleClimb);
   }
 
   /**
