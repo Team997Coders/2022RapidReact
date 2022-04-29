@@ -6,7 +6,10 @@ package frc.robot.commands.climb;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
@@ -14,27 +17,31 @@ import frc.robot.subsystems.Climber;
 public class CheckpointClimb extends CommandBase {
   /** Creates a new CheckpointClimb. */
   private Climber m_climber;
-  private PIDController controller;
+  private ProfiledPIDController controller;
   private int[] m_checkpoints;
   private int currentCheckpoint = 0;
   private Supplier<Boolean> m_upSupplier;
   private Supplier<Boolean> m_downSupplier;
+  private LinearFilter voltageFilter;
   public CheckpointClimb(Climber climber, Supplier<Boolean> upButtonSupplier, Supplier<Boolean> downButtonSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climber = climber;
-    controller = new PIDController(Constants.Climber.CLIMB_PID_KP, 
-        Constants.Climber.CLIMB_PID_KI, Constants.Climber.CLIMB_PID_KD);
+    controller = new ProfiledPIDController(Constants.Climber.CLIMB_LOW_PID_KP, 
+      Constants.Climber.CLIMB_LOW_PID_KI, Constants.Climber.CLIMB_LOW_PID_KD, 
+        new Constraints(Constants.Climber.CLIMB_LOW_V_LIM, Constants.Climber.CLIMB_LOW_A_LIM));
+    controller.setTolerance(Constants.Climber.SETPOINT_TOLERANCE);
     m_checkpoints = Constants.Climber.CLIMB_CHECKPOINTS;
     m_upSupplier = upButtonSupplier;
     m_downSupplier = downButtonSupplier;
+    voltageFilter = LinearFilter.movingAverage(Constants.Climber.FILTER_TAPS);
     addRequirements(climber);
   }
 
   public void nextCheckpoint(boolean overrideSequence) {
     if (overrideSequence || controller.atSetpoint()) {
-      if (currentCheckpoint < m_checkpoints.length-2) {
+      if (currentCheckpoint < m_checkpoints.length-1) {
         currentCheckpoint += 1;
-        controller.setSetpoint(m_checkpoints[currentCheckpoint]);
+        controller.setGoal(m_checkpoints[currentCheckpoint]);
       }
     }
   }
@@ -43,23 +50,23 @@ public class CheckpointClimb extends CommandBase {
     if (overrideSequence || controller.atSetpoint()) {
       if (currentCheckpoint > 0) {
         currentCheckpoint -= 1;
-        controller.setSetpoint(m_checkpoints[currentCheckpoint]);
+        controller.setGoal(m_checkpoints[currentCheckpoint]);
       }
     }
   }
 
+  public boolean getHighGains() {
+    return (voltageFilter.calculate(m_climber.getMotorCurrent()) > 30);
+  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    controller.setSetpoint(m_climber.getEncoderPosition());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_climber.getZeroSwitch()) {
-      currentCheckpoint = 0;
-    }
+    SmartDashboard.putNumber("climber phase", currentCheckpoint);
 
     if (m_upSupplier.get() && !m_downSupplier.get()) {
       nextCheckpoint(false);
@@ -67,7 +74,26 @@ public class CheckpointClimb extends CommandBase {
       previousCheckpoint(false);
     }
     
-    m_climber.climberMove(controller.calculate(m_climber.getEncoderPosition()), false);
+    double PIDCalculatedValue;
+    if (getHighGains()) {
+      controller.setPID(Constants.Climber.CLIMB_HIGH_PID_KP, Constants.Climber.CLIMB_HIGH_PID_KI, 
+        Constants.Climber.CLIMB_HIGH_PID_KD);
+      controller.setConstraints(new Constraints(Constants.Climber.CLIMB_HIGH_V_LIM, 
+        Constants.Climber.CLIMB_HIGH_A_LIM));
+    } else {
+      controller.setPID(Constants.Climber.CLIMB_LOW_PID_KP, Constants.Climber.CLIMB_LOW_PID_KI, 
+        Constants.Climber.CLIMB_LOW_PID_KD);
+      controller.setConstraints(new Constraints(Constants.Climber.CLIMB_LOW_V_LIM,
+        Constants.Climber.CLIMB_HIGH_A_LIM));
+    }
+
+    PIDCalculatedValue = controller.calculate(m_climber.getEncoderPosition());
+
+    m_climber.climberMove(-PIDCalculatedValue, false);
+    SmartDashboard.putNumber("encoder", m_climber.getEncoderPosition());
+    SmartDashboard.putNumber("climb phase", currentCheckpoint);
+    SmartDashboard.putNumber("output", PIDCalculatedValue);
+    SmartDashboard.putBoolean("voltage high", getHighGains());
   }
 
   // Called once the command ends or is interrupted.

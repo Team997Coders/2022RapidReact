@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -52,11 +53,15 @@ public class RobotContainer {
   private SendableChooser<Command> autoModeSwitcher;
   private SendableChooser<Command> ledModeSwitcher;
 
+  private PowerDistribution m_pdp;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_pdp = new PowerDistribution();
+    
     jsDrive = new Joystick(Constants.Controller.CONTROLLER_0);
 
-    m_climber = new Climber();
+    m_climber = new Climber(m_pdp);
     m_drive = new Drivetrain();
     m_lighting = new Lighting(Constants.Lighting.LED_COUNT);
 
@@ -137,5 +142,13 @@ public class RobotContainer {
 
   public void SetDriveNeutralMode(NeutralMode mode) {
     m_drive.setMotorNeutralMode(mode);
+  }
+
+  public void clearPDPStickyFaults() {
+    m_pdp.clearStickyFaults();
+  }
+
+  public double getPDPVoltage() {
+    return m_pdp.getVoltage();
   }
 }
