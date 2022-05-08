@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,15 +20,13 @@ public class Climber extends SubsystemBase {
     private RelativeEncoder climberEncoder;
     private DigitalInput climberZeroSwitch;
     private int smartdashboardCounter = 0;
-    private PowerDistribution m_pdp;
 
-    public Climber(PowerDistribution pdp) {
+    public Climber() {
         climberMotor = new CANSparkMax(Constants.Ports.CLIMBER_PORT, MotorType.kBrushless);
         climberMotor.setIdleMode(IdleMode.kBrake); // the climber needs to hang for a while- this prevents it from slipping
         climberEncoder = climberMotor.getEncoder();
         climberZeroSwitch = new DigitalInput(Constants.Ports.ZERO_SWITCH_PORT);
         climberMotor.restoreFactoryDefaults();
-        m_pdp = pdp;
     }
 
     public double getMotorCurrent() {
@@ -69,7 +66,5 @@ public class Climber extends SubsystemBase {
             smartdashboardCounter = 0;
         }
         smartdashboardCounter += 1;
-        SmartDashboard.putNumber("current", climberMotor.getOutputCurrent());
-        SmartDashboard.putNumber("voltage", m_pdp.getVoltage());
     }
 }

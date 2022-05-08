@@ -14,6 +14,10 @@ package frc.robot;
  */
 public final class Constants {
 
+    public static final double INCHES_PER_METER = 39.07;
+    
+    public static boolean DEMO_MODE = false;
+
     public static class Ports {
 
         public static final int 
@@ -35,11 +39,14 @@ public final class Constants {
     }
 
     public static class Drive {
-
         public static final double 
             INPUT_SMOOTH_SLOPE = 0.03,
-            DRIVE_MODIFIER = 1.0,
-            TURN_MODIFIER = 0.5,
+            
+            DRIVE_MODIFIER_FULL = 1,
+            TURN_MODIFIER_FULL = 0.5,
+
+            DRIVE_MODIFIER_DEMO = 0.2,
+            TURN_MODIFIER_DEMO = 0.2,
 
             AUTO_DISTANCE_KP = 0.1, AUTO_DISTANCE_KI = 0, AUTO_DISTANCE_KD = 0,
             AUTO_DISTANCE_MAX_V = 200, AUTO_DISTANCE_MAX_A = 100,
@@ -57,14 +64,14 @@ public final class Constants {
 
     public static class Climber {
 
-        public static final int CLIMBER_MAX_HEIGHT = 109,
-                                FILTER_TAPS = 10;
-        public static final int[] CLIMB_CHECKPOINTS = {2,95,109};
-        public static final double CLIMB_LOW_PID_KP = 0.06, CLIMB_LOW_PID_KI = 0, CLIMB_LOW_PID_KD = 0,
-                                CLIMB_HIGH_PID_KP = 0.05, CLIMB_HIGH_PID_KI = 0, CLIMB_HIGH_PID_KD = 0,
-                                CLIMB_LOW_V_LIM = 100, CLIMB_LOW_A_LIM = 100,
-                                CLIMB_HIGH_V_LIM = 20, CLIMB_HIGH_A_LIM = 20,
-                                SETPOINT_TOLERANCE = 3;
+        public static final int CLIMB_FILTER_TAPS = 10;
+        public static final int[] CLIMB_CHECKPOINTS = {0,70,109};
+        public static final double CLIMBER_MAX_HEIGHT = 111,
+                                CLIMB_LOW_PID_KP = 0.3, CLIMB_LOW_PID_KI = 0.02, CLIMB_LOW_PID_KD = 0,
+                                CLIMB_HIGH_PID_KP = 0.4, CLIMB_HIGH_PID_KI = 0.02, CLIMB_HIGH_PID_KD = 0,
+                                CLIMB_LOW_V_LIM = 80, CLIMB_LOW_A_LIM = 80,
+                                CLIMB_HIGH_V_LIM = 100, CLIMB_HIGH_A_LIM = 200,
+                                CLIMB_SETPOINT_TOLERANCE = 3;
     }
 
     public static class Lighting {

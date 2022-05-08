@@ -58,10 +58,10 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_pdp = new PowerDistribution();
-    
+
     jsDrive = new Joystick(Constants.Controller.CONTROLLER_0);
 
-    m_climber = new Climber(m_pdp);
+    m_climber = new Climber();
     m_drive = new Drivetrain();
     m_lighting = new Lighting(Constants.Lighting.LED_COUNT);
 
@@ -72,7 +72,8 @@ public class RobotContainer {
     m_arcadeDrive = new ArcadeDrive(m_drive,
       () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
       () -> { return jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
-      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+      () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); },
+      Constants.DEMO_MODE);
 
     m_checkpointClimber = new CheckpointClimb(m_climber,
       () -> { return jsDrive.getRawButtonPressed(Constants.Controller.X_BUTTON); },

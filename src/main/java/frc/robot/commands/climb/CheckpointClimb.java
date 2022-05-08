@@ -29,11 +29,11 @@ public class CheckpointClimb extends CommandBase {
     controller = new ProfiledPIDController(Constants.Climber.CLIMB_LOW_PID_KP, 
       Constants.Climber.CLIMB_LOW_PID_KI, Constants.Climber.CLIMB_LOW_PID_KD, 
         new Constraints(Constants.Climber.CLIMB_LOW_V_LIM, Constants.Climber.CLIMB_LOW_A_LIM));
-    controller.setTolerance(Constants.Climber.SETPOINT_TOLERANCE);
+    controller.setTolerance(Constants.Climber.CLIMB_SETPOINT_TOLERANCE);
     m_checkpoints = Constants.Climber.CLIMB_CHECKPOINTS;
     m_upSupplier = upButtonSupplier;
     m_downSupplier = downButtonSupplier;
-    voltageFilter = LinearFilter.movingAverage(Constants.Climber.FILTER_TAPS);
+    voltageFilter = LinearFilter.movingAverage(Constants.Climber.CLIMB_FILTER_TAPS);
     addRequirements(climber);
   }
 
@@ -58,6 +58,7 @@ public class CheckpointClimb extends CommandBase {
   public boolean getHighGains() {
     return (voltageFilter.calculate(m_climber.getMotorCurrent()) > 30);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -66,11 +67,10 @@ public class CheckpointClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("climber phase", currentCheckpoint);
-
     if (m_upSupplier.get() && !m_downSupplier.get()) {
       nextCheckpoint(false);
     } else if (m_downSupplier.get() && !m_upSupplier.get()) {
+      previousCheckpoint(true);
       previousCheckpoint(false);
     }
     
@@ -84,13 +84,15 @@ public class CheckpointClimb extends CommandBase {
       controller.setPID(Constants.Climber.CLIMB_LOW_PID_KP, Constants.Climber.CLIMB_LOW_PID_KI, 
         Constants.Climber.CLIMB_LOW_PID_KD);
       controller.setConstraints(new Constraints(Constants.Climber.CLIMB_LOW_V_LIM,
-        Constants.Climber.CLIMB_HIGH_A_LIM));
+        Constants.Climber.CLIMB_LOW_A_LIM));
     }
 
     PIDCalculatedValue = controller.calculate(m_climber.getEncoderPosition());
 
     m_climber.climberMove(-PIDCalculatedValue, false);
+    
     SmartDashboard.putNumber("encoder", m_climber.getEncoderPosition());
+    SmartDashboard.putNumber("error", controller.getSetpoint().position - m_climber.getEncoderPosition());
     SmartDashboard.putNumber("climb phase", currentCheckpoint);
     SmartDashboard.putNumber("output", PIDCalculatedValue);
     SmartDashboard.putBoolean("voltage high", getHighGains());
