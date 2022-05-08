@@ -29,9 +29,18 @@ public class Climber extends SubsystemBase {
         climberMotor.restoreFactoryDefaults();
     }
 
-    private boolean getZeroSwitch() {
+    public double getMotorCurrent() {
+        return climberMotor.getOutputCurrent();
+    }
+    
+    public boolean getZeroSwitch() {
         return (!(climberZeroSwitch.get()));
     }
+    
+    public double getEncoderPosition() {
+        return -climberEncoder.getPosition();
+    }
+
     public void climberMove(double movement, boolean override) {
         if (getZeroSwitch()) { 
             climberEncoder.setPosition(0);
@@ -44,9 +53,11 @@ public class Climber extends SubsystemBase {
 
         climberMotor.set(movement);
     }
+
     public void resetEncoder() {
         climberEncoder.setPosition(0);
     }
+    
     @Override
     public void periodic() {
         if (smartdashboardCounter >= 10) {

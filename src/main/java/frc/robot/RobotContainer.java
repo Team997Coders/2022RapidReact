@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import frc.robot.commands.auto.AutoDistance;
-import frc.robot.commands.auto.AutoDriveTimeIntake;
 import frc.robot.commands.auto.AutoDriveToDistanceIntake;
 import frc.robot.commands.auto.AutoRotate;
 import frc.robot.commands.auto.FullAuto;
@@ -22,15 +22,18 @@ import frc.robot.commands.auto.AutoBallDump;
 import frc.robot.commands.climb.SimpleClimb;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.intake.SimpleIntake;
+import frc.robot.commands.climb.CheckpointClimb;
 import frc.robot.commands.lighting.Spartan1;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -46,16 +49,22 @@ public class RobotContainer {
   private SimpleClimb m_simpleClimb;
   private ArcadeDrive m_arcadeDrive;
   private SimpleIntake m_simpleIntake;
+  private CheckpointClimb m_checkpointClimber;
   private Spartan1 m_defaultLighting;
 
-  private PowerDistribution m_pdp;
+  private JoystickButton startCheckpointClimbButton;
+  private JoystickButton endCheckpointClimbButton;
+
+
   private Climber m_climber;
   private Drivetrain m_drive;
   private Intake m_intake;
   private Lighting m_lighting;
+  
   private SendableChooser<Command> autoModeSwitcher;
   private SendableChooser<Command> ledModeSwitcher;
 
+  private PowerDistribution m_pdp;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -76,11 +85,15 @@ public class RobotContainer {
     m_arcadeDrive = new ArcadeDrive(m_drive,
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_1); },
       () -> { return -jsDrive.getRawAxis(Constants.Controller.JOYSTICK_2); },
-      () -> { return jsDrive.getRawButton(Constants.Controller.B_BUTTON); });
+      Constants.DEMO_MODE);
       
     m_simpleIntake = new SimpleIntake(m_intake, 
       () -> { return jsDrive.getRawButton(Constants.Controller.LEFT_BUMPER); }, 
       () -> { return jsDrive.getRawButton(Constants.Controller.RIGHT_BUMPER); });
+
+    m_checkpointClimber = new CheckpointClimb(m_climber,
+      () -> { return jsDrive.getRawButtonPressed(Constants.Controller.X_BUTTON); },
+      () -> { return jsDrive.getRawButtonPressed(Constants.Controller.B_BUTTON); });
 
     m_defaultLighting = new Spartan1(m_lighting, Constants.Lighting.DEFAULT_ALTERNATING_TIME_MS);
 
@@ -106,7 +119,9 @@ public class RobotContainer {
     ));
     Shuffleboard.getTab("Autonomous").add(autoModeSwitcher);
 
-    CameraServer.startAutomaticCapture().setResolution(100, 100);
+    if (Robot.isReal()) {
+      CameraServer.startAutomaticCapture().setResolution(100, 100);
+    }
   }
 
   public void setLeds() {
@@ -124,7 +139,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    startCheckpointClimbButton = new JoystickButton(jsDrive, Constants.Controller.A_BUTTON);
+    endCheckpointClimbButton = new JoystickButton(jsDrive, Constants.Controller.Y_BUTTON);
+
+    startCheckpointClimbButton.cancelWhenActive(m_simpleClimb);
+    startCheckpointClimbButton.whenPressed(m_checkpointClimber);
+
+    endCheckpointClimbButton.cancelWhenActive(m_checkpointClimber);
+    endCheckpointClimbButton.whenPressed(m_simpleClimb);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -141,5 +165,13 @@ public class RobotContainer {
 
   public void SetDriveNeutralMode(NeutralMode mode) {
     m_drive.setMotorNeutralMode(mode);
+  }
+
+  public void clearPDPStickyFaults() {
+    m_pdp.clearStickyFaults();
+  }
+
+  public double getPDPVoltage() {
+    return m_pdp.getVoltage();
   }
 }
