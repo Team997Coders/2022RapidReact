@@ -15,6 +15,17 @@ public class SimpleIntake extends CommandBase {
   Supplier<Boolean> m_forward, m_backward;
   Intake m_intake;
 
+  /**
+   * Runs the intake subsystem by teleoperated controls.
+   * "Forward" cooresponds in hardware to a motion that intakes a ball, "Backward"
+   * to a motion that ejects one.
+   * 
+   * @param intake   : The {@link Intake} subsystem to use.
+   * @param forward  : Supplier of the pressed status of a joystick button to run
+   *                 the intake forward.
+   * @param backward : Supplier of the pressed status of a joystick button to run
+   *                 the intake backward.
+   */
   public SimpleIntake(Intake intake, Supplier<Boolean> forward, Supplier<Boolean> backward) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_forward = forward;
@@ -25,7 +36,8 @@ public class SimpleIntake extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

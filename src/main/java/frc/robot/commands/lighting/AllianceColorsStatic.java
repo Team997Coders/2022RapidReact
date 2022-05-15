@@ -9,15 +9,27 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Lighting;
 
-public class AllianceColors extends CommandBase {
-  /** Creates a new AllianceColors. */
+public class AllianceColorsStatic extends CommandBase {
+  /** Creates a new AllianceColorsStatic. */
   Lighting m_lighting;
   AddressableLEDBuffer m_buffer;
 
-  public AllianceColors(Lighting lighting) {
+  /**
+   * Sets the LEDs of the Lighting subsystem to the color of the alliance, or if
+   * currently not in match play, to blue.
+   * 
+   * @param lighting : The {@link Lighting} subsystem to use.
+   */
+  public AllianceColorsStatic(Lighting lighting) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(lighting);
     m_lighting = lighting;
+  }
+
+  // Keeps LEDs active even when disabled
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 
   // Called when the command is initially scheduled.
@@ -43,7 +55,8 @@ public class AllianceColors extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

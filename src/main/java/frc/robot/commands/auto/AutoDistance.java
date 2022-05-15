@@ -6,30 +6,40 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoDistance extends CommandBase {
-  /** Creates a new TimedAutoDistance. */
+  /** Creates a new AutoDistance. */
   private Drivetrain m_drive;
   private ProfiledPIDController m_controller;
   private double m_distance;
   private double measurement;
   private double timeout;
   private double startTime;
-  
-  public AutoDistance(Drivetrain drive, double distance, double timeoutMS) {
+
+  /**
+   * Simple autonomous command for driving in straight lines.
+   * 
+   * @param drive          : {@link Drivetrain} subsystem to use.
+   * @param distanceMeters : Distance to target.
+   * @param timeoutMS      : Command will end after this many seconds, no
+   *                       matter if it reached its goal or not. Set to 0 to never
+   *                       timeout (not recommended).
+   */
+  public AutoDistance(Drivetrain drive, double distanceMeters, double timeoutS) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
-    timeout = timeoutMS;
-    m_distance = distance; // flip because drive is inverted
+    timeout = timeoutS;
+    m_distance = distanceMeters;
 
-    m_controller = new ProfiledPIDController(Constants.Drive.AUTO_DISTANCE_KP, 
-      Constants.Drive.AUTO_DISTANCE_KI, 
-      Constants.Drive.AUTO_DISTANCE_KD,
-      new Constraints(Constants.Drive.AUTO_DISTANCE_MAX_V, Constants.Drive.AUTO_DISTANCE_MAX_A));
-    
+    m_controller = new ProfiledPIDController(Constants.Drive.AUTO_DISTANCE_KP,
+        Constants.Drive.AUTO_DISTANCE_KI,
+        Constants.Drive.AUTO_DISTANCE_KD,
+        new Constraints(Constants.Drive.AUTO_DISTANCE_MAX_V, Constants.Drive.AUTO_DISTANCE_MAX_A));
+
     addRequirements(drive);
   }
 
@@ -39,25 +49,26 @@ public class AutoDistance extends CommandBase {
     m_controller.reset(0);
     m_drive.resetEncoders();
     m_controller.setGoal(m_distance);
-    startTime = System.currentTimeMillis();
+    startTime = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    measurement = (m_drive.getRightSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT 
-      + m_drive.getLeftSensorPosition() * Constants.Drive.DRIVE_IN_PER_COUNT) / 2;
-    
-      m_drive.tankDriveMove(m_controller.calculate(measurement), 0);
+    measurement = (m_drive.getRightSensorPosition() * Constants.Drive.DRIVE_METERS_PER_COUNT
+        + m_drive.getLeftSensorPosition() * Constants.Drive.DRIVE_METERS_PER_COUNT) / 2;
+
+    m_drive.basicMove(m_controller.calculate(measurement), m_controller.calculate(measurement));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_controller.atGoal() || System.currentTimeMillis() - startTime >= timeout);
+    return (m_controller.atGoal() || (Timer.getFPGATimestamp() - startTime >= timeout && timeout != 0));
   }
 }

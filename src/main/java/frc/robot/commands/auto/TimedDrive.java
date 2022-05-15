@@ -4,6 +4,7 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -15,10 +16,21 @@ public class TimedDrive extends CommandBase {
   private double m_right;
   private double startTime;
 
-  public TimedDrive(Drivetrain drive, double left, double right, double timeoutMS) {
+  /**
+   * Very simple command for auto. Sets the left and the right sides for a
+   * specified time.
+   * 
+   * @param drive    : The {@link Drivetrain} subsystem to use.
+   * @param left     : Value between [-1,1] (inclusive) to set the left-side
+   *                 motors to.
+   * @param right    : Value between [-1,1] (inclusive) to set the right-side
+   *                 motors to.
+   * @param timeoutS : Command will end after this many seconds.
+   */
+  public TimedDrive(Drivetrain drive, double left, double right, double timeoutS) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
-    timeout = timeoutMS;
+    timeout = timeoutS;
     m_left = left;
     m_right = right;
     addRequirements(m_drive);
@@ -27,7 +39,7 @@ public class TimedDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startTime = System.currentTimeMillis();
+    startTime = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,11 +50,12 @@ public class TimedDrive extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis() - startTime >= timeout);
+    return (Timer.getFPGATimestamp() - startTime >= timeout);
   }
 }
