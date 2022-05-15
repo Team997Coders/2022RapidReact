@@ -14,6 +14,15 @@ public class SimpleClimb extends CommandBase {
   private Supplier<Double> m_up, m_down;
   private Supplier<Boolean> m_override;
 
+  /**
+   * Command for a fully-human-controlled climb sequence.
+   * 
+   * @param climb    : The {@link Climber} subsystem to use.
+   * @param up       : Supplier of real-time values of a joystick axis.
+   * @param down     : Supplier of real-time values of a joystick axis.
+   * @param override : Supplier of the real-time pressed status of a button to
+   *                 disable checks for soft stops.
+   */
   public SimpleClimb(Climber climb, Supplier<Double> up, Supplier<Double> down, Supplier<Boolean> override) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climb);
@@ -25,7 +34,8 @@ public class SimpleClimb extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -35,7 +45,8 @@ public class SimpleClimb extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

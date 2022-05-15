@@ -22,31 +22,57 @@ public class CheckpointClimb extends CommandBase {
   private int currentCheckpoint = 0;
   private Supplier<Boolean> m_upSupplier;
   private Supplier<Boolean> m_downSupplier;
-  private LinearFilter voltageFilter;
+  private LinearFilter currentFilter;
+
+  /**
+   * Command for a semi-autonomous climb sequence, with the motion between certain
+   * critical extensions (or "checkpoints") done with a PID controller, while a
+   * human makes the complex decisions about *when* to make those movements.
+   * 
+   * @param climber            : The {@link Climber} subsystem to use.
+   * @param upButtonSupplier   : Supplier of the real-time pressed status of the
+   *                           controller's up button.
+   * @param downButtonSupplier : Supplier of the real-time pressed status of the
+   *                           controller's up button.
+   */
   public CheckpointClimb(Climber climber, Supplier<Boolean> upButtonSupplier, Supplier<Boolean> downButtonSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climber = climber;
-    controller = new ProfiledPIDController(Constants.Climber.CLIMB_LOW_PID_KP, 
-      Constants.Climber.CLIMB_LOW_PID_KI, Constants.Climber.CLIMB_LOW_PID_KD, 
+    controller = new ProfiledPIDController(Constants.Climber.CLIMB_LOW_PID_KP,
+        Constants.Climber.CLIMB_LOW_PID_KI, Constants.Climber.CLIMB_LOW_PID_KD,
         new Constraints(Constants.Climber.CLIMB_LOW_V_LIM, Constants.Climber.CLIMB_LOW_A_LIM));
     controller.setTolerance(Constants.Climber.CLIMB_SETPOINT_TOLERANCE);
     m_checkpoints = Constants.Climber.CLIMB_CHECKPOINTS;
     m_upSupplier = upButtonSupplier;
     m_downSupplier = downButtonSupplier;
-    voltageFilter = LinearFilter.movingAverage(Constants.Climber.CLIMB_FILTER_TAPS);
+    currentFilter = LinearFilter.movingAverage(Constants.Climber.CLIMB_FILTER_TAPS);
     addRequirements(climber);
   }
 
-  public void nextCheckpoint(boolean overrideSequence) {
+  /**
+   * Moves the setpoint of the controller up to the next-highest checkpoint, if
+   * one exists.
+   * 
+   * @param overrideSequence : Whether to wait for the current setpoint to be
+   *                         reached.
+   */
+  private void nextCheckpoint(boolean overrideSequence) {
     if (overrideSequence || controller.atSetpoint()) {
-      if (currentCheckpoint < m_checkpoints.length-1) {
+      if (currentCheckpoint < m_checkpoints.length - 1) {
         currentCheckpoint += 1;
         controller.setGoal(m_checkpoints[currentCheckpoint]);
       }
     }
   }
 
-  public void previousCheckpoint(boolean overrideSequence) {
+  /**
+   * Moves the setpoint of the controller to the next-lowest checkpoint, if one
+   * exists.
+   * 
+   * @param overrideSequence : Whether to wait for the current setpoint to be
+   *                         reached.
+   */
+  private void previousCheckpoint(boolean overrideSequence) {
     if (overrideSequence || controller.atSetpoint()) {
       if (currentCheckpoint > 0) {
         currentCheckpoint -= 1;
@@ -55,8 +81,14 @@ public class CheckpointClimb extends CommandBase {
     }
   }
 
-  public boolean getHighGains() {
-    return (voltageFilter.calculate(m_climber.getMotorCurrent()) > 30);
+  /**
+   * Uses a moving average filter to determine whether the climber is consistently
+   * drawing a current in ampsover a predefined threshold.
+   * 
+   * @return Whether the current is considered high enough.
+   */
+  private boolean getHighGains() {
+    return (currentFilter.calculate(m_climber.getMotorCurrent()) > Constants.Climber.CURRENT_THRESHOLD);
   }
 
   // Called when the command is initially scheduled.
@@ -73,24 +105,24 @@ public class CheckpointClimb extends CommandBase {
       previousCheckpoint(true);
       previousCheckpoint(false);
     }
-    
+
     double PIDCalculatedValue;
     if (getHighGains()) {
-      controller.setPID(Constants.Climber.CLIMB_HIGH_PID_KP, Constants.Climber.CLIMB_HIGH_PID_KI, 
-        Constants.Climber.CLIMB_HIGH_PID_KD);
-      controller.setConstraints(new Constraints(Constants.Climber.CLIMB_HIGH_V_LIM, 
-        Constants.Climber.CLIMB_HIGH_A_LIM));
+      controller.setPID(Constants.Climber.CLIMB_HIGH_PID_KP, Constants.Climber.CLIMB_HIGH_PID_KI,
+          Constants.Climber.CLIMB_HIGH_PID_KD);
+      controller.setConstraints(new Constraints(Constants.Climber.CLIMB_HIGH_V_LIM,
+          Constants.Climber.CLIMB_HIGH_A_LIM));
     } else {
-      controller.setPID(Constants.Climber.CLIMB_LOW_PID_KP, Constants.Climber.CLIMB_LOW_PID_KI, 
-        Constants.Climber.CLIMB_LOW_PID_KD);
+      controller.setPID(Constants.Climber.CLIMB_LOW_PID_KP, Constants.Climber.CLIMB_LOW_PID_KI,
+          Constants.Climber.CLIMB_LOW_PID_KD);
       controller.setConstraints(new Constraints(Constants.Climber.CLIMB_LOW_V_LIM,
-        Constants.Climber.CLIMB_LOW_A_LIM));
+          Constants.Climber.CLIMB_LOW_A_LIM));
     }
 
     PIDCalculatedValue = controller.calculate(m_climber.getEncoderPosition());
 
     m_climber.climberMove(-PIDCalculatedValue, false);
-    
+
     SmartDashboard.putNumber("encoder", m_climber.getEncoderPosition());
     SmartDashboard.putNumber("error", controller.getSetpoint().position - m_climber.getEncoderPosition());
     SmartDashboard.putNumber("climb phase", currentCheckpoint);
@@ -100,7 +132,8 @@ public class CheckpointClimb extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
