@@ -6,22 +6,37 @@ package frc.robot.commands.lighting;
 
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Lighting;
 
-public class Spartan1 extends CommandBase {
-  /** Creates a new Spartan1. */
+public class AllianceColorsFlashing extends CommandBase {
+  /** Creates a new AllianceColorsFlashing. */
   Lighting m_lighting;
   AddressableLEDBuffer m_buffer1, m_buffer2;
-  long m_alternatingPeriodMS;
-  long startTime;
+  double m_alternatingPeriodS;
+  double startTime;
 
-  public Spartan1(Lighting lighting, long alternatingPeriodMS) {
+  /**
+   * Sets the LEDs of the Lighting subsystem to flash the alliance colors, or if
+   * not in match play flash blue.
+   * 
+   * @param lighting           : The {@link Lighting} subsystem to use.
+   * @param alternatingPeriodS : The time of each flash (half the period of the
+   *                           cycle).
+   */
+  public AllianceColorsFlashing(Lighting lighting, double alternatingPeriodS) {
     // Use addRequirements() here to declare subsystem dependencies.
+
     addRequirements(lighting);
     m_lighting = lighting;
-    m_alternatingPeriodMS = alternatingPeriodMS;
+    m_alternatingPeriodS = alternatingPeriodS;
+  }
+
+  // Keeps LEDs active even when disabled
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 
   // Called when the command is initially scheduled.
@@ -37,8 +52,7 @@ public class Spartan1 extends CommandBase {
           m_buffer1.setRGB(i, 0, 0, 255);
         }
         m_buffer2.setRGB(i, 255, 255, 255);
-      }
-      else {
+      } else {
         if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
           m_buffer2.setRGB(i, 255, 0, 0);
         } else {
@@ -47,16 +61,15 @@ public class Spartan1 extends CommandBase {
         m_buffer1.setRGB(i, 255, 255, 255);
       }
     }
-    startTime = System.currentTimeMillis();
+    startTime = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((System.currentTimeMillis() - startTime) % (m_alternatingPeriodMS * 2) < m_alternatingPeriodMS) {
+    if ((System.currentTimeMillis() - startTime) % (m_alternatingPeriodS * 2) < m_alternatingPeriodS) {
       m_lighting.setLedBuffer(m_buffer1);
-    }
-    else {
+    } else {
       m_lighting.setLedBuffer(m_buffer2);
     }
     m_lighting.updateLeds();
@@ -64,7 +77,8 @@ public class Spartan1 extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
