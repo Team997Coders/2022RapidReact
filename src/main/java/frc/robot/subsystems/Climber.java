@@ -64,14 +64,16 @@ public class Climber extends SubsystemBase {
      * @param override : Whether to ignore soft-stop protections.
      */
     public void climberMove(double movement, boolean override) {
-        if (getZeroSwitch()) {
-            resetEncoder();
-        }
-        if ((Math.abs(movement) <= Constants.Controller.DEAD_BAND) ||
-                (!override && climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement < 0) ||
-                (!override && getZeroSwitch() && movement > 0)) {
-            movement = 0;
-        }
+        // magnet for hall effect sensor is missing
+        
+        // if (getZeroSwitch()) {
+        //     resetEncoder();
+        // }
+        // if ((Math.abs(movement) <= Constants.Controller.DEAD_BAND) ||
+        //         (!override && climberEncoder.getPosition() >= Constants.Climber.CLIMBER_MAX_HEIGHT && movement < 0) ||
+        //         (!override && getZeroSwitch() && movement > 0)) {
+        //     movement = 0;
+        // }
 
         climberMotor.set(movement);
     }

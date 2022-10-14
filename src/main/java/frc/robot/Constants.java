@@ -34,9 +34,9 @@ public final class Constants {
 
         public static final int FRONT_LEFT_PORT = 13, BACK_LEFT_PORT = 14, FRONT_RIGHT_PORT = 15, BACK_RIGHT_PORT = 16,
                 CLIMBER_PORT = 8,
-                INTAKE_PORT = 12,
-                INTAKE_PDP = 11,
                 ZERO_SWITCH_PORT = 0,
+                INTAKE_PDP = 11,
+                INTAKE_PORT = 12,
                 LED_PWM_PORT = 0;
     }
 
@@ -47,7 +47,7 @@ public final class Constants {
             QUADRATIC;
         }
 
-        public static final JoystickMappingTypes DEFAULT_MAPPING_TYPE = JoystickMappingTypes.LINEAR;
+        public static final JoystickMappingTypes DEFAULT_MAPPING_TYPE = JoystickMappingTypes.QUADRATIC;
 
         public static final int CONTROLLER_0 = 0, CONTROLLER_1 = 1, // drive = 0, climb = 1
                 JOYSTICK_1 = 1, JOYSTICK_2 = 4, TRIGGER_CLIMB_UP = 2, TRIGGER_CLIMB_DN = 3,
@@ -81,17 +81,20 @@ public final class Constants {
         public static final double LIN_SLEW_LIMIT = 2, // 1 divided by the number of seconds to go from 0 to 1 speeds
                 ROT_SLEW_LIMIT = 4,
 
-                DRIVE_MODIFIER_FULL = 1,
-                TURN_MODIFIER_FULL = 0.5,
+                DRIVE_MODIFIER_FULL = 0.5,
+                TURN_MODIFIER_FULL = 0.3,
 
                 DRIVE_MODIFIER_DEMO = 0.2,
                 TURN_MODIFIER_DEMO = 0.2,
+
+                DRIVE_MODIFIER_SANE = 0.5,
+                TURN_MODIFIER_SANE = 0.3,
 
                 RAMSETE_B = 2.1, RAMSETE_ZETA = 0.7,
 
                 WHEEL_SPEEDS_KP = 0.002, WHEEL_SPEEDS_KI = 0, WHEEL_SPEEDS_KD = 0,
 
-                AUTO_DISTANCE_KP = 0.1, AUTO_DISTANCE_KI = 0, AUTO_DISTANCE_KD = 0,
+                AUTO_DISTANCE_KP = 0.15, AUTO_DISTANCE_KI = 0.05, AUTO_DISTANCE_KD = 0,
                 AUTO_DISTANCE_TOL = 3,
 
                 AUTO_ROTATE_KP = 0.012, AUTO_ROTATE_KI = 0.002, AUTO_ROTATE_KD = 0,

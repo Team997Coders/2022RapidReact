@@ -232,7 +232,7 @@ public class Drivetrain extends SubsystemBase {
    * @return The position of the measuring left motor encoder (encoder ticks).
    */
   public double getLeftSensorPosition() {
-    return -frontLeft.getSelectedSensorPosition();
+    return frontLeft.getSelectedSensorPosition();
   }
 
   /**

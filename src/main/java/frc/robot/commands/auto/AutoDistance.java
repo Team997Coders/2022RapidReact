@@ -7,6 +7,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
@@ -58,7 +59,12 @@ public class AutoDistance extends CommandBase {
     measurement = (m_drive.getRightSensorPosition() * Constants.Drive.DRIVE_METERS_PER_COUNT
         + m_drive.getLeftSensorPosition() * Constants.Drive.DRIVE_METERS_PER_COUNT) / 2;
 
-    m_drive.basicMove(m_controller.calculate(measurement), m_controller.calculate(measurement));
+    double controlEffort = m_controller.calculate(measurement);
+
+    m_drive.basicMove(controlEffort, controlEffort);
+
+    SmartDashboard.putNumber("control effort", controlEffort);
+    SmartDashboard.putNumber("measurement", measurement);
   }
 
   // Called once the command ends or is interrupted.
